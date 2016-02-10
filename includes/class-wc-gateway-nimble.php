@@ -86,8 +86,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'amount' => $order->get_total() * 100,
             'currency' => $order->get_order_currency( ),
             'customerData' => $order->get_order_number(),
-            'paymentSuccessUrl' => 'http://wordpress.nimble.com/success',
-            'paymentErrorUrl' => 'http://wordpress.nimble.com/error'
+            'paymentSuccessUrl' => home_url( $path = 'success' ),
+            'paymentErrorUrl' => home_url( $path = 'error' )
         );
         
         return $payment;
