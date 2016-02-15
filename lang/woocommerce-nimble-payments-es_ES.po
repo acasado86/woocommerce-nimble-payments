@@ -1,8 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Nimble Payments\n"
-"POT-Creation-Date: 2016-02-15 12:38+0100\n"
-"PO-Revision-Date: 2016-02-15 12:45+0100\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
+"nimble-payments\n"
+"POT-Creation-Date: 2016-02-15 13:21:29+00:00\n"
+"PO-Revision-Date: 2016-02-15 14:28+0100\n"
 "Last-Translator: Carlos Mendoza <cmendoza@opensistemas.com>\n"
 "Language-Team: Opensistemas <acasado@opensistemas.com>\n"
 "Language: es\n"
@@ -14,51 +16,66 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SearchPath-0: ..\n"
 
-#: ../includes/class-wc-gateway-nimble.php:24
+#: includes/class-wc-gateway-nimble.php:24
 msgid "Nimble payments"
 msgstr "Pago con Nimble"
 
-#: ../includes/class-wc-gateway-nimble.php:25
+#: includes/class-wc-gateway-nimble.php:25
 msgid "Description..."
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:26
+#: includes/class-wc-gateway-nimble.php:26
 msgid "Card payment"
 msgstr "Pago con tarjeta"
 
-#: ../includes/class-wc-gateway-nimble.php:56
+#: includes/class-wc-gateway-nimble.php:56
 msgid "Awaiting cheque payment"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:103
+#: includes/class-wc-gateway-nimble.php:103
 msgid "Enable/Disable"
 msgstr "Habilitar/Deshabilitar"
 
-#: ../includes/class-wc-gateway-nimble.php:104
+#: includes/class-wc-gateway-nimble.php:104
 msgid "Enable Nimble Payments"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:110
+#: includes/class-wc-gateway-nimble.php:110
 msgid "Seller ID"
 msgstr "API Client ID"
 
-#: ../includes/class-wc-gateway-nimble.php:112
-#: ../includes/class-wc-gateway-nimble.php:119
+#: includes/class-wc-gateway-nimble.php:112
+#: includes/class-wc-gateway-nimble.php:119
 msgid "Obtained from https://www.nimblepayments.com"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:117
+#: includes/class-wc-gateway-nimble.php:117
 msgid "Secret Key"
 msgstr "Client Secret"
 
-#: ../includes/class-wc-gateway-nimble.php:124
+#: includes/class-wc-gateway-nimble.php:124
 msgid "Use Sandbox"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:125
+#: includes/class-wc-gateway-nimble.php:125
 msgid "Enable sandbox"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Nimble Payments"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.nimblepayments.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Add Nimble payment services to your WooCommmerce."
+msgstr "Agrega pago mediante Nimble a tu WooCommerce."
+
+#. Author of the plugin/theme
+msgid "acasado"
 msgstr ""
 
 #~ msgid "Credit card"

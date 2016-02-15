@@ -8,7 +8,8 @@ Version: 1.0.0
 Author: acasado
 Author URI: 
 License: GPLv2
-Domain Path: /lang
+Text Domain: woocommerce-nimble-payments
+Domain Path: /lang/
 */
 
 /* 
@@ -30,22 +31,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 class WoocommerceNimblePayments {
-    static $instance = null;
+    protected static $instance = null;
 
     static function & getInstance() {
-        if (null == WoocommerceNimblePayments::$instance) {
-            WoocommerceNimblePayments::$instance = new WoocommerceNimblePayments();
+        if ( is_null(self::$instance) ) {
+            self::$instance = new self();
         }
 
-        return WoocommerceNimblePayments::$instance;
+        return self::$instance;
     }
     
-    function WoocommerceNimblePayments() {
+    function __construct() {
         // If instance is null, create it. Prevent creating multiple instances of this class
         if ( is_null( self::$instance ) ) {
             self::$instance = $this;
             
-            add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
+            add_action( 'init', array( $this, 'load_text_domain' ), 0 );
             
             add_action( 'plugins_loaded', array( $this, 'init_your_gateway_class' ) );
             
