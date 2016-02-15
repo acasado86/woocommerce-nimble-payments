@@ -8,6 +8,7 @@ Version: 1.0.0
 Author: acasado
 Author URI: 
 License: GPLv2
+Domain Path: /lang
 */
 
 /* 

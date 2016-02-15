@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Nimble Payments\n"
-"POT-Creation-Date: 2016-02-09 17:09+0100\n"
-"PO-Revision-Date: 2016-02-09 17:09+0100\n"
+"POT-Creation-Date: 2016-02-15 12:38+0100\n"
+"PO-Revision-Date: 2016-02-15 12:45+0100\n"
 "Last-Translator: Carlos Mendoza <cmendoza@opensistemas.com>\n"
 "Language-Team: Opensistemas <acasado@opensistemas.com>\n"
 "Language: es\n"
@@ -18,56 +18,46 @@ msgstr ""
 
 #: ../includes/class-wc-gateway-nimble.php:24
 msgid "Nimble payments"
-msgstr ""
+msgstr "Pago con Nimble"
 
 #: ../includes/class-wc-gateway-nimble.php:25
 msgid "Description..."
 msgstr ""
 
 #: ../includes/class-wc-gateway-nimble.php:26
-#: ../includes/class-wc-gateway-nimble.php:116
-#: ../includes/class-wc-gateway-nimble.php:164
 msgid "Card payment"
 msgstr "Pago con tarjeta"
 
-#: ../includes/class-wc-gateway-nimble.php:59
+#: ../includes/class-wc-gateway-nimble.php:56
 msgid "Awaiting cheque payment"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:106
+#: ../includes/class-wc-gateway-nimble.php:103
 msgid "Enable/Disable"
-msgstr ""
+msgstr "Habilitar/Deshabilitar"
 
-#: ../includes/class-wc-gateway-nimble.php:107
+#: ../includes/class-wc-gateway-nimble.php:104
 msgid "Enable Nimble Payments"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:113
-msgid "Title"
-msgstr ""
-
-#: ../includes/class-wc-gateway-nimble.php:115
-msgid "Payment method title that the customer will see on your website."
-msgstr ""
-
-#: ../includes/class-wc-gateway-nimble.php:120
+#: ../includes/class-wc-gateway-nimble.php:110
 msgid "Seller ID"
-msgstr ""
+msgstr "API Client ID"
 
-#: ../includes/class-wc-gateway-nimble.php:122
-#: ../includes/class-wc-gateway-nimble.php:129
+#: ../includes/class-wc-gateway-nimble.php:112
+#: ../includes/class-wc-gateway-nimble.php:119
 msgid "Obtained from https://www.nimblepayments.com"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:127
+#: ../includes/class-wc-gateway-nimble.php:117
 msgid "Secret Key"
-msgstr ""
+msgstr "Client Secret"
 
-#: ../includes/class-wc-gateway-nimble.php:134
+#: ../includes/class-wc-gateway-nimble.php:124
 msgid "Use Sandbox"
 msgstr ""
 
-#: ../includes/class-wc-gateway-nimble.php:135
+#: ../includes/class-wc-gateway-nimble.php:125
 msgid "Enable sandbox"
 msgstr ""
 
