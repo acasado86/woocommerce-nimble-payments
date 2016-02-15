@@ -72,13 +72,13 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     
     function inicialize_nimble_api(){
         $params = array(
-                'clientId' => $this->get_option('seller_id'),
-                'clientSecret' => $this->get_option('secret_key'),
+                'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
+                'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
                 'mode' => 'demo'
         );
 
         /* High Level call */
-        return new NimbleAPI($params);
+        return new WP_NimbleAPI($params);
     }
     
     function set_payment_info($order){
