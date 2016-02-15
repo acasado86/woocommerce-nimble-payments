@@ -24,7 +24,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->icon = plugins_url('assets/images/bbva_logo.svg', plugin_dir_path(__FILE__));
         $this->has_fields = false;
         $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
-        $this->method_description = __('Description...', 'woocommerce-nimble-payments');
+        //$this->method_description = __('', 'woocommerce-nimble-payments');
         $this->title = __('Card payment', 'woocommerce-nimble-payments');
         $this->supports = array(
             'products',
@@ -121,18 +121,25 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     function init_form_fields() {
 
         $this->form_fields = array(
+             'nimble_help' => array(
+                'type' => 'nimble_help',
+                'description' => '',
+                'default' => '',
+                'desc_tip' => false
+            ),
+            $this->status_field_name => array(
+                'title' => __('Check Values', 'woocommerce-nimble-payments'),
+                'type' => 'status_nimble',
+                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
+                'default' => '',
+                'desc_tip' => false
+            ),
             'enabled' => array(
                 'title' => __('Enable/Disable', 'woocommerce-nimble-payments'),
                 'label' => __('Enable Nimble Payments', 'woocommerce-nimble-payments'),
                 'type' => 'checkbox',
                 'description' => '',
                 'default' => 'no'
-            ),
-            'nimble_help' => array(
-                'type' => 'nimble_help',
-                'description' => '',
-                'default' => '',
-                'desc_tip' => false
             ),
             'seller_id' => array(
                 'title' => __('Seller ID', 'woocommerce-nimble-payments'),
@@ -147,13 +154,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
                 'default' => '',
                 'desc_tip' => true
-            ),
-            $this->status_field_name => array(
-                'title' => __('Check Values', 'woocommerce-nimble-payments'),
-                'type' => 'status_nimble',
-                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
-                'default' => '',
-                'desc_tip' => false
             )
         );
     }
@@ -170,8 +170,54 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
         ob_start();
         ?>
-    <h1>esto es el titulo de Nimble </h1>
+            <div class="textNimble" id="u28">
+                <p>
+                    <span id="n_title"><?php _e("NIMBLE PAYMENTS: ","woocommerce-nimble-payments")?></span>
+                    <span id="n_title2"><?php _e("WELCOME CHANGE","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
+            <div class="textNimble" id="u29">
+                <p>
+                    <span id="n_subtitle1"><?php _e("Getting started with Nimble Payments in two steps.","woocommerce-nimble-payments")?></span>
+                    <span id="n_subtitle2"><?php _e("Watch video tutorial","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
+            <div class="textNimble" id="u30">
+                <p>
+                    <span id="n_step1"><?php _e("Step 1 ","woocommerce-nimble-payments")?></span>
+                    <span id="n_step11"><?php _e("- signup Nimble Payments.</span>","woocommerce-nimble-payments")?>
+                </p>
+            </div>
+            <div class="textNimble" id="u31">
+                <p>
+                    <span id="n_registro_text"><?php _e("If you are not registered yet in Payments Nimble , you can register completely free and online .
 
+You just need an email and a password to start testing.","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
+            <div class="textNimble" id="u32">
+                <p>
+                    <span id="n_registro"><?php _e("CLICK HERE","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
+            <div class="textNimble" id="u33">
+                <p>
+                    <span id="n_step2"><?php _e("Step 2 ","woocommerce-nimble-payments")?></span>
+                    <span id="n_step22"><?php _e("- configure your module.</span>","woocommerce-nimble-payments")?>
+                </p>
+            </div>
+            <div class="textNimble" id="u34">
+                <p>
+                    <span id="identification"><?php _e("To accept payments only you have to give the IDs you get in Nimble Payments
+
+If you do not have to hand Check them out here.","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
+            <div class="textNimble" id="u35">
+                <p>
+                    <span id="enter_nimble"><?php _e("ENTER NIMBLE PAYMENTS","woocommerce-nimble-payments")?></span>
+                </p>
+            </div>
         <?php
         return ob_get_clean();
     }
