@@ -170,7 +170,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
         ob_start();
         ?>
-
+    <h1>esto es el titulo de Nimble </h1>
 
         <?php
         return ob_get_clean();
@@ -193,9 +193,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             <tr valign="top">
                 <th scope="row" class="titleCheck">
             <?php if ($this->get_option($key) == true) { ?>
-                        <label class="checkValidate" for="<?php echo esc_attr($field); ?>"><?php _e("Las credenciales son correctas", "woocommerce-nimble-payments"); ?></label> 
+                        <label class="checkValidate" for="<?php echo esc_attr($field); ?>"><?php _e("Valid data gateway to accept payments.", "woocommerce-nimble-payments"); ?></label> 
                     <?php } else { ?>
-                        <label class="checkError "for="<?php echo esc_attr($field); ?>"><?php _e("Las credenciales son incorrectas", "woocommerce-nimble-payments"); ?></label> 
+                        <label class="checkError "for="<?php echo esc_attr($field); ?>"><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); ?></label> 
                     <?php } ?>
                 </th>
             </tr>	
