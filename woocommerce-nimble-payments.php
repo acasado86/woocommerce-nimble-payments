@@ -49,7 +49,23 @@ class WoocommerceNimblePayments {
             add_action( 'plugins_loaded', array( $this, 'init_your_gateway_class' ) );
             
             add_filter( 'woocommerce_payment_gateways', array( $this, 'add_your_gateway_class' ) );
+            
+            add_action( 'admin_menu', array( $this, 'nimble_menu'));
         }
+    }
+    
+    function nimble_menu(){
+        if ( !defined('WP_CONTENT_URL') )
+            define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
+        if ( !defined($icon_url) ){
+            $icon_url=plugins_url( 'assets/images/nimble-img.png', __FILE__ );
+        } 
+            
+        add_object_page( 'Nimble', 'Nimble', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ), $icon_url);
+    }
+    
+    function nimble_options() {
+        //to do
     }
     
     function activar_plugin() {
@@ -60,6 +76,7 @@ class WoocommerceNimblePayments {
     }
     
     function desactivar_plugin() {
+        delete_option( 'woocommerce_nimble_payments_gateway_settings' );
     }
     
     /**
