@@ -100,7 +100,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         );
 
         /* High Level call */
-        return new NimbleAPI($params);
+        return new WP_NimbleAPI($params);
     }
 
     function set_payment_info($order) {
