@@ -42,6 +42,10 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, array($this, 'check_credentials'));
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
+        
+        add_filter('woocommerce_get_checkout_order_received_url', array($this, 'checkout_order_received_url'), 10, 2);
+        
+        add_action('woocommerce_thankyou_' . $this->id, array($this, 'payment_complete'));
     }
 
     function check_credentials($array) {
@@ -65,29 +69,32 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     function process_payment($order_id) {
         global $woocommerce;
         $order = new WC_Order($order_id);
+        
+        // Mark as nimble-pending (we're awaiting the payment)
+        $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment'));
+        
+        try{
+            $nimbleApi = $this->inicialize_nimble_api();
 
-        $nimbleApi = $this->inicialize_nimble_api();
-
-        $payment = $this->set_payment_info($order);
-
-        $p = new Payments();
-        $response = $p->SendPaymentClient($nimbleApi, $payment);
-
-
-        // Mark as on-hold (we're awaiting the cheque)
-        $order->update_status('on-hold', __('Awaiting cheque payment', 'woocommerce'));
+            $payment = $this->set_payment_info($order);
+            
+            $p = new Payments();
+            $response = $p->SendPaymentClient($nimbleApi, $payment);
+        }
+        catch (Exception $e) {
+            $order->update_status('nimble-failed', __('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payment'));
+            throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments'));
+        }
 
         // Reduce stock levels
-        $order->reduce_order_stock();
+        //$order->reduce_order_stock();
 
         // Remove cart
-        $woocommerce->cart->empty_cart();
+        //$woocommerce->cart->empty_cart();
 
         // Return thankyou redirect
         return array(
             'result' => 'success',
-            //'redirect' => $this->get_return_url( $order )
-            //'redirect' => 'success/?hola=hola'
             'redirect' => $response["data"]["paymentUrl"]
         );
     }
@@ -108,10 +115,10 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'amount' => $order->get_total() * 100,
             'currency' => $order->get_order_currency(),
             'customerData' => $order->get_order_number(),
-            'paymentSuccessUrl' => home_url($path = 'success'),
+            'paymentSuccessUrl' => $this->get_return_url( $order ),
             'paymentErrorUrl' => home_url($path = 'error')
         );
-
+        
         return $payment;
     }
 
@@ -192,7 +199,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             ?>
             <tr valign="top">
                 <th scope="row" class="titleCheck">
-            <?php if ($this->get_option($key) == true) { ?>
+                    <?php if ($this->get_option($key) == true) { ?>
                         <label class="checkValidate" for="<?php echo esc_attr($field); ?>"><?php _e("Las credenciales son correctas", "woocommerce-nimble-payments"); ?></label> 
                     <?php } else { ?>
                         <label class="checkError "for="<?php echo esc_attr($field); ?>"><?php _e("Las credenciales son incorrectas", "woocommerce-nimble-payments"); ?></label> 
@@ -203,6 +210,23 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
 
         return ob_get_clean();
+    }
+    
+    function checkout_order_received_url($order_received_url, $order) {
+        if ($order->post_status == "wc-nimble-pending"){
+            $nonce = wp_create_nonce();
+            $order_received_url = add_query_arg( 'payment', $nonce, $order_received_url );
+        }
+        return $order_received_url;
+    }
+    
+    function payment_complete($order_id){
+        global $wp;
+        
+        if (isset($wp->query_vars['order-received']) && isset($_GET['payment']) && wp_verify_nonce($_GET['payment'])) {
+            $order = new WC_Order($order_id);
+            $order->payment_complete();
+        }
     }
 
 }
