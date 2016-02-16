@@ -68,9 +68,8 @@ class WoocommerceNimblePayments {
     function nimble_menu(){
         if ( !defined('WP_CONTENT_URL') )
             define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
-        if ( !defined($icon_url) ){
-            $icon_url=plugins_url( 'assets/images/nimble-img.png', __FILE__ );
-        } 
+        
+        $icon_url=plugins_url( 'assets/images/nimble-img.png', __FILE__ );
             
         add_object_page( 'Nimble', 'Nimble', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ), $icon_url);
     }

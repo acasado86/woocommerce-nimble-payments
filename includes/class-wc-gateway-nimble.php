@@ -46,6 +46,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_get_checkout_order_received_url', array($this, 'checkout_order_received_url'), 10, 2);
         
         add_action('woocommerce_thankyou_' . $this->id, array($this, 'payment_complete'));
+        
+        add_action('before_woocommerce_pay', array($this, 'payment_error'));
     }
 
     function check_credentials($array) {
@@ -111,12 +113,15 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     }
 
     function set_payment_info($order) {
+        $error_url = $order->get_checkout_payment_url();
+        $error_url = add_query_arg( 'payment_status', 'error', $error_url );
+        
         $payment = array(
             'amount' => $order->get_total() * 100,
             'currency' => $order->get_order_currency(),
             'customerData' => $order->get_order_number(),
             'paymentSuccessUrl' => $this->get_return_url( $order ),
-            'paymentErrorUrl' => home_url($path = 'error')
+            'paymentErrorUrl' => $error_url
         );
         
         return $payment;
@@ -272,6 +277,17 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
         if (isset($wp->query_vars['order-received']) && isset($_GET['payment']) && wp_verify_nonce($_GET['payment'])) {
             $order = new WC_Order($order_id);
             $order->payment_complete();
+        }
+    }
+    
+    function payment_error(){
+        
+        if ( isset($_GET['payment_status']) ){
+            switch ($_GET['payment_status']){
+                case 'error':
+                    echo '<div class="woocommerce-error">' . __( 'Card payment was rejected. Please try again.', 'woocommerce' ) . '</div>';
+                    break;
+            }
         }
     }
 
