@@ -53,15 +53,23 @@ class WoocommerceNimblePayments {
             add_filter( 'woocommerce_payment_gateways', array( $this, 'add_your_gateway_class' ) );
             
             add_action( 'admin_menu', array( $this, 'nimble_menu'));
+            
+            add_filter( 'wc_order_statuses', array( $this, 'add_custom_statuses' ) );
+            
+            add_action( 'init', array( $this, 'register_post_status' ), 9 );
+            
+            add_filter( 'woocommerce_valid_order_statuses_for_payment', array( $this, 'valid_order_statuses_for_payment' ) );
+            
+            add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array( $this, 'valid_order_statuses_for_payment' ) );
+            
         }
     }
     
     function nimble_menu(){
         if ( !defined('WP_CONTENT_URL') )
             define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
-        if ( !defined($icon_url) ){
-            $icon_url=plugins_url( 'assets/images/nimble-img.png', __FILE__ );
-        } 
+        
+        $icon_url=plugins_url( 'assets/images/nimble-img.png', __FILE__ );
             
         add_object_page( 'Nimble', 'Nimble', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ), $icon_url);
     }
@@ -98,6 +106,39 @@ class WoocommerceNimblePayments {
     function load_text_domain(){
         load_plugin_textdomain('woocommerce-nimble-payments', null, basename(dirname(__FILE__)) . "/lang");
     }
+    
+    function add_custom_statuses($order_statuses){
+        $new_statuses = array(
+		'wc-nimble-pending'    => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+		'wc-nimble-failed'     => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+	);
+        return array_merge($order_statuses, $new_statuses);
+    }
+    
+    function register_post_status() {
+        register_post_status('wc-nimble-pending', array(
+            'label' => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+            'public' => false,
+            'exclude_from_search' => false,
+            'show_in_admin_all_list' => true,
+            'show_in_admin_status_list' => true,
+            'label_count' => _n_noop('Pending Payment (Nimble) <span class="count">(%s)</span>', 'Pending Payment (Nimble) <span class="count">(%s)</span>', 'woocommerce')
+        ));
+        register_post_status('wc-nimble-failed', array(
+            'label' => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+            'public' => false,
+            'exclude_from_search' => false,
+            'show_in_admin_all_list' => true,
+            'show_in_admin_status_list' => true,
+            'label_count' => _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce')
+        ));
+    }
+    
+    function valid_order_statuses_for_payment($order_statuses){
+        $order_statuses[]='nimble-pending';
+        return $order_statuses;
+    }
+
 }
 
 
