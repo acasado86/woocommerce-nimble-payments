@@ -25,7 +25,12 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->has_fields = false;
         $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
         //$this->method_description = __('', 'woocommerce-nimble-payments');
-        $this->title = __('Card payment', 'woocommerce-nimble-payments');
+        
+        if(is_admin())
+            $this->title = __('Nimble payment', 'woocommerce-nimble-payments');
+        else
+            $this->title = __('Card payment', 'woocommerce-nimble-payments');
+        
         $this->supports = array(
             'products',
             'refunds'
@@ -72,7 +77,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     function process_payment($order_id) {
         global $woocommerce;
         $order = new WC_Order($order_id);
-        
+
         // Mark as nimble-pending (we're awaiting the payment)
         $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment'));
         
@@ -80,7 +85,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $nimbleApi = $this->inicialize_nimble_api();
 
             $payment = $this->set_payment_info($order);
-            
+
             $p = new Payments();
             $response = $p->SendPaymentClient($nimbleApi, $payment);
         }
