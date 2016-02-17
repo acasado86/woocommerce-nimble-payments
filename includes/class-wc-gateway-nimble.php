@@ -65,7 +65,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         );
 
         try {
-            new NimbleAPI($params);
+            new WP_NimbleAPI($params);
             $array[$this->status_field_name] = true;
         } catch (Exception $e) {
             $array[$this->status_field_name] = false;
@@ -77,7 +77,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     function process_payment($order_id) {
         global $woocommerce;
         $order = new WC_Order($order_id);
-
+        
         // Mark as nimble-pending (we're awaiting the payment)
         $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment'));
         
@@ -85,9 +85,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $nimbleApi = $this->inicialize_nimble_api();
 
             $payment = $this->set_payment_info($order);
-
-            $p = new Payments();
-            $response = $p->SendPaymentClient($nimbleApi, $payment);
+            
+            $response = \Nimble\Api\Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
             $order->update_status('nimble-failed', __('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payment'));
