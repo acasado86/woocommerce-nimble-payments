@@ -81,8 +81,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
             $payment = $this->set_payment_info($order);
             
-            $p = new Payments();
-            $response = $p->SendPaymentClient($nimbleApi, $payment);
+            $response = \Nimble\Api\Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
             $order->update_status('nimble-failed', __('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payment'));
