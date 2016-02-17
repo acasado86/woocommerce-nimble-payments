@@ -26,10 +26,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
         //$this->method_description = __('', 'woocommerce-nimble-payments');
         
-        if(is_admin())
-            $this->title = __('Nimble payment', 'woocommerce-nimble-payments');
-        else
-            $this->title = __('Card payment', 'woocommerce-nimble-payments');
+        $this->title = __('Nimble payment', 'woocommerce-nimble-payments');
         
         $this->supports = array(
             'products',

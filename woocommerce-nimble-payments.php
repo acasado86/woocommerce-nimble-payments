@@ -64,6 +64,9 @@ class WoocommerceNimblePayments {
             
             add_action('admin_enqueue_scripts', array($this, 'load_nimble_style'));
             
+            //Custom template checkout/payment-method.php
+            add_filter( 'wc_get_template', array( $this, 'filter_template_checkout_payment_method' ), 10, 3);
+            
         }
     }
     
@@ -147,6 +150,13 @@ class WoocommerceNimblePayments {
     function valid_order_statuses_for_payment($order_statuses){
         $order_statuses[]='nimble-pending';
         return $order_statuses;
+    }
+    
+    function filter_template_checkout_payment_method($located, $template_name, $args){
+        if ( $template_name == 'checkout/payment-method.php' && isset($args['gateway']) && $args['gateway']->id == 'nimble_payments_gateway' ){
+            $located = plugin_dir_path(__FILE__) . "templates/nimble-checkout-payment-method.php";
+        }
+        return $located;
     }
 
 }
