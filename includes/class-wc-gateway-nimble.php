@@ -60,7 +60,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         );
 
         try {
-            new NimbleAPI($params);
+            new WP_NimbleAPI($params);
             $array[$this->status_field_name] = true;
         } catch (Exception $e) {
             $array[$this->status_field_name] = false;
