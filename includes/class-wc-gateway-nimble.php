@@ -42,8 +42,18 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, array($this, 'check_credentials'));
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
+            //load styles
+        add_action('admin_enqueue_scripts', array($this, 'load_nimble_style'));
     }
 
+    function load_nimble_style($hook) {
+
+        if($hook=="woocommerce_page_wc-settings"){
+            wp_register_style('nimble_setting_css', plugins_url('css/nimble_setting.css', __FILE__), false, '20160217');
+            wp_enqueue_style('nimble_setting_css');
+        }
+    } 
+    
     function check_credentials($array) {
 
         $params = array(
