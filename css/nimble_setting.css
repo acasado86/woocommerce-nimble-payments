@@ -8,3 +8,9 @@ and open the template in the editor.
     Author     : rafael
 */
 
+#n_title2 {
+    color: lightblue;
+    text-align: left;
+    font-size: 62.5%;
+    background-color: white;
+}
