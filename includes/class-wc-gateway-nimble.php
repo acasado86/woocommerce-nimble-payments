@@ -23,14 +23,11 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->id = 'nimble_payments_gateway';
         $this->icon = plugins_url('assets/images/bbva_logo.svg', plugin_dir_path(__FILE__));
         $this->has_fields = false;
-        $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
-        //$this->method_description = __('', 'woocommerce-nimble-payments');
-        
-        $this->title = __('Nimble payment', 'woocommerce-nimble-payments');
-        
+        $this->title = __('Nimble payments', 'woocommerce-nimble-payments');
+        $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments');
         $this->supports = array(
             'products',
-            'refunds'
+            //'refunds'
         );
 
         // Load the form fields

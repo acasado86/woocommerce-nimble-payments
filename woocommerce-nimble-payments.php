@@ -5,7 +5,7 @@ Plugin Name: WooCommerce Nimble Payments
 Plugin URI: https://www.nimblepayments.com
 Description: Add Nimble payment services to your WooCommmerce.
 Version: 1.0.0
-Author: acasado
+Author: BBVA
 Author URI: 
 License: GPLv2
 Text Domain: woocommerce-nimble-payments
