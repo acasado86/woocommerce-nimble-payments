@@ -1,7 +1,7 @@
 {
     "name": "nimblepayments/woocommerce-nimble-payments",
     "type": "wordpress-plugin",
-    "homepage": "https://github.com/nimblepayments/plugin-woocommerce",
+    "homepage": "https://github.com/nimblepayments/woocommerce-nimble-payments",
     "description": "Add Nimble payment services to your WooCommmerce.",
     "keywords": ["plugin","nimble","payments","woocommerce", "tpv"],
     "license": "GPLv2",
