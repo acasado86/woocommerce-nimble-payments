@@ -55,7 +55,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $params = array(
             'clientId' => trim(html_entity_decode($array['seller_id'])),
             'clientSecret' => trim(html_entity_decode($array['secret_key'])),
-            'mode' => 'demo'
+            'mode' => 'real'
         );
 
         try {
@@ -104,7 +104,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $params = array(
             'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
             'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
-            'mode' => 'demo'
+            'mode' => 'real'
         );
 
         /* High Level call */
