@@ -22,7 +22,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     //put your code here
     function __construct() {
         $this->id = 'nimble_payments_gateway';
-        $this->icon = plugins_url('assets/images/bbva_logo.svg', plugin_dir_path(__FILE__));
+        $this->icon = plugins_url('assets/images/BBVA.png', plugin_dir_path(__FILE__));
         $this->has_fields = false;
         $this->title = __('Nimble payments', 'woocommerce-nimble-payments');
         $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');

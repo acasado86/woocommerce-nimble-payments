@@ -70,7 +70,7 @@ class WoocommerceNimblePayments {
         }
     }
     
-     function load_nimble_style($hook) {
+    function load_nimble_style($hook) {
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160222');
         wp_enqueue_style('wp_nimble_backend_css');
         
@@ -78,7 +78,7 @@ class WoocommerceNimblePayments {
             wp_register_style('nimble_setting_css', plugins_url('css/nimble_setting.css', __FILE__), false, '20160217');
             wp_enqueue_style('nimble_setting_css');
         }
-    } 
+    }
     
     function nimble_menu(){
         if ( !defined('WP_CONTENT_URL') )
