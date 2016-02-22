@@ -26,12 +26,13 @@ and open the template in the editor.
 }
 
 .widefat .column-order_status mark.nimble-pending::after {
-    color: #ffa500;
+    color: #ffba00;
+    content: "";
 }
 
 .widefat .column-order_status mark.nimble-failed::after {
-    color: #FF0000;
-    content: "";
+    color: #d0c21f;
+    content: "";
 }
 
 #n_title2 {
