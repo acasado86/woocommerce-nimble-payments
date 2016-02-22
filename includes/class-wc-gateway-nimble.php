@@ -25,6 +25,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->icon = plugins_url('assets/images/bbva_logo.svg', plugin_dir_path(__FILE__));
         $this->has_fields = false;
         $this->title = __('Nimble payments', 'woocommerce-nimble-payments');
+        $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
         $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments');
         $this->supports = array(
             'products',
@@ -139,13 +140,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 'default' => '',
                 'desc_tip' => false
             ),
-            $this->status_field_name => array(
-                'title' => __('Check Values', 'woocommerce-nimble-payments'),
-                'type' => 'status_nimble',
-                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
-                'default' => '',
-                'desc_tip' => false
-            ),
             'enabled' => array(
                 'title' => __('Enable/Disable', 'woocommerce-nimble-payments'),
                 'label' => __('Enable Nimble Payments', 'woocommerce-nimble-payments'),
@@ -154,14 +148,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 'default' => 'no'
             ),
             'seller_id' => array(
-                'title' => __('Seller ID', 'woocommerce-nimble-payments'),
+                'title' => __('API Client ID', 'woocommerce-nimble-payments'),
                 'type' => 'text',
                 'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
                 'default' => '',
                 'desc_tip' => true
             ),
             'secret_key' => array(
-                'title' => __('Secret Key', 'woocommerce-nimble-payments'),
+                'title' => __('Client Secret', 'woocommerce-nimble-payments'),
                 'type' => 'text',
                 'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
                 'default' => '',
@@ -233,35 +227,6 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
         <?php
         return ob_get_clean();
     }
-
-    public function generate_status_nimble_html($key, $data) {
-
-        $field = $this->get_field_key($key);
-        $defaults = array(
-            'title' => '',
-            'class' => ''
-        );
-
-        $data = wp_parse_args($data, $defaults);
-
-        ob_start();
-
-        if ($this->get_option('enabled') == "yes") {
-            ?>
-            <tr valign="top">
-                <th scope="row" class="titleCheck">
-            <?php if ($this->get_option($key) == true) { ?>
-                        <label class="checkValidate" for="<?php echo esc_attr($field); ?>"><?php _e("Valid data gateway to accept payments.", "woocommerce-nimble-payments"); ?></label> 
-                    <?php } else { ?>
-                        <label class="checkError "for="<?php echo esc_attr($field); ?>"><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); ?></label> 
-                    <?php } ?>
-                </th>
-            </tr>	
-            <?php
-        }
-
-        return ob_get_clean();
-    }
     
     function checkout_order_received_url($order_received_url, $order) {
         if ($order->post_status == "wc-nimble-pending"){
@@ -285,10 +250,41 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
         if ( isset($_GET['payment_status']) ){
             switch ($_GET['payment_status']){
                 case 'error':
-                    echo '<div class="woocommerce-error">' . __( 'Card payment was rejected. Please try again.', 'woocommerce' ) . '</div>';
+                    echo '<div class="woocommerce-error">' . __( 'Card payment was rejected. Please try again.', 'woocommerce-nimble-payments' ) . '</div>';
                     break;
             }
         }
+    }
+    
+    /**
+     * Admin Panel Options
+     * - Options for bits like 'title' and availability on a country-by-country basis
+     */
+    public function admin_options() {
+            ?>
+            <h3><?php echo $this->title; ?></h3>
+
+            <?php if ( ! $this->get_option('seller_id') ) : ?>
+                    <div class="updated woocommerce-message"><div class="squeezer">
+                            <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' ); ?></h4>
+                            <p class="submit">
+                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
+                            </p>
+                    </div></div>
+            <?php
+            elseif ( ($this->get_option('enabled') == "yes") && !($this->get_option($this->status_field_name) ) ) :
+            ?>
+                <div class="error message"><div class="squeezer">
+                        <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); ?></h4>
+                </div></div>
+            <?php endif;
+            ?>
+            
+
+            <table class="form-table">
+                    <?php $this->generate_settings_html(); ?>
+            </table><!--/.form-table-->
+            <?php
     }
 
 }

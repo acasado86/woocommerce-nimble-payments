@@ -8,6 +8,32 @@ and open the template in the editor.
     Author     : rafael
 */
 
+/*Page List Orders*/
+.widefat .column-order_status mark.nimble-pending::after, .widefat .column-order_status mark.nimble-failed::after {
+    font-family: WooCommerce;
+    font-variant: normal;
+    font-weight: 400;
+    height: 100%;
+    left: 0;
+    line-height: 1;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    text-indent: 0;
+    text-transform: none;
+    top: 0;
+    width: 100%;
+}
+
+.widefat .column-order_status mark.nimble-pending::after {
+    color: #ffa500;
+}
+
+.widefat .column-order_status mark.nimble-failed::after {
+    color: #FF0000;
+    content: "";
+}
+
 #n_title2 {
    /* color: lightblue;
     text-align: left;
