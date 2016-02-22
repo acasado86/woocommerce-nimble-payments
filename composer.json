@@ -1,29 +1,28 @@
 {
     "name": "nimblepayments/woocommerce-nimble-payments",
     "type": "wordpress-plugin",
-    "homepage": "https://github.com/nimblepayments/woocommerce-nimble-payments",
+    "homepage": "https://github.com/nimblepayments/plugin-woocommerce",
     "description": "Add Nimble payment services to your WooCommmerce.",
     "keywords": ["plugin","nimble","payments","woocommerce", "tpv"],
     "license": "GPLv2",
     "require": {
-        "php": ">=5.3.2",
         "composer/installers": "v1.0.6",
-        "acasado86/sdk-php": "1.0.1"
+        "nimblepayments/sdk-php": "1.0.0.1"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/acasado86/sdk-php.git"
+            "url": "https://github.com/nimblepayments/sdk-php.git"
         }
     ],
     "scripts": {
         "post-root-package-install": [
         ],
         "post-install-cmd": [
-            "cp -R vendor/acasado86/sdk-php/lib ./"
+            "cp -R vendor/nimblepayments/sdk-php/lib ./"
         ],
         "post-update-cmd": [
-            "cp -R vendor/acasado86/sdk-php/lib ./"
+            "cp -R vendor/nimblepayments/sdk-php/lib ./"
         ]
     }
 }
