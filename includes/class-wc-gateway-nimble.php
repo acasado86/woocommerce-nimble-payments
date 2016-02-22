@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
+    var $mode = 'real';
 
     //put your code here
     function __construct() {
@@ -55,7 +56,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $params = array(
             'clientId' => trim(html_entity_decode($array['seller_id'])),
             'clientSecret' => trim(html_entity_decode($array['secret_key'])),
-            'mode' => 'real'
+            'mode' => $this->mode
         );
 
         try {
@@ -104,7 +105,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $params = array(
             'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
             'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
-            'mode' => 'real'
+            'mode' => $this->mode
         );
 
         /* High Level call */
