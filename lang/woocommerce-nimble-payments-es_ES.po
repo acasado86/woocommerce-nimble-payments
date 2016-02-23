@@ -1,0 +1,645 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Nimble Payments\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
+"nimble-payments\n"
+"POT-Creation-Date: 2016-02-22 13:00:30+00:00\n"
+"PO-Revision-Date: 2016-02-22 14:01+0100\n"
+"Last-Translator: Carlos Mendoza <cmendoza@opensistemas.com>\n"
+"Language-Team: Opensistemas <acasado@opensistemas.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: includes/class-wc-gateway-nimble.php:27
+msgid "Nimble payments"
+msgstr "Pago con Nimble"
+
+#: includes/class-wc-gateway-nimble.php:28
+msgid "Pay safely with your credit card through the BBVA."
+msgstr "Paga de manera segura con tu tarjeta de credito a traves del BBVA."
+
+#: includes/class-wc-gateway-nimble.php:77
+msgid "Awaiting payment via Nimble"
+msgstr "Esperando pago por Nimble"
+
+#: includes/class-wc-gateway-nimble.php:87
+#: includes/class-wc-gateway-nimble.php:88
+msgid "Could not connect to the bank right now. Try again later."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:143
+msgid "Enable/Disable"
+msgstr "Habilitar/Deshabilitar"
+
+#: includes/class-wc-gateway-nimble.php:144
+msgid "Enable Nimble Payments"
+msgstr "Habilitar Nimble Payments"
+
+#: includes/class-wc-gateway-nimble.php:150
+msgid "API Client ID"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:152
+#: includes/class-wc-gateway-nimble.php:159
+msgid "Obtained from https://www.nimblepayments.com"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:157
+msgid "Client Secret"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:180
+msgid "NIMBLE PAYMENTS: "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:181
+msgid "WELCOME CHANGE"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:186
+msgid "Getting started with Nimble Payments in two steps."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:187
+msgid "Watch video tutorial"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:192
+msgid "Step 1 "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:193
+msgid "- signup Nimble Payments.</span>"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:198
+msgid ""
+"If you are not registered yet in Payments Nimble , you can register "
+"completely free and online .\n"
+"\n"
+"You just need an email and a password to start testing."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:205
+msgid "CLICK HERE"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:210
+msgid "Step 2 "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:211
+msgid "- configure your module.</span>"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:216
+msgid ""
+"To accept payments only you have to give the IDs you get in Nimble Payments\n"
+"\n"
+"If you do not have to hand Check them out here."
+msgstr ""
+"Para poder aceptar pagos solo tienes que darnos los identificadores que "
+"obtienes en Nimble Payments\n"
+"\n"
+"Si no los tienes a mano consúltalos aquí."
+
+#: includes/class-wc-gateway-nimble.php:223
+msgid "ENTER NIMBLE PAYMENTS"
+msgstr "ENTRAR EN NIMBLE PAYMENTS"
+
+#: includes/class-wc-gateway-nimble.php:252
+msgid "Card payment was rejected. Please try again."
+msgstr "El pago con tarjeta ha sido rechazado. Por favor, inténtelo de nuevo."
+
+#: includes/class-wc-gateway-nimble.php:268
+msgid "Need an Nimble Payments account?"
+msgstr "Registrate en Nimble Payments"
+
+#: includes/class-wc-gateway-nimble.php:270
+msgid "Signup now"
+msgstr "Registro"
+
+#: includes/class-wc-gateway-nimble.php:277
+msgid "Data invalid gateway to accept payments."
+msgstr "Datos de pasarela no validos para aceptar pagos."
+
+#: templates/nimble-checkout-payment-method.php:26
+msgid "Card payment"
+msgstr "Pago con tarjeta"
+
+#: woocommerce-nimble-payments.php:125 woocommerce-nimble-payments.php:133
+msgctxt "Order status"
+msgid "Pending Payment (Nimble)"
+msgstr "Pago Pendiente (Nimble)"
+
+#: woocommerce-nimble-payments.php:126 woocommerce-nimble-payments.php:141
+msgctxt "Order status"
+msgid "Failed (Nimble)"
+msgstr "Fallido (Nimble)"
+
+#: woocommerce-nimble-payments.php:138
+msgid "Pending Payment (Nimble) <span class=\"count\">(%s)</span>"
+msgid_plural "Pending Payment (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[0] "Pago Pendiente (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[1] "Pagos Pendientes (Nimble) <span class=\"count\">(%s)</span>"
+
+#: woocommerce-nimble-payments.php:146
+msgid "Failed (Nimble) <span class=\"count\">(%s)</span>"
+msgid_plural "Failed (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[0] "Fallido (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[1] "Fallidos (Nimble) <span class=\"count\">(%s)</span>"
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Nimble Payments"
+msgstr "WooCommerce Nimble Payments"
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.nimblepayments.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Add Nimble payment services to your WooCommmerce."
+msgstr "Agrega pago mediante Nimble a tu WooCommerce."
+
+#. Author of the plugin/theme
+msgid "BBVA"
+msgstr ""
+
+#~ msgid "Seller ID"
+#~ msgstr "API Client ID"
+
+#~ msgid "Secret Key"
+#~ msgstr "Client Secret"
+
+#~ msgid "Valid data gateway to accept payments."
+#~ msgstr "Datos de pasarela validos para aceptar pagos."
+
+#~ msgid "Nimble payment"
+#~ msgstr "Pago con Nimble"
+
+#~ msgid "Credit card"
+#~ msgstr "Tarjeta de crédito"
+
+#~ msgid "No title specified"
+#~ msgstr "No se ha especificado título"
+
+#~ msgid "No subtitle specified"
+#~ msgstr "No se ha especificado subtítulo"
+
+#~ msgid "No HTML Card specified"
+#~ msgstr "No se ha especificado el HTML de la Tarjeta"
+
+#~ msgid "Title too long."
+#~ msgstr "Título demasiado largo."
+
+#~ msgid "Short title too long."
+#~ msgstr "Título corto demasiado largo."
+
+#~ msgid "Subtitle too long."
+#~ msgstr "Subtítulo demasiado largo."
+
+#~ msgid "Short subtitle too long."
+#~ msgstr "Subtítulo corto demasiado largo."
+
+#~ msgid "Remaining:"
+#~ msgstr "Quedan:"
+
+#~ msgid "Short title"
+#~ msgstr "Título corto"
+
+#~ msgid "Long title"
+#~ msgstr "Título largo"
+
+#~ msgid "Invalid title"
+#~ msgstr "Título demasiado largo"
+
+#~ msgid "Short subtitle"
+#~ msgstr "Subtítulo corto"
+
+#~ msgid "Long subtitle"
+#~ msgstr "Subtítulo largo"
+
+#~ msgid "Invalid subtitle"
+#~ msgstr "Subtítulo demasiado largo"
+
+#~ msgid "Carrousels"
+#~ msgstr "Carruseles"
+
+#~ msgctxt "carrousel"
+#~ msgid "All Carrousels"
+#~ msgstr "Todos los carruseles"
+
+#~ msgctxt "carrousel"
+#~ msgid "Add New"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "Carrousel"
+#~ msgstr "Carrusel"
+
+#~ msgid "Videos"
+#~ msgstr "Vídeos"
+
+#~ msgctxt "videos"
+#~ msgid "All Videos"
+#~ msgstr "Todos los vídeos"
+
+#~ msgctxt "videos"
+#~ msgid "Add New"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "Video"
+#~ msgstr "Vídeo"
+
+#~ msgid "Albums"
+#~ msgstr "Álbumes"
+
+#~ msgctxt "album"
+#~ msgid "All Albums"
+#~ msgstr "Todos los álbumes"
+
+#~ msgctxt "album"
+#~ msgid "Add New"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "Album"
+#~ msgstr "Álbum"
+
+#~ msgid "Quotes"
+#~ msgstr "Citas"
+
+#~ msgctxt "quotes"
+#~ msgid "All Quotes"
+#~ msgstr "Todas las citas"
+
+#~ msgctxt "quotes"
+#~ msgid "Add New"
+#~ msgstr "Añadir nueva"
+
+#~ msgid "Quote"
+#~ msgstr "Cita"
+
+#~ msgid "HTML Block"
+#~ msgstr "Bloque HTML"
+
+#~ msgctxt "html_block"
+#~ msgid "All HTML Blocks"
+#~ msgstr "Todos los bloques HTML"
+
+#~ msgctxt "html_block"
+#~ msgid "Add New"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "%s Carrousel"
+#~ msgid_plural "%s Carrousels"
+#~ msgstr[0] "%s Carrusel"
+#~ msgstr[1] "%s Carruseles"
+
+#~ msgid "%s Video"
+#~ msgid_plural "%s Videos"
+#~ msgstr[0] "%s Vídeo"
+#~ msgstr[1] "%s Vídeos"
+
+#~ msgid "%s Album"
+#~ msgid_plural "%s Albums"
+#~ msgstr[0] "%s Álbum"
+#~ msgstr[1] "%s Álbumes"
+
+#~ msgid "%s HTML Block"
+#~ msgid_plural "%s HTML Blocks"
+#~ msgstr[0] "%s Bloque HTML"
+#~ msgstr[1] "%s Bloques HTML"
+
+#~ msgid "%s Quote"
+#~ msgid_plural "%s Quotes"
+#~ msgstr[0] "%s Cita"
+#~ msgstr[1] "%s Citas"
+
+#~ msgid "Video url"
+#~ msgstr "Url del vídeo"
+
+#~ msgid "Add new image"
+#~ msgstr "Añadir nueva imagen"
+
+#~ msgid "Use this media"
+#~ msgstr "Asignar imagen"
+
+#~ msgid "Remove"
+#~ msgstr "Eliminar"
+
+#~ msgid "Visual Aspect"
+#~ msgstr "Aspecto Visual"
+
+#~ msgid "Image Carrousel"
+#~ msgstr "Carrusel de imágenes"
+
+#~ msgid "Image Editor By Height"
+#~ msgstr "Editor de Alturas de Imagen"
+
+#~ msgid "Matrix Thumbnail"
+#~ msgstr "Matriz Miniaturas"
+
+#~ msgid "Set matrix thumbnail"
+#~ msgstr "Asignar imagen matriz"
+
+#~ msgid "Remove matrix thumbnail"
+#~ msgstr "Quitar la imagen matriz"
+
+#~ msgid "Use as matrix thumbnail"
+#~ msgstr "Asignar imagen matriz"
+
+#, fuzzy
+#~ msgctxt "post"
+#~ msgid "Add New"
+#~ msgstr "Añadir nuevo"
+
+#, fuzzy
+#~ msgid "Add New Post"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "Create a new album"
+#~ msgstr "Crear un nuevo Álbum"
+
+#~ msgid "Create Album"
+#~ msgstr "Crear Álbum"
+
+#~ msgid "Edit Album"
+#~ msgstr "Editar Álbum"
+
+#~ msgid "&#8592; Cancel Album"
+#~ msgstr "&#8592; Volver"
+
+#~ msgid "Insert album"
+#~ msgstr "Insertar Álbum"
+
+#~ msgid "Update album"
+#~ msgstr "Actualizar álbum"
+
+#~ msgid "Add to album"
+#~ msgstr "Añadir al Álbum"
+
+#~ msgid "Add to Album"
+#~ msgstr "Añadir al Álbum"
+
+#~ msgid "Show thumbnail in the publication"
+#~ msgstr "Mostrar imagen dentro de la publicación"
+
+#~ msgid "Use thumbnail as background"
+#~ msgstr "Usar la imagen como fondo de la publicación"
+
+#~ msgid "Crop and Save"
+#~ msgstr "Cortar miniatura"
+
+#~ msgid "HTML Card"
+#~ msgstr "HTML de la Tarjeta"
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML del Contenido"
+
+#, fuzzy
+#~ msgid "Enter title here"
+#~ msgstr "Introduce el título corto aquí"
+
+#~ msgid "Link to"
+#~ msgstr "Enlace a"
+
+#~ msgid "Create or Edit Album"
+#~ msgstr "Crear o Editar Álbum"
+
+#~ msgid "Select a height value"
+#~ msgstr "Seleccione la altura"
+
+#~ msgid "Height 1/4"
+#~ msgstr "Altura 1/4"
+
+#~ msgid "Height 2/4"
+#~ msgstr "Altura 2/4"
+
+#~ msgid "Height 3/4"
+#~ msgstr "Altura 3/4"
+
+#~ msgid "Height 4/4"
+#~ msgstr "Altura 4/4"
+
+#~ msgid "Type module"
+#~ msgstr "Tipo de módulo"
+
+#~ msgid "Video server"
+#~ msgstr "Servidor"
+
+#~ msgid "Aspect ratio"
+#~ msgstr "Relación de aspecto"
+
+#~ msgid "Enter short title here"
+#~ msgstr "Introduce el título corto aquí"
+
+#~ msgid "Select"
+#~ msgstr "Seleccionar"
+
+#~ msgid "Not color"
+#~ msgstr "Sin color"
+
+#~ msgid "Use a random size"
+#~ msgstr "Usar un tamaño aleatorio"
+
+#~ msgid "Text card color:"
+#~ msgstr "Color del texto de la tarjeta:"
+
+#~ msgid "Background color:"
+#~ msgstr "Color de fondo:"
+
+#~ msgid "Transparent color layer:"
+#~ msgstr "Color de capa transparente:"
+
+#~ msgid "Black"
+#~ msgstr "Negro"
+
+#~ msgid "Gray tone"
+#~ msgstr "Tono gris"
+
+#~ msgid "Write"
+#~ msgstr "Blanco"
+
+#~ msgid "Blue tone"
+#~ msgstr "Tono azul"
+
+#~ msgid "Green tone"
+#~ msgstr "Tono verde"
+
+#~ msgid "Orange tone"
+#~ msgstr "Tono naranja"
+
+#~ msgid "Red tone"
+#~ msgstr "Tono rojo"
+
+#~ msgid "Hipster theme"
+#~ msgstr "Colores Hipsters"
+
+#~ msgid "Exotic theme"
+#~ msgstr "Colores exóticos"
+
+#~ msgid "Life theme"
+#~ msgstr "Colores vivos"
+
+#~ msgid "Palete theme"
+#~ msgstr "Colores pastel"
+
+#~ msgid "Thumbnails preview"
+#~ msgstr "Tamaños de la imagen destacada"
+
+#~ msgid "Excerpt too long."
+#~ msgstr "Extracto demasiado largo."
+
+#~ msgid "Bold blue"
+#~ msgstr "Azul oscuro"
+
+#~ msgid "Turquoise"
+#~ msgstr "Turquesa"
+
+#~ msgid "Light green"
+#~ msgstr "Verde claro"
+
+#~ msgid "Bold green"
+#~ msgstr "Verde oscuro"
+
+#~ msgid "Brown"
+#~ msgstr "Marrón"
+
+#~ msgid "Yellow"
+#~ msgstr "Amarillo"
+
+#~ msgid "Red"
+#~ msgstr "Rojo"
+
+#~ msgid "Bold red"
+#~ msgstr "Rojo oscuro"
+
+#~ msgid "Purple"
+#~ msgstr "Purpura"
+
+#~ msgid "Galeries"
+#~ msgstr "Galerías"
+
+#~ msgctxt "gallery"
+#~ msgid "All Galleries"
+#~ msgstr "Todas las galerías"
+
+#~ msgid "%s Gallery"
+#~ msgid_plural "%s Galleries"
+#~ msgstr[0] "%s Galería"
+#~ msgstr[1] "%s Galerías"
+
+#~ msgid "Image Gallery"
+#~ msgstr "Galería de imágenes"
+
+#~ msgid "Relevance"
+#~ msgstr "Relevancia"
+
+#~ msgctxt "event_organiser"
+#~ msgid "New event"
+#~ msgstr "Nuevo evento"
+
+#~ msgid "Iframe"
+#~ msgstr "Iframe"
+
+#~ msgid "Choose the position: "
+#~ msgstr "Elige la posición: "
+
+#~ msgid "Left"
+#~ msgstr "Izquierda"
+
+#~ msgid "Right"
+#~ msgstr "Derecha"
+
+#~ msgid "Code iframe"
+#~ msgstr "Código del iframe"
+
+#~ msgid "Units"
+#~ msgstr "Unidades"
+
+#~ msgid "Geographies"
+#~ msgstr "Geografías"
+
+#~ msgid "Topics"
+#~ msgstr "Temáticas"
+
+#~ msgid "Frontpage"
+#~ msgstr "Portada"
+
+#~ msgid "Frontpage and Navigation"
+#~ msgstr "Portada y Navegaci&oacute;n"
+
+#~ msgid "Display: "
+#~ msgstr "Mostrar: "
+
+#~ msgid "Filter the contents"
+#~ msgstr "Filtrar el contenido"
+
+#~ msgid "Selected topics:"
+#~ msgstr "Temáticas asociadas:"
+
+#~ msgid "Selected geographies:"
+#~ msgstr "Geografías asociadas:"
+
+#~ msgid "Selected units:"
+#~ msgstr "Unidades asociadas:"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "Guardar Lugar de Encuentro"
+
+#, fuzzy
+#~ msgid "Geography"
+#~ msgstr "Geografías"
+
+#~ msgid "Catalogs"
+#~ msgstr "Cat&aacute;logos"
+
+#~ msgid "Modify"
+#~ msgstr "Modificar"
+
+#~ msgid "Only display on frontpage."
+#~ msgstr "S&oacute;lo mostrar en portada."
+
+#~ msgid "Display on subpages too."
+#~ msgstr "Mostrar en sub-p&aacute;ginas y tambi&eacute;n en portada."
+
+#~ msgid "Forecast Options"
+#~ msgstr "Ajustes de Previsi&oacute;n"
+
+#~ msgid "Forecast"
+#~ msgstr "Previsi&oacute;n"
+
+#~ msgid "Forecast XML"
+#~ msgstr "XML de Previsiones"
+
+#~ msgid "Main Settings"
+#~ msgstr "Ajustes Principales"
+
+#~ msgid "Last XML File Uploaded:"
+#~ msgstr "Ultimo archivo XML Subido:"
+
+#~ msgid "Forecast XML File:"
+#~ msgstr "Archivo XML de Previsi&oacute;n:"
+
+#~ msgid "Forecast XML File"
+#~ msgstr "Archivo XML de Previsi&oacute;n"
+
+#~ msgid "Show forecast graphs"
+#~ msgstr "Mostrar gr&aacute;ficas de previsi&oacute;n"
+
+#~ msgid "Forecast Widget"
+#~ msgstr "Previsi&oacute;n Widget"
+
+#, fuzzy
+#~ msgid "Forecast »"
+#~ msgstr "Previsi&oacute;n"
+
+#~ msgid "Select Forecast Graph"
+#~ msgstr "Seleccionar Gr&aacute;fica de Previsi&oacute;n"

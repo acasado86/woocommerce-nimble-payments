@@ -1,0 +1,165 @@
+# Copyright (C) 2016 WooCommerce Nimble Payments
+# This file is distributed under the same license as the WooCommerce Nimble Payments package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Nimble Payments 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
+"nimble-payments\n"
+"POT-Creation-Date: 2016-02-22 13:00:30+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/class-wc-gateway-nimble.php:27
+msgid "Nimble payments"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:28
+msgid "Pay safely with your credit card through the BBVA."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:77
+msgid "Awaiting payment via Nimble"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:87
+#: includes/class-wc-gateway-nimble.php:88
+msgid "Could not connect to the bank right now. Try again later."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:143
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:144
+msgid "Enable Nimble Payments"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:150
+msgid "API Client ID"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:152
+#: includes/class-wc-gateway-nimble.php:159
+msgid "Obtained from https://www.nimblepayments.com"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:157
+msgid "Client Secret"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:180
+msgid "NIMBLE PAYMENTS: "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:181
+msgid "WELCOME CHANGE"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:186
+msgid "Getting started with Nimble Payments in two steps."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:187
+msgid "Watch video tutorial"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:192
+msgid "Step 1 "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:193
+msgid "- signup Nimble Payments.</span>"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:198
+msgid ""
+"If you are not registered yet in Payments Nimble , you can register "
+"completely free and online .\n"
+"\n"
+"You just need an email and a password to start testing."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:205
+msgid "CLICK HERE"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:210
+msgid "Step 2 "
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:211
+msgid "- configure your module.</span>"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:216
+msgid ""
+"To accept payments only you have to give the IDs you get in Nimble Payments\n"
+"\n"
+"If you do not have to hand Check them out here."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:223
+msgid "ENTER NIMBLE PAYMENTS"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:252
+msgid "Card payment was rejected. Please try again."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:268
+msgid "Need an Nimble Payments account?"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:270
+msgid "Signup now"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:277
+msgid "Data invalid gateway to accept payments."
+msgstr ""
+
+#: templates/nimble-checkout-payment-method.php:26
+msgid "Card payment"
+msgstr ""
+
+#: woocommerce-nimble-payments.php:125 woocommerce-nimble-payments.php:133
+msgctxt "Order status"
+msgid "Pending Payment (Nimble)"
+msgstr ""
+
+#: woocommerce-nimble-payments.php:126 woocommerce-nimble-payments.php:141
+msgctxt "Order status"
+msgid "Failed (Nimble)"
+msgstr ""
+
+#: woocommerce-nimble-payments.php:138
+msgid "Pending Payment (Nimble) <span class=\"count\">(%s)</span>"
+msgid_plural "Pending Payment (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: woocommerce-nimble-payments.php:146
+msgid "Failed (Nimble) <span class=\"count\">(%s)</span>"
+msgid_plural "Failed (Nimble) <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Nimble Payments"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.nimblepayments.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Add Nimble payment services to your WooCommmerce."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "BBVA"
+msgstr ""
