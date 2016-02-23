@@ -86,15 +86,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $response = Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
-            $order->update_status('nimble-failed', __('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payment'));
+            $order->update_status('nimble-failed', __('Could not connect to the bank.', 'woocommerce-nimble-payment'));
             throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments'));
         }
-
-        // Reduce stock levels
-        //$order->reduce_order_stock();
-
-        // Remove cart
-        //$woocommerce->cart->empty_cart();
+        
+        if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
+            $order->update_status('nimble-failed', __('An error has occurred.', 'woocommerce-nimble-payment'));
+            throw new Exception(__('An error has occurred. Try again later.', 'woocommerce-nimble-payments'));
+        }
 
         // Return thankyou redirect
         return array(
