@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
+    var $payment_nonce_field = 'payment_nonce';
     var $mode = 'real';
 
     //put your code here
@@ -46,9 +47,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         
         add_filter('woocommerce_get_checkout_order_received_url', array($this, 'checkout_order_received_url'), 10, 2);
         
-        add_action('woocommerce_thankyou_' . $this->id, array($this, 'payment_complete'));
-        
         add_action('before_woocommerce_pay', array($this, 'payment_error'));
+        
+        add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
   
     }
     
@@ -231,18 +232,23 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
     function checkout_order_received_url($order_received_url, $order) {
         if ($order->post_status == "wc-nimble-pending"){
             $nonce = wp_create_nonce();
-            $order_received_url = add_query_arg( 'payment', $nonce, $order_received_url );
+            $order_received_url = remove_query_arg( 'key', $order_received_url );
+            $order_received_url = add_query_arg( $this->payment_nonce_field, $nonce, $order_received_url );
         }
         return $order_received_url;
     }
-    
-    function payment_complete($order_id){
+       
+    function success_url_nonce($order_key){
         global $wp;
         
-        if (isset($wp->query_vars['order-received']) && isset($_GET['payment']) && wp_verify_nonce($_GET['payment'])) {
-            $order = new WC_Order($order_id);
+        if ( isset($wp->query_vars['order-received']) && isset($_GET[$this->payment_nonce_field]) && wp_verify_nonce($_GET[$this->payment_nonce_field])) {
+            $order_id = $wp->query_vars['order-received'];
+            $order = wc_get_order( $order_id );
             $order->payment_complete();
+            return $order->order_key;
         }
+        
+        return $order_key;
     }
     
     function payment_error(){
