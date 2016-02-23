@@ -268,7 +268,7 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
                     <div class="updated woocommerce-message"><div class="squeezer">
                             <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' ); ?></h4>
                             <p class="submit">
-                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
+                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
                             </p>
                     </div></div>
             <?php
