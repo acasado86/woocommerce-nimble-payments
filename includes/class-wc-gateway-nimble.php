@@ -22,7 +22,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     //put your code here
     function __construct() {
         $this->id = 'nimble_payments_gateway';
-        $this->icon = plugins_url('assets/images/bbva_logo.svg', plugin_dir_path(__FILE__));
+        $this->icon = plugins_url('assets/images/BBVA.png', plugin_dir_path(__FILE__));
         $this->has_fields = false;
         $this->title = __('Nimble payments', 'woocommerce-nimble-payments');
         $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
@@ -268,7 +268,7 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
                     <div class="updated woocommerce-message"><div class="squeezer">
                             <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' ); ?></h4>
                             <p class="submit">
-                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
+                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
                             </p>
                     </div></div>
             <?php

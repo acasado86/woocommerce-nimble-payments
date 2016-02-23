@@ -70,28 +70,21 @@ class WoocommerceNimblePayments {
         }
     }
     
-     function load_nimble_style($hook) {
-
+    function load_nimble_style($hook) {
+        wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160222');
+        wp_enqueue_style('wp_nimble_backend_css');
+        
         if($hook=="woocommerce_page_wc-settings" || ( $hook == 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type']=='shop_order' ) ){
             wp_register_style('nimble_setting_css', plugins_url('css/nimble_setting.css', __FILE__), false, '20160217');
             wp_enqueue_style('nimble_setting_css');
-            
-            $icon_url = plugins_url( 'assets/images/nimble-icon-status.png', __FILE__ );
-            $custom_css = "
-                    .widefat .column-order_status mark.nimble-pending::after {
-                            content: url({$icon_url});
-                    }";
-            wp_add_inline_style( 'nimble_setting_css', $custom_css );
         }
-    } 
+    }
     
     function nimble_menu(){
         if ( !defined('WP_CONTENT_URL') )
             define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
         
-        $icon_url=plugins_url( 'assets/images/nimble-icon.png', __FILE__ );
-            
-        add_object_page( 'Nimble', 'Nimble', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ), $icon_url);
+        add_object_page( 'Nimble', 'Nimble', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
     }
     
     function nimble_options() {
