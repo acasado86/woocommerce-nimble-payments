@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17-feb-2016, 10:37:21
+    Author     : rafael
+*/
+
+/*Page List Orders*/
+.widefat .column-order_status mark.nimble-pending::after, .widefat .column-order_status mark.nimble-failed::after {
+    font-family: WooCommerce;
+    font-variant: normal;
+    font-weight: 400;
+    height: 100%;
+    left: 0;
+    line-height: 1;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    text-indent: 0;
+    text-transform: none;
+    top: 0;
+    width: 100%;
+}
+
+.widefat .column-order_status mark.nimble-pending::after {
+    color: #ffba00;
+    content: "";
+}
+
+.widefat .column-order_status mark.nimble-failed::after {
+    color: #d0c21f;
+    content: "";
+}
+
+#n_title2 {
+   /* color: lightblue;
+    text-align: left;
+    font-size: 62.5%;
+    background-color: white;*/
+}
