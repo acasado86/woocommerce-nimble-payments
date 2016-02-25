@@ -122,28 +122,28 @@ class WoocommerceNimblePayments {
     
     function add_custom_statuses($order_statuses){
         $new_statuses = array(
-		'wc-nimble-pending'    => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
-		'wc-nimble-failed'     => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+		'wc-nimble-pending'    => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
+		'wc-nimble-failed'     => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
 	);
         return array_merge($order_statuses, $new_statuses);
     }
     
     function register_post_status() {
         register_post_status('wc-nimble-pending', array(
-            'label' => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+            'label' => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
             'public' => false,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
             'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('Pending Payment (Nimble) <span class="count">(%s)</span>', 'Pending Payment (Nimble) <span class="count">(%s)</span>', 'woocommerce')
+            'label_count' => _n_noop('Pending Payment (Nimble) <span class="count">(%s)</span>', 'Pending Payment (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: PENDING STATUS LIST
         ));
         register_post_status('wc-nimble-failed', array(
-            'label' => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ),
+            'label' => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
             'public' => false,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
             'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce')
+            'label_count' => _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: FAILED LIST
         ));
     }
     

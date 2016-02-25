@@ -25,9 +25,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->id = 'nimble_payments_gateway';
         $this->icon = plugins_url('assets/images/BBVA.png', plugin_dir_path(__FILE__));
         $this->has_fields = false;
-        $this->title = __('Nimble payments', 'woocommerce-nimble-payments');
-        $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments');
-        $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments');
+        $this->title = __('Nimble payments', 'woocommerce-nimble-payments'); //LANG: GATEWAY TITLE
+        $this->method_title = __('Nimble payments', 'woocommerce-nimble-payments'); //LANG: GATEWAY METHOD TITLE
+        $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments'); //LANG: GATEWAY DESCRIPTION
         $this->supports = array(
             'products',
             //'refunds'
@@ -76,7 +76,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = new WC_Order($order_id);
         
         // Mark as nimble-pending (we're awaiting the payment)
-        $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment'));
+        $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment')); //LANG: ORDER NODE PENDING
         
         try{
             $nimbleApi = $this->inicialize_nimble_api();
@@ -86,13 +86,13 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $response = Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
-            $order->update_status('nimble-failed', __('Could not connect to the bank.', 'woocommerce-nimble-payment'));
-            throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments'));
+            $order->update_status('nimble-failed', __('Could not connect to the bank.', 'woocommerce-nimble-payment')); //LANG: ORDER NODE ERROR
+            throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK ERROR MESSAGE
         }
         
         if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
-            $order->update_status('nimble-failed', __('An error has occurred.', 'woocommerce-nimble-payment'));
-            throw new Exception(__('An error has occurred. Try again later.', 'woocommerce-nimble-payments'));
+            $order->update_status('nimble-failed', __('An error has occurred.', 'woocommerce-nimble-payment')); //LANG: ORDER NODE 404
+            throw new Exception(__('An error has occurred. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
         }
 
         // Return thankyou redirect
@@ -134,98 +134,28 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     function init_form_fields() {
 
         $this->form_fields = array(
-             'nimble_help' => array(
-                'type' => 'nimble_help',
-                'description' => '',
-                'default' => '',
-                'desc_tip' => false
-            ),
             'enabled' => array(
-                'title' => __('Enable/Disable', 'woocommerce-nimble-payments'),
-                'label' => __('Enable Nimble Payments', 'woocommerce-nimble-payments'),
+                'title' => __('Enable/Disable', 'woocommerce-nimble-payments'),//LANG: FIELD ENABLED TITLE
+                'label' => __('Enable Nimble Payments', 'woocommerce-nimble-payments'),//LANG: FIELD ENABLED LABEL
                 'type' => 'checkbox',
                 'description' => '',
                 'default' => 'no'
             ),
             'seller_id' => array(
-                'title' => __('API Client ID', 'woocommerce-nimble-payments'),
+                'title' => __('API Client ID', 'woocommerce-nimble-payments'),//LANG: FIELD SELLER_ID TITLE
                 'type' => 'text',
-                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
+                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'), //LANG: FIELD SELLER_ID DESCRIPTION
                 'default' => '',
                 'desc_tip' => true
             ),
             'secret_key' => array(
-                'title' => __('Client Secret', 'woocommerce-nimble-payments'),
+                'title' => __('Client Secret', 'woocommerce-nimble-payments'),//LANG: FIELD SELLER_KEY TITLE
                 'type' => 'text',
-                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),
+                'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),//LANG: FIELD SELLER_KEY DESCRIPTION
                 'default' => '',
                 'desc_tip' => true
             )
         );
-    }
-
-    public function generate_nimble_help_html($key, $data) {
-
-        $field = $this->get_field_key($key);
-        $defaults = array(
-            'title' => '',
-            'class' => ''
-        );
-
-        $data = wp_parse_args($data, $defaults);
-
-        ob_start();
-        ?>
-            <div class="textNimble" id="u28">
-                <p>
-                    <span id="n_title"><?php _e("NIMBLE PAYMENTS: ","woocommerce-nimble-payments")?></span>
-                    <span id="n_title2"><?php _e("WELCOME CHANGE","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-            <div class="textNimble" id="u29">
-                <p>
-                    <span id="n_subtitle1"><?php _e("Getting started with Nimble Payments in two steps.","woocommerce-nimble-payments")?></span>
-                    <span id="n_subtitle2"><?php _e("Watch video tutorial","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-            <div class="textNimble" id="u30">
-                <p>
-                    <span id="n_step1"><?php _e("Step 1 ","woocommerce-nimble-payments")?></span>
-                    <span id="n_step11"><?php _e("- signup Nimble Payments.</span>","woocommerce-nimble-payments")?>
-                </p>
-            </div>
-            <div class="textNimble" id="u31">
-                <p>
-                    <span id="n_registro_text"><?php _e("If you are not registered yet in Payments Nimble , you can register completely free and online .
-
-You just need an email and a password to start testing.","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-            <div class="textNimble" id="u32">
-                <p>
-                    <span id="n_registro"><?php _e("CLICK HERE","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-            <div class="textNimble" id="u33">
-                <p>
-                    <span id="n_step2"><?php _e("Step 2 ","woocommerce-nimble-payments")?></span>
-                    <span id="n_step22"><?php _e("- configure your module.</span>","woocommerce-nimble-payments")?>
-                </p>
-            </div>
-            <div class="textNimble" id="u34">
-                <p>
-                    <span id="identification"><?php _e("To accept payments only you have to give the IDs you get in Nimble Payments
-
-If you do not have to hand Check them out here.","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-            <div class="textNimble" id="u35">
-                <p>
-                    <span id="enter_nimble"><?php _e("ENTER NIMBLE PAYMENTS","woocommerce-nimble-payments")?></span>
-                </p>
-            </div>
-        <?php
-        return ob_get_clean();
     }
     
     function checkout_order_received_url($order_received_url, $order) {
@@ -255,7 +185,8 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
         if ( isset($_GET['payment_status']) ){
             switch ($_GET['payment_status']){
                 case 'error':
-                    echo '<div class="woocommerce-error">' . __( 'Card payment was rejected. Please try again.', 'woocommerce-nimble-payments' ) . '</div>';
+                    $message = __( 'Card payment was rejected. Please try again.', 'woocommerce-nimble-payments' ); //LANG: CARD PAYMENT REJECTED
+                    echo '<div class="woocommerce-error">' . $message . '</div>';
                     break;
             }
         }
@@ -271,16 +202,16 @@ If you do not have to hand Check them out here.","woocommerce-nimble-payments")?
 
             <?php if ( ! $this->get_option('seller_id') ) : ?>
                     <div class="updated woocommerce-message"><div class="squeezer">
-                            <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' ); ?></h4>
+                            <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' );//LANG: MESSAGE REGISTRATION TEXT ?></h4>
                             <p class="submit">
-                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); ?></a>
+                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); //LANG: MESSAGE REGISTRATION BUTTOM ?></a>
                             </p>
                     </div></div>
             <?php
             elseif ( ($this->get_option('enabled') == "yes") && !($this->get_option($this->status_field_name) ) ) :
             ?>
                 <div class="error message"><div class="squeezer">
-                        <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); ?></h4>
+                        <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); //LANG: MESSAGE ERROR TEXT ?></h4>
                 </div></div>
             <?php endif;
             ?>
