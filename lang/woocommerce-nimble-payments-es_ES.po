@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Nimble Payments\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "nimble-payments\n"
-"POT-Creation-Date: 2016-02-22 13:00:30+00:00\n"
-"PO-Revision-Date: 2016-02-22 14:01+0100\n"
+"POT-Creation-Date: 2016-02-25 15:02:01+00:00\n"
+"PO-Revision-Date: 2016-02-25 16:03+0100\n"
 "Last-Translator: Carlos Mendoza <cmendoza@opensistemas.com>\n"
 "Language-Team: Opensistemas <acasado@opensistemas.com>\n"
 "Language: es\n"
@@ -17,116 +17,70 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: includes/class-wc-gateway-nimble.php:27
+#: includes/class-wc-gateway-nimble.php:28
+#: includes/class-wc-gateway-nimble.php:29
 msgid "Nimble payments"
 msgstr "Pago con Nimble"
 
-#: includes/class-wc-gateway-nimble.php:28
+#: includes/class-wc-gateway-nimble.php:30
 msgid "Pay safely with your credit card through the BBVA."
 msgstr "Paga de manera segura con tu tarjeta de credito a traves del BBVA."
 
-#: includes/class-wc-gateway-nimble.php:77
-msgid "Awaiting payment via Nimble"
+#: includes/class-wc-gateway-nimble.php:79
+#, fuzzy
+msgid "Awaiting payment via Nimble."
 msgstr "Esperando pago por Nimble"
 
-#: includes/class-wc-gateway-nimble.php:87
-#: includes/class-wc-gateway-nimble.php:88
+#: includes/class-wc-gateway-nimble.php:89
+msgid "An error has occurred."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:90
+msgid "An error has occurred. Try again later."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:94
+msgid "Could not connect to the bank."
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:95
 msgid "Could not connect to the bank right now. Try again later."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:143
+#: includes/class-wc-gateway-nimble.php:138
 msgid "Enable/Disable"
 msgstr "Habilitar/Deshabilitar"
 
-#: includes/class-wc-gateway-nimble.php:144
+#: includes/class-wc-gateway-nimble.php:139
 msgid "Enable Nimble Payments"
 msgstr "Habilitar Nimble Payments"
 
-#: includes/class-wc-gateway-nimble.php:150
+#: includes/class-wc-gateway-nimble.php:145
 msgid "API Client ID"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:152
-#: includes/class-wc-gateway-nimble.php:159
+#: includes/class-wc-gateway-nimble.php:147
+#: includes/class-wc-gateway-nimble.php:154
 msgid "Obtained from https://www.nimblepayments.com"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:157
+#: includes/class-wc-gateway-nimble.php:152
 msgid "Client Secret"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:180
-msgid "NIMBLE PAYMENTS: "
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:181
-msgid "WELCOME CHANGE"
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:186
-msgid "Getting started with Nimble Payments in two steps."
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:187
-msgid "Watch video tutorial"
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:192
-msgid "Step 1 "
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:193
-msgid "- signup Nimble Payments.</span>"
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:198
-msgid ""
-"If you are not registered yet in Payments Nimble , you can register "
-"completely free and online .\n"
-"\n"
-"You just need an email and a password to start testing."
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:205
-msgid "CLICK HERE"
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:210
-msgid "Step 2 "
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:211
-msgid "- configure your module.</span>"
-msgstr ""
-
-#: includes/class-wc-gateway-nimble.php:216
-msgid ""
-"To accept payments only you have to give the IDs you get in Nimble Payments\n"
-"\n"
-"If you do not have to hand Check them out here."
-msgstr ""
-"Para poder aceptar pagos solo tienes que darnos los identificadores que "
-"obtienes en Nimble Payments\n"
-"\n"
-"Si no los tienes a mano consúltalos aquí."
-
-#: includes/class-wc-gateway-nimble.php:223
-msgid "ENTER NIMBLE PAYMENTS"
-msgstr "ENTRAR EN NIMBLE PAYMENTS"
-
-#: includes/class-wc-gateway-nimble.php:252
+#: includes/class-wc-gateway-nimble.php:188
 msgid "Card payment was rejected. Please try again."
 msgstr "El pago con tarjeta ha sido rechazado. Por favor, inténtelo de nuevo."
 
-#: includes/class-wc-gateway-nimble.php:268
+#: includes/class-wc-gateway-nimble.php:205
 msgid "Need an Nimble Payments account?"
 msgstr "Registrate en Nimble Payments"
 
-#: includes/class-wc-gateway-nimble.php:270
+#: includes/class-wc-gateway-nimble.php:207
 msgid "Signup now"
 msgstr "Registro"
 
-#: includes/class-wc-gateway-nimble.php:277
+#: includes/class-wc-gateway-nimble.php:214
 msgid "Data invalid gateway to accept payments."
 msgstr "Datos de pasarela no validos para aceptar pagos."
 
@@ -171,6 +125,20 @@ msgstr "Agrega pago mediante Nimble a tu WooCommerce."
 #. Author of the plugin/theme
 msgid "BBVA"
 msgstr ""
+
+#~ msgid ""
+#~ "To accept payments only you have to give the IDs you get in Nimble "
+#~ "Payments\n"
+#~ "\n"
+#~ "If you do not have to hand Check them out here."
+#~ msgstr ""
+#~ "Para poder aceptar pagos solo tienes que darnos los identificadores que "
+#~ "obtienes en Nimble Payments\n"
+#~ "\n"
+#~ "Si no los tienes a mano consúltalos aquí."
+
+#~ msgid "ENTER NIMBLE PAYMENTS"
+#~ msgstr "ENTRAR EN NIMBLE PAYMENTS"
 
 #~ msgid "Seller ID"
 #~ msgstr "API Client ID"

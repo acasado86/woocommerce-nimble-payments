@@ -50,6 +50,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_action('before_woocommerce_pay', array($this, 'payment_error'));
         
         add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
+        
+        add_filter('woocommerce_get_order_item_totals', array($this, 'order_total_payment_method_replace'), 10, 2);
   
     }
     
@@ -76,7 +78,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = new WC_Order($order_id);
         
         // Mark as nimble-pending (we're awaiting the payment)
-        $order->update_status('nimble-pending', __('Awaiting payment via Nimble', 'woocommerce-nimble-payment')); //LANG: ORDER NODE PENDING
+        $order->update_status('nimble-pending', __('Awaiting payment via Nimble.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE PENDING
         
         try{
             $nimbleApi = $this->inicialize_nimble_api();
@@ -86,13 +88,13 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $response = Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
-            $order->update_status('nimble-failed', __('Could not connect to the bank.', 'woocommerce-nimble-payment')); //LANG: ORDER NODE ERROR
-            throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK ERROR MESSAGE
+            $order->update_status('nimble-failed', __('An error has occurred.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE ERROR
+            throw new Exception(__('An error has occurred. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK ERROR MESSAGE
         }
         
         if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
-            $order->update_status('nimble-failed', __('An error has occurred.', 'woocommerce-nimble-payment')); //LANG: ORDER NODE 404
-            throw new Exception(__('An error has occurred. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
+            $order->update_status('nimble-failed', __('Could not connect to the bank.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE 404
+            throw new Exception(__('Could not connect to the bank right now. Try again later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
         }
 
         // Return thankyou redirect
@@ -221,6 +223,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                     <?php $this->generate_settings_html(); ?>
             </table><!--/.form-table-->
             <?php
+    }
+    
+    function order_total_payment_method_replace($total_rows, $order){
+        $payment_method_id = get_post_meta( $order->id, '_payment_method', true);
+        if ($payment_method_id == $this->id && isset($total_rows['payment_method']) && isset($total_rows['payment_method']['value']) ){
+            $total_rows['payment_method']['value'] = __('Card payment', 'woocommerce-nimble-payments'); //LANG: FRONT ORDER PAYMENT METHOD
+        }
+        return $total_rows;
     }
 
 }
