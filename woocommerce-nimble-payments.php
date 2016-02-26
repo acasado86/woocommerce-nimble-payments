@@ -30,7 +30,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-class WoocommerceNimblePayments {
+class Woocommerce_Nimble_Payments {
     protected static $instance = null;
 
     static function & getInstance() {
@@ -92,10 +92,6 @@ class WoocommerceNimblePayments {
     }
     
     function activar_plugin() {
-        if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-            return;
-        }
-        wp_die('WooCommerce plugin must be installed.');
     }
     
     function desactivar_plugin() {
@@ -130,20 +126,20 @@ class WoocommerceNimblePayments {
     
     function register_post_status() {
         register_post_status('wc-nimble-pending', array(
-            'label' => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
-            'public' => false,
-            'exclude_from_search' => false,
-            'show_in_admin_all_list' => true,
-            'show_in_admin_status_list' => true,
+            'label' =>  _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
+            'public'    => false,
+            'exclude_from_search'   =>  false,
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' =>  true,
             'label_count' => _n_noop('Pending Payment (Nimble) <span class="count">(%s)</span>', 'Pending Payment (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: PENDING STATUS LIST
         ));
         register_post_status('wc-nimble-failed', array(
-            'label' => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
-            'public' => false,
-            'exclude_from_search' => false,
-            'show_in_admin_all_list' => true,
-            'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: FAILED LIST
+            'label' =>  _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
+            'public'    => false,
+            'exclude_from_search'   =>  false,
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' =>  true,
+            'label_count'   =>    _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: FAILED LIST
         ));
     }
     
@@ -156,7 +152,7 @@ class WoocommerceNimblePayments {
         if ( $template_name == 'checkout/payment-method.php' && isset($args['gateway']) && $args['gateway']->id == 'nimble_payments_gateway' ){
             $located = plugin_dir_path(__FILE__) . "templates/nimble-checkout-payment-method.php";
         }
-        else if ( $template_name == 'checkout/thankyou.php' && isset($args['order']) ){
+        elseif ( $template_name == 'checkout/thankyou.php' && isset($args['order']) ){
             $order = $args['order'];
             $payment_method_id = get_post_meta( $order->id, '_payment_method', true);
             if ($payment_method_id == 'nimble_payments_gateway'){
@@ -169,6 +165,8 @@ class WoocommerceNimblePayments {
 }
 
 
-$oWoocommerceNimblePayments = WoocommerceNimblePayments::getInstance();
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+    $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+}
 register_activation_hook(__FILE__, array($oWoocommerceNimblePayments, 'activar_plugin'));
 register_deactivation_hook(__FILE__, array( $oWoocommerceNimblePayments, 'desactivar_plugin'));
