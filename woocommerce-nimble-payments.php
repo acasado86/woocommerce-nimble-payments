@@ -74,7 +74,7 @@ class Woocommerce_Nimble_Payments {
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160222');
         wp_enqueue_style('wp_nimble_backend_css');
         
-        if($hook=="woocommerce_page_wc-settings" || ( $hook == 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type']=='shop_order' ) ){
+        if( "woocommerce_page_wc-settings" == $hook || ( 'edit.php' == $hook && isset( $_GET['post_type'] ) && 'shop_order' == $_GET['post_type'] ) ){
             wp_register_style('nimble_setting_css', plugins_url('css/nimble_setting.css', __FILE__), false, '20160217');
             wp_enqueue_style('nimble_setting_css');
         }
@@ -149,13 +149,13 @@ class Woocommerce_Nimble_Payments {
     }
     
     function filter_templates_checkout($located, $template_name, $args){
-        if ( $template_name == 'checkout/payment-method.php' && isset($args['gateway']) && $args['gateway']->id == 'nimble_payments_gateway' ){
+        if ( 'checkout/payment-method.php' == $template_name  && isset($args['gateway']) && 'nimble_payments_gateway' == $args['gateway']->id ){
             $located = plugin_dir_path(__FILE__) . "templates/nimble-checkout-payment-method.php";
         }
-        elseif ( $template_name == 'checkout/thankyou.php' && isset($args['order']) ){
+        elseif ( 'checkout/thankyou.php' == $template_name && isset($args['order']) ){
             $order = $args['order'];
             $payment_method_id = get_post_meta( $order->id, '_payment_method', true);
-            if ($payment_method_id == 'nimble_payments_gateway'){
+            if ('nimble_payments_gateway' == $payment_method_id){
                 $located = plugin_dir_path(__FILE__) . "templates/nimble-checkout-thankyou.php";
             }
         }

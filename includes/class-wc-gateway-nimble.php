@@ -161,7 +161,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     }
     
     function checkout_order_received_url($order_received_url, $order) {
-        if ($order->post_status == "wc-nimble-pending"){
+        if ("wc-nimble-pending" == $order->post_status){
             $nonce = wp_create_nonce();
             $order_received_url = remove_query_arg( 'key', $order_received_url );
             $order_received_url = add_query_arg( $this->payment_nonce_field, $nonce, $order_received_url );
@@ -210,7 +210,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                             </p>
                     </div></div>
             <?php
-            elseif ( ($this->get_option('enabled') == "yes") && !($this->get_option($this->status_field_name) ) ) :
+            elseif ( ("yes" == $this->get_option('enabled')) && !($this->get_option($this->status_field_name) ) ) :
             ?>
                 <div class="error message"><div class="squeezer">
                         <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); //LANG: MESSAGE ERROR TEXT ?></h4>
