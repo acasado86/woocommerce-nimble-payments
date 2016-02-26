@@ -13,7 +13,7 @@ Domain Path: /lang/
 */
 
 /* 
-Copyright (C) 2016 acasado
+Copyright (C) 2016 BBVA
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
