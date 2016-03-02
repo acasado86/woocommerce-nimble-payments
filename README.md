@@ -28,3 +28,13 @@ Open 'includes/class-wc-gateway-nimble.php' and search line
 var $mode = 'real';
 ```
 Change 'real' value to 'demo'. 
+##Generating woocommerce-nimble-payments.zip
+If you want, you can use Composer to generate definitive plugin zip file.
+Open 'includes/class-wc-gateway-nimble.php' and search line
+```
+git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git
+cd woocommerce-nimble-payments/
+php composer update
+php composer zip
+```
+In the same folder the file woocommerce-nimble-payments.zip is generated.
