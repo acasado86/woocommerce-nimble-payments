@@ -8,7 +8,7 @@ If you have installed Composer, you can use it to install.
 cd PATH_TO_WORDPRESS/wp-content/plugins/
 git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git
 cd woocommerce-nimble-payments
-php composer.phar install
+composer.phar install
 ```
 Replace PATH_TO_WORDPRESS with Wordpress folder path. Example: /var/www/wordpress
 ###Manual
@@ -34,7 +34,7 @@ Open 'includes/class-wc-gateway-nimble.php' and search line
 ```
 git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git
 cd woocommerce-nimble-payments/
-php composer.phar update
-php composer.phar zip
+composer.phar update
+composer.phar zip
 ```
 In the same folder the file woocommerce-nimble-payments.zip is generated.
