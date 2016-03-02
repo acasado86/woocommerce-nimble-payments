@@ -3,7 +3,7 @@
 /*
 Plugin Name: WooCommerce Nimble Payments
 Plugin URI: https://www.nimblepayments.com
-Description: Add Nimble payment services to your WooCommmerce.
+Description: Nimble Payments is an online payment gateway supported by BBVA that enables you to accept online payments flexibly and safely.
 Version: 1.0.0
 Author: BBVA
 Author URI: 
@@ -118,28 +118,28 @@ class Woocommerce_Nimble_Payments {
     
     function add_custom_statuses($order_statuses){
         $new_statuses = array(
-		'wc-nimble-pending'    => _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
-		'wc-nimble-failed'     => _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
+		'wc-nimble-pending'    => _x( 'Pending Payment (Nimble Payments)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
+		'wc-nimble-failed'     => _x( 'Failed (Nimble Payments)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
 	);
         return array_merge($order_statuses, $new_statuses);
     }
     
     function register_post_status() {
         register_post_status('wc-nimble-pending', array(
-            'label' =>  _x( 'Pending Payment (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
+            'label' =>  _x( 'Pending Payment (Nimble Payments)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: PENDING STATUS
             'public'    => false,
             'exclude_from_search'   =>  false,
             'show_in_admin_all_list'    => true,
             'show_in_admin_status_list' =>  true,
-            'label_count' => _n_noop('Pending Payment (Nimble) <span class="count">(%s)</span>', 'Pending Payment (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: PENDING STATUS LIST
+            'label_count' => _n_noop('Pending Payment (Nimble Payments) <span class="count">(%s)</span>', 'Pending Payment (Nimble Payments) <span class="count">(%s)</span>', 'woocommerce') //LANG: PENDING STATUS LIST
         ));
         register_post_status('wc-nimble-failed', array(
-            'label' =>  _x( 'Failed (Nimble)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
+            'label' =>  _x( 'Failed (Nimble Payments)', 'Order status', 'woocommerce-nimble-payments' ), //LANG: FAILED STATUS
             'public'    => false,
             'exclude_from_search'   =>  false,
             'show_in_admin_all_list'    => true,
             'show_in_admin_status_list' =>  true,
-            'label_count'   =>    _n_noop('Failed (Nimble) <span class="count">(%s)</span>', 'Failed (Nimble) <span class="count">(%s)</span>', 'woocommerce') //LANG: FAILED LIST
+            'label_count'   =>    _n_noop('Failed (Nimble Payments) <span class="count">(%s)</span>', 'Failed (Nimble Payments) <span class="count">(%s)</span>', 'woocommerce') //LANG: FAILED LIST
         ));
     }
     

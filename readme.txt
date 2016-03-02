@@ -1,53 +1,47 @@
 === WooCommerce Nimble Payments ===
 Contributors: nimblepayments
-Tags: ecommerce, e-commerce, store, sales, sell, shop, cart, checkout, payment, gateway
+Tags: ecommerce, e-commerce, store, sales, sell, shop, cart, checkout, payment, gateway, tienda, pagos
 Requires at least: 4.0
 Tested up to: 4.4.2
 Stable tag: 4.4.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-WC requires at least: 2.5.0
-WC tested up to: 2.5.2
 
-Add Nimble payment services to your WooCommmerce.
+Nimble Payments es una pasarela de pagos online de BBVA que te permite aceptar pagos en tu tienda con total seguridad.
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+Nimble Payments es una solución financiera online de BBVA que te permite aceptar pagos en tu tienda con total seguridad. De fácil integración, te ofrece servicios de valor añadido para la gestión de tu negocio como soluciones financieras de forma integrada y atención cualificada en español.
+Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA-256)
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+= Qué te aporta este módulo =
+*   Ofrece un pago adaptado a tus clientes.
+*   Mejora la confianza del cliente en tu sitio web.
+*   Instalación y configuración sencilla: podrás integrar tú mismo el módulo Nimble Payments en tu tienda WooCommerce y aceptar en unos minutos transacciones con la seguridad que te ofrece BBVA. Y si tienes dudas cuentas con soporte técnico gratuito cualificado y localizado en España.
+*   Sistema de precios sencillo: un porcentaje sobre la venta que realices, sin importe fijo, y cuanto mayor sea tu facturación mensual, menor podrá ser tu tarifa mensual.
+*   Máxima seguridad responde a los estándares de seguridad y permite disfrutar de transacciones seguras para ti y tus clientes.
 
-A few notes about the sections above:
+= Funcionalidades =
+*   Métodos de pago: podrás aceptar los principales métodos de pago: tarjeta de crédito, débito, prepago o virtual.
+*   Pago adaptado a móvil, web y tablet: nuestro proceso de pago está diseñado para adaptarse a la pantalla del dispositivo que utilicen tus clientes para comprar en tu tienda: móvil, web y tablet.
+*   Panel de control personal: podrás consultar y gestionar tus ventas y acceder a estadísticas sobre tu negocio.
+*   Cuenta remunerada, para hacer crecer el dinero de tus ventas con Nimble Payments. Y, próximamente, otras soluciones financieras a tu medida.
+*   Máxima seguridad:
+    *   Podrás adaptar la funcionalidad 3DSecure a tu negocio y venderás sin preocupaciones.
+    *   Contarás con personal especializado y sistemas de gestión antifraude que vigilarán las transacciones que realices con Nimble Payments para detectar aquellas que resulten sospechosas.
+    *   Servicio de pasarela de pago PCI DSS Compliance.
 
-*   "Contributors" is a comma separated list of wordpress.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
-
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-1. Upload the plugin files to the `/wp-content/plugins/woocommerce-nimble-payments` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Enable the Nimble Payments Gateway on the WooCommerce > Settings > Checkout screen.
+1. Asegurate de tener instalado y activado el plugin **WooCommerce**.
+2. Subir los ficheros del plugin **WooCommerce Nimble Payments** a la ruta `/wp-content/plugins/woocommerce-nimble-payments`, o realizar la instalación utilizando el directorio de plugins de WordPress.
+3. Activar el plugin en la ventana de 'Plugins' dentro de WordPress.
+4. Habilita la pasarela de pago Nimble Payments en la ruta WooCommerce > Ajustes > Finalizar compra > Nimble Payments.
+5. Introduce el *API Client ID* y *Client Secret* que podrás obtener al registrarte en (https://www.nimblepayments.com).
 
 == Screenshots ==
 
-1. Settings Page.
-2. Checkout Client View.
-3. TPV page.
+1. Ajustes del plugin.
+2. Método de pago que verán los clientes.
+3. Ventana del TPV.
