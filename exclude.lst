@@ -1,0 +1,11 @@
+woocommerce-nimble-payments/.git
+woocommerce-nimble-payments/.git/*
+woocommerce-nimble-payments/vendor
+woocommerce-nimble-payments/vendor/*
+woocommerce-nimble-payments/exclude.lst
+woocommerce-nimble-payments/composer.json
+woocommerce-nimble-payments/composer.lock
+woocommerce-nimble-payments/sample.gitignore
+woocommerce-nimble-payments/.gitignore
+woocommerce-nimble-payments/README.md
+woocommerce-nimble-payments/woocommerce-nimble-payments.zip
