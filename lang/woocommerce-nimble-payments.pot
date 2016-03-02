@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WooCommerce Nimble Payments package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Nimble Payments 1.0.0\n"
+"Project-Id-Version: WooCommerce Nimble Payments 1.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "nimble-payments\n"
-"POT-Creation-Date: 2016-03-02 10:18:03+00:00\n"
+"POT-Creation-Date: 2016-03-02 17:10:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,68 +25,68 @@ msgstr ""
 msgid "Pay safely with your credit card through the BBVA."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:81
+#: includes/class-wc-gateway-nimble.php:89
 msgid "Awaiting payment via Nimble Payments."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:91
+#: includes/class-wc-gateway-nimble.php:99
 msgid "An error has occurred. Code ERR_PAG."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:92
+#: includes/class-wc-gateway-nimble.php:100
 msgid ""
 "Unable to process payment. An error has occurred. ERR_PAG code. Please try "
 "later."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:96
+#: includes/class-wc-gateway-nimble.php:104
 msgid "Could not connect to the bank. Code ERR_PAG."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:97
+#: includes/class-wc-gateway-nimble.php:105
 msgid ""
 "Unable to process payment. An error has occurred. ERR_CONEX code. Please try "
 "later."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:140
+#: includes/class-wc-gateway-nimble.php:148
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:141
+#: includes/class-wc-gateway-nimble.php:149
 msgid "Enable Nimble Payments"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:147
+#: includes/class-wc-gateway-nimble.php:155
 msgid "API Client ID"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:149
-#: includes/class-wc-gateway-nimble.php:156
+#: includes/class-wc-gateway-nimble.php:157
+#: includes/class-wc-gateway-nimble.php:164
 msgid "Obtained from https://www.nimblepayments.com"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:154
+#: includes/class-wc-gateway-nimble.php:162
 msgid "Client Secret"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:190
+#: includes/class-wc-gateway-nimble.php:198
 msgid "Card payment was rejected. Please try again."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:207
+#: includes/class-wc-gateway-nimble.php:215
 msgid "Need an Nimble Payments account?"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:209
+#: includes/class-wc-gateway-nimble.php:217
 msgid "Signup now"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:216
+#: includes/class-wc-gateway-nimble.php:224
 msgid "Data invalid gateway to accept payments."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:231
+#: includes/class-wc-gateway-nimble.php:239
 #: templates/nimble-checkout-payment-method.php:26
 #: templates/nimble-checkout-thankyou.php:55
 msgid "Card payment"
