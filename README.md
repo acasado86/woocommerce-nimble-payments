@@ -21,3 +21,10 @@ cd sdk-php
 git checkout tags/1.0.0.1
 cp -R lib PATH_TO/woocommerce-nimble-payments/
 ```
+##Test Environment
+The test environment is disabled by default. To activate need to modify the code.
+Open 'includes/class-wc-gateway-nimble.php' and search line
+```
+var $mode = 'real';
+```
+Change 'real' value to 'demo'. 
