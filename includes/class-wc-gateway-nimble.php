@@ -18,7 +18,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
     var $payment_nonce_field = 'payment_nonce';
-    var $mode = 'demo';
+    var $mode = 'real';
 
     //put your code here
     function __construct() {
