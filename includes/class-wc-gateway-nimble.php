@@ -18,7 +18,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
     var $payment_nonce_field = 'payment_nonce';
-    var $mode = 'real';
+    var $mode = 'demo';
 
     //put your code here
     function __construct() {
@@ -86,7 +86,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = new WC_Order($order_id);
         
         // Mark as nimble-pending (we're awaiting the payment)
-        $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE PENDING
+        $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
         
         try{
             $nimbleApi = $this->inicialize_nimble_api();
@@ -96,12 +96,12 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $response = Payments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
-            $order->update_status('nimble-failed', __('An error has occurred. Code ERR_PAG.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE ERROR
+            $order->update_status('nimble-failed', __('An error has occurred. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE ERROR
             throw new Exception(__('Unable to process payment. An error has occurred. ERR_PAG code. Please try later.', 'woocommerce-nimble-payments')); //LANG: SDK ERROR MESSAGE
         }
         
         if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
-            $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_PAG.', 'woocommerce-nimble-payment')); //LANG: ORDER NOTE 404
+            $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE 404
             throw new Exception(__('Unable to process payment. An error has occurred. ERR_CONEX code. Please try later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
         }
 

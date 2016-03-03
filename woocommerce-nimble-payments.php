@@ -113,7 +113,7 @@ class Woocommerce_Nimble_Payments {
     }
     
     function load_text_domain(){
-        load_plugin_textdomain('woocommerce-nimble-payments', null, basename(dirname(__FILE__)) . "/lang");
+        load_plugin_textdomain('woocommerce-nimble-payments', null, plugin_basename(dirname(__FILE__)) . "/lang");
     }
     
     function add_custom_statuses($order_statuses){
