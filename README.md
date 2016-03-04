@@ -30,6 +30,7 @@ var $mode = 'real';
 Change 'real' value to 'demo'. 
 ##Generating nimblepayments.zip
 If you want, you can use Composer to generate definitive plugin zip file.
+In a empty folder execute:
 ```
 git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git nimblepayments
 cd nimblepayments/
