@@ -1,4 +1,4 @@
-=== WooCommerce Nimble Payments ===
+=== NimblePayments ===
 Contributors: nimblepayments
 Tags: ecommerce, e-commerce, store, sales, sell, shop, cart, checkout, payment, gateway, tienda, pagos
 Requires at least: 4.0
