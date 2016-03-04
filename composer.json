@@ -25,7 +25,7 @@
             "cp -R vendor/nimblepayments/sdk-php/lib ./"
         ],
         "zip": [
-            "7z a -tzip woocommerce-nimble-payments.zip ../woocommerce-nimble-payments -x@exclude.lst"
+            "7z a -tzip nimblepayments.zip ../nimblepayments -x@exclude.lst"
         ]
     }
 }
