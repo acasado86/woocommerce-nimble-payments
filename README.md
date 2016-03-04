@@ -6,8 +6,8 @@ Woocommerce Nimble Payments is a Woocommerce Addons to add payment services to y
 If you have installed Composer, you can use it to install.
 ```
 cd PATH_TO_WORDPRESS/wp-content/plugins/
-git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git
-cd woocommerce-nimble-payments
+git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git nimblepayments
+cd nimblepayments
 composer.phar install
 ```
 Replace PATH_TO_WORDPRESS with Wordpress folder path. Example: /var/www/wordpress
@@ -19,7 +19,7 @@ You must copy sdk-php/lib inside root path of the addon.
 git clone https://github.com/nimblepayments/sdk-php.git
 cd sdk-php
 git checkout tags/1.0.0.1
-cp -R lib PATH_TO/woocommerce-nimble-payments/
+cp -R lib PATH_TO_WORDPRESS/wp-content/plugins/nimblepayments/
 ```
 ##Test Environment
 The test environment is disabled by default. To activate need to modify the code.
@@ -28,13 +28,12 @@ Open 'includes/class-wc-gateway-nimble.php' and search line
 var $mode = 'real';
 ```
 Change 'real' value to 'demo'. 
-##Generating woocommerce-nimble-payments.zip
+##Generating nimblepayments.zip
 If you want, you can use Composer to generate definitive plugin zip file.
-Open 'includes/class-wc-gateway-nimble.php' and search line
 ```
-git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git
-cd woocommerce-nimble-payments/
+git clone git@github.com:nimblepayments/woocommerce-nimble-payments.git nimblepayments
+cd nimblepayments/
 composer.phar update
 composer.phar zip
 ```
-In the same folder the file woocommerce-nimble-payments.zip is generated.
+In the same folder the file nimblepayments.zip is generated.
