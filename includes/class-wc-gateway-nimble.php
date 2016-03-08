@@ -66,9 +66,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         try {
             $nimbleApi = new WP_NimbleAPI($params);
             //TODO: Verificación credenciales mediante llamada a NimbleApi cuando se actualize el SDK
-            $nimbleApi->uri .= 'check';
+            $nimbleApi->uri = 'check';
             $nimbleApi->method = 'GET';
-            $response = $nimbleApi->rest_api_call();
+            $response = $nimbleApi->restApiCall();
             if ( isset($response) && isset($response['result']) && isset($response['result']['code']) && 200 == $response['result']['code'] ){
                 $array[$this->status_field_name] = true;
             } else{
@@ -93,7 +93,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
             $payment = $this->set_payment_info($order);
             
-            $response = Payments::SendPaymentClient($nimbleApi, $payment);
+            $response = NimbleAPIPayments::SendPaymentClient($nimbleApi, $payment);
         }
         catch (Exception $e) {
             $order->update_status('nimble-failed', __('An error has occurred. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE ERROR
