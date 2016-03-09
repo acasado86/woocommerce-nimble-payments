@@ -50,6 +50,6 @@ cd nimblepayments/
 composer.phar update
 composer.phar zip
 ```
-The zip file ```nimblepayments.zip``` is generated in the same folder.
+The zip file ```nimblepayments.zip``` is generated in the current folder.
 ##Documentation
 Please see [Apiary](http://docs.nimblepublicapi.apiary.io/#) for up-to-date documentation.
