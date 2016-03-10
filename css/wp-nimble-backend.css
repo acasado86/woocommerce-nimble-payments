@@ -24,11 +24,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-#toplevel_page_wc_gateway_nimble_menu .dashicons, #toplevel_page_wc_gateway_nimble_menu .dashicons-before::before{
+#toplevel_page_nimble-payments .dashicons, #toplevel_page_nimble-payments .dashicons-before::before{
     font-family: 'nimble';
 }
 
-#toplevel_page_wc_gateway_nimble_menu .dashicons-admin-generic:before {
+#toplevel_page_nimble-payments .dashicons-admin-generic:before {
     content: "\e900";
 }
 

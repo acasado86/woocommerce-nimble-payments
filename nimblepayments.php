@@ -32,6 +32,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class Woocommerce_Nimble_Payments {
     protected static $instance = null;
+    var $slug = 'nimble-payments';
+    var $domain = 'woocommerce-nimble-payments';
+    var $options_name = 'nimble_payments_options';
 
     static function & getInstance() {
         if ( is_null(self::$instance) ) {
@@ -67,11 +70,17 @@ class Woocommerce_Nimble_Payments {
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
+            $this->load_settings();
         }
     }
     
+    function load_settings(){
+        $options = get_option($this->options_name);
+        $this->oauth3_enabled = ( $options && isset($options['access_token']) ) ? true : false;
+    }
+    
     function load_nimble_style($hook) {
-        wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160222');
+        wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160310');
         wp_enqueue_style('wp_nimble_backend_css');
         
         if( "woocommerce_page_wc-settings" == $hook || ( 'edit.php' == $hook && isset( $_GET['post_type'] ) && 'shop_order' == $_GET['post_type'] ) ){
@@ -84,10 +93,30 @@ class Woocommerce_Nimble_Payments {
         if ( !defined('WP_CONTENT_URL') )
             define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
         
-        add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
+        //add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
+        add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', $this->slug, array( $this, 'nimble_options' ));
+        //add_submenu_page($this->slug, __('Settings', $this->domain), __('Settings', $this->domain), 'manage_options', $this->slug.'-settings', array( $this, 'menu_settings'));
+        
     }
     
     function nimble_options() {
+        //Obtain token & reflesh token with code
+        if ( ! $this->oauth3_enabled && isset($_REQUEST['code']) ){
+            $code = filter_input(INPUT_GET, 'code');
+            $this->validateOauthCode($code);
+        }
+        
+        //Show Authentication URL to AOUTH3
+        if (! $this->oauth3_enabled ){
+            $this->oauth3_url = $this->getOauth3Url();
+            include_once( 'templates/nimble-oauth-form.php' );
+        } else{
+            //to do
+            var_dump(get_option($this->options_name));
+        }
+    }
+    
+    function menu_settings() {
         //to do
     }
     
@@ -96,6 +125,7 @@ class Woocommerce_Nimble_Payments {
     
     function desactivar_plugin() {
         delete_option( 'woocommerce_nimble_payments_gateway_settings' );
+        delete_option( $this->options_name );
     }
     
     /**
@@ -161,6 +191,45 @@ class Woocommerce_Nimble_Payments {
             }
         }
         return $located;
+    }
+    
+    /**
+     * 
+     * @return $url to OAUTH 3 step or false
+     */
+    function getOauth3Url(){
+        $available_gateways = WC()->payment_gateways()->payment_gateways();
+        $gateway_active = isset($available_gateways['nimble_payments_gateway']) ? $available_gateways['nimble_payments_gateway']->is_available() : false;
+        if ( true == $gateway_active ){
+            try {
+                $nimble_api = $available_gateways['nimble_payments_gateway']->inicialize_nimble_api();
+                $url=$nimble_api->getOauth3Url();
+            } catch (Exception $e) {
+                $gateway_active = false;
+            }
+        }
+        return $gateway_active ? $url : false;
+    }
+    
+    /**
+     * Validate Oauth Code and update options
+     */
+    function validateOauthCode($code){
+        $available_gateways = WC()->payment_gateways()->payment_gateways();
+        $gateway_active = isset($available_gateways['nimble_payments_gateway']) ? $available_gateways['nimble_payments_gateway']->is_available() : false;
+        if ( true == $gateway_active ){
+            try {
+                $nimble_api = $available_gateways['nimble_payments_gateway']->authorize_nimble_api($code);
+                $options = array(
+                    'access_token' => $nimble_api->authorization->getAccessToken(),
+                    'refresh_token' => $nimble_api->authorization->getRefreshToken()
+                );
+                update_option($this->options_name, $options);
+                $this->oauth3_enabled = true;
+            } catch (Exception $e) {
+                $gateway_active = false;
+            }
+        }
     }
 
 }

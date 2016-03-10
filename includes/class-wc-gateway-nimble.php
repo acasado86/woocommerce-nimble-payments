@@ -41,6 +41,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $this->enabled = false;
             // $this->init_settings();
         }
+        
         add_filter('woocommerce_settings_api_sanitized_fields_' . $this->id, array($this, 'check_credentials'));
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
@@ -117,6 +118,19 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
             'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
             'mode' => $this->mode
+        );
+
+        /* High Level call */
+        return new WP_NimbleAPI($params);
+    }
+    
+    function authorize_nimble_api($code) {
+        $params = array(
+            'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
+            'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
+            'mode' => $this->mode,
+            'authType' => '3legged',
+            'oauth_code' => $code
         );
 
         /* High Level call */
