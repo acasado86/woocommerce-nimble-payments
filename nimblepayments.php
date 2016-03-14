@@ -131,7 +131,8 @@ class Woocommerce_Nimble_Payments {
             include_once( 'templates/nimble-oauth-form.php' );
         } else{
             //to do
-            var_dump(get_option($this->options_name));
+            //var_dump(get_option($this->options_name));
+            $this->getResumen();
         }
     }
     
@@ -155,6 +156,7 @@ class Woocommerce_Nimble_Payments {
         require_once 'lib/Nimble/base/NimbleAPI.php';
         require_once 'lib/Nimble/extensions/wordpress/WP_NimbleAPI.php';
         require_once 'lib/Nimble/api/NimbleAPIPayments.php';
+        require_once 'lib/Nimble/api/NimbleAPIReport.php';
     } // End init_form_fields()
     
     function add_your_gateway_class( $methods ) {
@@ -284,6 +286,29 @@ class Woocommerce_Nimble_Payments {
             if (is_array($options)){
                 $options['login'] = true;
                 update_option($this->options_name, $options);
+            }
+        }
+    }
+    
+    /*
+     * Get Resumen
+     */
+    function getResumen(){
+        if ( self::$gateway ){
+            try {
+                $options = get_option($this->options_name);
+                unset($options['refreshToken']);
+                $params = wp_parse_args($options, self::$params);
+                $nimble_api = new WP_NimbleAPI($params);
+                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                foreach ($commerces as $IdCommerce => $data){
+                    $title = $data['name'];
+                    $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
+                    include_once( 'templates/nimble-summary.php' );
+                }
+                
+            } catch (Exception $e) {
+                $this->oauth3_enabled = false;
             }
         }
     }
