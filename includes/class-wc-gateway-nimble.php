@@ -112,31 +112,21 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'redirect' => $response["data"]["paymentUrl"]
         );
     }
-
-    function inicialize_nimble_api() {
+    
+    function get_params(){
         $params = array(
             'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
             'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
             'mode' => $this->mode
         );
-
-        /* High Level call */
-        return new WP_NimbleAPI($params);
+        return $params;
     }
     
-    function authorize_nimble_api($code) {
-        $params = array(
-            'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
-            'clientSecret' => trim(html_entity_decode($this->get_option('secret_key'))),
-            'mode' => $this->mode,
-            'authType' => '3legged',
-            'oauth_code' => $code
-        );
-
+    function inicialize_nimble_api() {
         /* High Level call */
-        return new WP_NimbleAPI($params);
+        return new WP_NimbleAPI($this->get_params());
     }
-
+    
     function set_payment_info($order) {
         $error_url = $order->get_checkout_payment_url();
         $error_url = add_query_arg( 'payment_status', 'error', $error_url );

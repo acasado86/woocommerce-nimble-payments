@@ -35,6 +35,8 @@ class Woocommerce_Nimble_Payments {
     var $slug = 'nimble-payments';
     var $domain = 'woocommerce-nimble-payments';
     var $options_name = 'nimble_payments_options';
+    protected static $gateway = null;
+    protected static $params = null;
 
     static function & getInstance() {
         if ( is_null(self::$instance) ) {
@@ -55,6 +57,8 @@ class Woocommerce_Nimble_Payments {
             
             add_filter( 'woocommerce_payment_gateways', array( $this, 'add_your_gateway_class' ) );
             
+            add_action( 'admin_menu', array( $this, 'gateway_loaded'), 0);
+            
             add_action( 'admin_menu', array( $this, 'nimble_menu'));
             
             add_filter( 'wc_order_statuses', array( $this, 'add_custom_statuses' ) );
@@ -67,6 +71,8 @@ class Woocommerce_Nimble_Payments {
             
             add_action('admin_enqueue_scripts', array($this, 'load_nimble_style'));
             
+            add_action('wp_login', array($this, 'login_actions'), 10, 2);
+            
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
@@ -76,9 +82,22 @@ class Woocommerce_Nimble_Payments {
     
     function load_settings(){
         $options = get_option($this->options_name);
-        $this->oauth3_enabled = ( $options && isset($options['access_token']) ) ? true : false;
+        $this->oauth3_enabled = ( $options && isset($options['token']) ) ? true : false;
     }
     
+    function gateway_loaded(){
+        //Obtain wc_gateway_nimble
+        $available_gateways = WC()->payment_gateways()->payment_gateways();
+        $gateway_active = isset($available_gateways['nimble_payments_gateway']) ? $available_gateways['nimble_payments_gateway']->is_available() : false;
+        if ( $gateway_active ){
+            self::$gateway = $available_gateways['nimble_payments_gateway'];
+            self::$params = self::$gateway->get_params();
+            
+            //Refresh Token if neccesary
+            $this->refreshToken();
+        }
+    }
+            
     function load_nimble_style($hook) {
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160310');
         wp_enqueue_style('wp_nimble_backend_css');
@@ -132,14 +151,14 @@ class Woocommerce_Nimble_Payments {
      * Initialise Gateway Settings Form Fields
      */
      function init_your_gateway_class() {
-         include_once( 'includes/class-wc-gateway-nimble.php' );
-         require_once 'lib/Nimble/base/NimbleAPI.php';
-         require_once 'lib/Nimble/extensions/wordpress/WP_NimbleAPI.php';
-         require_once 'lib/Nimble/api/NimbleAPIPayments.php';
+        include_once( 'includes/class-wc-gateway-nimble.php' );
+        require_once 'lib/Nimble/base/NimbleAPI.php';
+        require_once 'lib/Nimble/extensions/wordpress/WP_NimbleAPI.php';
+        require_once 'lib/Nimble/api/NimbleAPIPayments.php';
     } // End init_form_fields()
     
     function add_your_gateway_class( $methods ) {
-	$methods[] = 'WC_Gateway_Nimble'; 
+	$methods[] = 'WC_Gateway_Nimble';
 	return $methods;
     }
     
@@ -198,36 +217,73 @@ class Woocommerce_Nimble_Payments {
      * @return $url to OAUTH 3 step or false
      */
     function getOauth3Url(){
-        $available_gateways = WC()->payment_gateways()->payment_gateways();
-        $gateway_active = isset($available_gateways['nimble_payments_gateway']) ? $available_gateways['nimble_payments_gateway']->is_available() : false;
-        if ( true == $gateway_active ){
+        if ( self::$gateway ){
             try {
-                $nimble_api = $available_gateways['nimble_payments_gateway']->inicialize_nimble_api();
+                $nimble_api = new WP_NimbleAPI(self::$params);
                 $url=$nimble_api->getOauth3Url();
             } catch (Exception $e) {
-                $gateway_active = false;
+                return false;
             }
         }
-        return $gateway_active ? $url : false;
+        return self::$gateway ? $url : false;
     }
     
     /**
      * Validate Oauth Code and update options
      */
     function validateOauthCode($code){
-        $available_gateways = WC()->payment_gateways()->payment_gateways();
-        $gateway_active = isset($available_gateways['nimble_payments_gateway']) ? $available_gateways['nimble_payments_gateway']->is_available() : false;
-        if ( true == $gateway_active ){
+        if ( self::$gateway ){
             try {
-                $nimble_api = $available_gateways['nimble_payments_gateway']->authorize_nimble_api($code);
+                $params = array(
+                    'authType' => '3legged',
+                    'oauth_code' => $code
+                );
+                $params = wp_parse_args($params, self::$params);
+                $nimble_api = new WP_NimbleAPI($params);
                 $options = array(
-                    'access_token' => $nimble_api->authorization->getAccessToken(),
-                    'refresh_token' => $nimble_api->authorization->getRefreshToken()
+                    'token' => $nimble_api->authorization->getAccessToken(),
+                    'refreshToken' => $nimble_api->authorization->getRefreshToken()
                 );
                 update_option($this->options_name, $options);
                 $this->oauth3_enabled = true;
             } catch (Exception $e) {
-                $gateway_active = false;
+                $this->oauth3_enabled = false;
+            }
+        }
+    }
+    
+    /**
+     * Refresh token
+     */
+    function refreshToken(){
+        if ( self::$gateway ){
+            try {
+                $options = get_option($this->options_name);
+                if (is_array($options) && isset($options['login']) && $options['login']){
+                    $params = wp_parse_args($options, self::$params);
+                    $nimble_api = new WP_NimbleAPI($params);
+                    $options = array(
+                        'token' => $nimble_api->authorization->getAccessToken(),
+                        'refreshToken' => $nimble_api->authorization->getRefreshToken()
+                    );
+                    update_option($this->options_name, $options);
+                    $this->oauth3_enabled = true;
+                }
+            } catch (Exception $e) {
+                $this->oauth3_enabled = false;
+            }
+        }
+    }
+    
+    /*
+     * Set var login = True
+     */
+    function login_actions($user_login, $user){
+        if ( user_can($user, 'manage_options') ){
+            $options = get_option($this->options_name);
+            if (is_array($options)){
+                $options['login'] = true;
+                update_option($this->options_name, $options);
             }
         }
     }
