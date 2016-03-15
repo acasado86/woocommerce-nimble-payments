@@ -125,15 +125,17 @@ class Woocommerce_Nimble_Payments {
             $this->validateOauthCode($code);
         }
         
+        //Show resumen
+        if ( $this->oauth3_enabled ){
+            //var_dump(get_option($this->options_name));
+            $this->getResumen();
+            //delete_option($this->options_name);
+        }
+        
         //Show Authentication URL to AOUTH3
         if (! $this->oauth3_enabled ){
             $this->oauth3_url = $this->getOauth3Url();
             include_once( 'templates/nimble-oauth-form.php' );
-        } else{
-            //to do
-            var_dump(get_option($this->options_name));
-            $this->getResumen();
-            //delete_option($this->options_name);
         }
     }
     
@@ -302,10 +304,14 @@ class Woocommerce_Nimble_Payments {
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
                 $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
-                foreach ($commerces as $IdCommerce => $data){
-                    $title = $data['name'];
-                    $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
-                    include_once( 'templates/nimble-summary.php' );
+                if (!isset($commerces['error'])){
+                    foreach ($commerces as $IdCommerce => $data){
+                        $title = $data['name'];
+                        $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
+                        include_once( 'templates/nimble-summary.php' );
+                    }
+                } else {
+                    $this->oauth3_enabled = false;
                 }
                 
             } catch (Exception $e) {
