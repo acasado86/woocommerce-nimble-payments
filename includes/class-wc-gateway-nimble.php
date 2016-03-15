@@ -30,7 +30,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments'); //LANG: GATEWAY DESCRIPTION
         $this->supports = array(
             'products',
-            //'refunds'
+            'refunds'
         );
 
         // Load the form fields
@@ -104,6 +104,11 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
             $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE 404
             throw new Exception(__('Unable to process payment. An error has occurred. ERR_CONEX code. Please try later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
+        }
+        
+        //Save transaction_id to this order
+        if ( isset($response["data"]) && isset($response["data"]["id"])){
+            update_post_meta( $order_id, '_transaction_id', $response["data"]["id"] );
         }
 
         // Return thankyou redirect
@@ -243,6 +248,50 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $total_rows['payment_method']['value'] = __('Card payment', 'woocommerce-nimble-payments'); //LANG: FRONT ORDER PAYMENT METHOD
         }
         return $total_rows;
+    }
+    
+    public function can_refund_order( $order ) {
+        //return false;
+        $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+        return $order && $oWoocommerceNimblePayments->get_transaction_id($order) && $oWoocommerceNimblePayments->isOauth3Enabled();
+    }
+
+    
+    public function process_refund( $order_id, $amount = null, $reason = '' ) {
+        $order = wc_get_order( $order_id );
+
+        if ( ! $this->can_refund_order( $order ) ) {
+            return new WP_Error( 'error', __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ); //LANG: TODO
+        }
+        
+        $transaction_id = $order->get_transaction_id();
+        try {
+            $options = get_option('nimble_payments_options');
+            unset($options['refreshToken']);
+            $params = wp_parse_args($options, $this->get_params());
+            $nimble_api = new WP_NimbleAPI($params);
+            $total_refund = ($amount) ? $amount : $order->get_total();
+            
+            $refund = array(
+                'amount' => $total_refund * 100,
+                'concept' => $reason,
+                'reason' => 'REQUEST_BY_CUSTOMER'
+            );
+            
+            $response = NimbleAPIPayments::sendPaymentRefund($nimble_api, $transaction_id, $refund);
+        } catch (Exception $e) {
+            return false;
+        }
+        
+        if (!isset($response['data']) || !isset($response['data']['idRefund'])){
+            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' );
+            if ( isset($response['result']) && isset($response['result']['info']) ){
+                $message .= $response['result']['info'];
+            }
+            return new WP_Error( 'error', $message ); //LANG: TODO
+        }
+        
+        return true;
     }
 
 }

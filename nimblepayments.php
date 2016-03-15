@@ -57,7 +57,7 @@ class Woocommerce_Nimble_Payments {
             
             add_filter( 'woocommerce_payment_gateways', array( $this, 'add_your_gateway_class' ) );
             
-            add_action( 'admin_menu', array( $this, 'gateway_loaded'), 0);
+            add_action( 'woocommerce_init', array( $this, 'gateway_loaded'), 0);
             
             add_action( 'admin_menu', array( $this, 'nimble_menu'));
             
@@ -131,8 +131,9 @@ class Woocommerce_Nimble_Payments {
             include_once( 'templates/nimble-oauth-form.php' );
         } else{
             //to do
-            //var_dump(get_option($this->options_name));
+            var_dump(get_option($this->options_name));
             $this->getResumen();
+            //delete_option($this->options_name);
         }
     }
     
@@ -311,6 +312,45 @@ class Woocommerce_Nimble_Payments {
                 $this->oauth3_enabled = false;
             }
         }
+    }
+    
+    function isOauth3Enabled(){
+        return $this->oauth3_enabled;
+    }
+    
+    /**
+     * Get assigned transaction_id on Nimble Payments if neccesary
+     * @param type $order
+     * @return type
+     */
+    function get_transaction_id($order){
+        $transaction_id = $order->get_transaction_id();
+        if ( !$transaction_id && self::$gateway ){
+            try {
+                $order_total = $order->get_total() * 100;
+                $options = get_option($this->options_name);
+                unset($options['refreshToken']);
+                $params = wp_parse_args($options, self::$params);
+                $nimble_api = new WP_NimbleAPI($params);
+                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                foreach ($commerces as $IdCommerce => $data){
+                    $payments = NimbleAPIPayments::getPaymentList($nimble_api, $IdCommerce, array('referenceId' => $order->id));
+                    foreach ($payments as $payment){
+                        if ($payment['customerData'] == $order->id
+                                && $payment['amount']['amount'] == $order_total
+                                && $payment['amount']['currency'] == $order->get_order_currency()
+                                ){
+                            $transaction_id = $payment['idTransaction'];
+                            update_post_meta( $order->id, '_transaction_id', $transaction_id );
+                            break;
+                        }
+                    }
+                }
+                
+            } catch (Exception $e) {
+            }
+        }
+        return $transaction_id;
     }
 
 }
