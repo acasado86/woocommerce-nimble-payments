@@ -18,7 +18,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
     var $payment_nonce_field = 'payment_nonce';
-    var $mode = 'real';
+    var $mode;
 
     //put your code here
     function __construct() {
@@ -32,6 +32,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'products',
             'refunds'
         );
+        $this->mode = NimbleAPIConfig::MODE;
 
         // Load the form fields
         $this->init_form_fields();
