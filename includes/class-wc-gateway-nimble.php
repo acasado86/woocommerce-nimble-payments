@@ -66,10 +66,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
         try {
             $nimbleApi = new WP_NimbleAPI($params);
-            //TODO: Verificación credenciales mediante llamada a NimbleApi cuando se actualize el SDK
-            $nimbleApi->uri = 'check';
-            $nimbleApi->method = 'GET';
-            $response = $nimbleApi->restApiCall();
+            //Validamos el par credenciales y modo.
+            $response = $nimbleApi->checkMode();
             if ( isset($response) && isset($response['result']) && isset($response['result']['code']) && 200 == $response['result']['code'] ){
                 $array[$this->status_field_name] = true;
             } else{
