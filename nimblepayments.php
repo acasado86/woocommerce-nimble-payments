@@ -69,9 +69,13 @@ class Woocommerce_Nimble_Payments {
             
             add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array( $this, 'valid_order_statuses_for_payment' ) );
             
-            add_action('admin_enqueue_scripts', array($this, 'load_nimble_style'));
+            add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
             
             add_action('wp_login', array($this, 'login_actions'), 10, 2);
+            
+            add_action( 'admin_notices', array( $this, 'admin_notices' ), 0 );
+            
+            add_action( 'wp_ajax_nimble_payments_oauth3', array( $this, 'ajax_oauth3' ) );
             
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
@@ -98,7 +102,9 @@ class Woocommerce_Nimble_Payments {
         }
     }
             
-    function load_nimble_style($hook) {
+    function admin_enqueue_scripts($hook) {
+        wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '1.0.0');
+        
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160310');
         wp_enqueue_style('wp_nimble_backend_css');
         
@@ -137,6 +143,27 @@ class Woocommerce_Nimble_Payments {
             $this->oauth3_url = $this->getOauth3Url();
             include_once( 'templates/nimble-oauth-form.php' );
         }
+    }
+    
+    function admin_notices() {
+        //Show Authentication URL to AOUTH3
+        if ( ! $this->oauth3_enabled && ! isset($_REQUEST['code']) ){
+        ?>
+            <div class="updated message"><div class="squeezer">
+                <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
+                <p class="submit">
+                    <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
+                </p>
+            </div></div>
+        <?php
+        }
+    }
+    
+    function ajax_oauth3(){
+        $data = array();
+        $data['url_oauth3'] = $this->getOauth3Url();
+        echo json_encode($data);
+        die();
     }
     
     function menu_settings() {
