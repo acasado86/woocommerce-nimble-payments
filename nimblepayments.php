@@ -77,6 +77,8 @@ class Woocommerce_Nimble_Payments {
             
             add_action( 'wp_ajax_nimble_payments_oauth3', array( $this, 'ajax_oauth3' ) );
             
+            add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ), 0 );
+            
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
@@ -133,16 +135,7 @@ class Woocommerce_Nimble_Payments {
             $this->validateOauthCode($code);
         }
         
-        //Show resumen
-        if ( $this->oauth3_enabled ){
-            //var_dump(get_option($this->options_name));
-            $this->getResumen();
-            //delete_option($this->options_name);
-        } else{
-            //Show Authentication URL to AOUTH3
-            $this->oauth3_url = $this->getOauth3Url();
-            include_once( 'templates/nimble-oauth-form.php' );
-        }
+        $this->summary_info();
     }
     
     function admin_notices() {
@@ -437,7 +430,25 @@ class Woocommerce_Nimble_Payments {
         }
         return $transaction_id;
     }
-
+    
+    function add_dashboard_widgets() {
+        if ( is_blog_admin() && current_user_can('manage_options') )
+            wp_add_dashboard_widget( 'nimble_payments_dashboard', 'Nimble Payments', array( $this, 'summary_info' ) );
+    }
+    
+    function summary_info(){
+        //Show resumen
+        if ( $this->oauth3_enabled ){
+            //var_dump(get_option($this->options_name));
+            $this->getResumen();
+            //delete_option($this->options_name);
+        } else{
+            //Show Authentication URL to AOUTH3
+            $this->oauth3_url = $this->getOauth3Url();
+            include_once( 'templates/nimble-oauth-form.php' );
+        }
+    }
+    
 }
 
 

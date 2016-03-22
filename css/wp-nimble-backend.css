@@ -46,3 +46,8 @@
 .wc-nimble-message.error .info{
     display: block;
 }
+
+#nimble_payments_dashboard.postbox .submit {
+    float: none;
+    padding: 0;
+}
