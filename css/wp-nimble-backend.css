@@ -40,9 +40,9 @@
     content: "\e900";
 }
 
-#np-authorize-message .info{
+.wc-nimble-message .info{
     display: none;
 }
-#np-authorize-message.error .info{
+.wc-nimble-message.error .info{
     display: block;
 }

@@ -33,8 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class Woocommerce_Nimble_Payments {
     protected static $instance = null;
     var $slug = 'nimble-payments';
-    var $domain = 'woocommerce-nimble-payments';
     var $options_name = 'nimble_payments_options';
+    static $domain = 'woocommerce-nimble-payments';
     protected static $gateway = null;
     protected static $params = null;
 
@@ -85,8 +85,10 @@ class Woocommerce_Nimble_Payments {
     }
     
     function load_settings(){
+        //Plugin options
         $options = get_option($this->options_name);
         $this->oauth3_enabled = ( $options && isset($options['token']) ) ? true : false;
+        $this->gateway_enabled = $this->isGatewayEnabled();
     }
     
     function gateway_loaded(){
@@ -103,9 +105,9 @@ class Woocommerce_Nimble_Payments {
     }
             
     function admin_enqueue_scripts($hook) {
-        wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '1.0.0');
+        wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '20160322');
         
-        wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160310');
+        wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160322');
         wp_enqueue_style('wp_nimble_backend_css');
         
         if( "woocommerce_page_wc-settings" == $hook || ( 'edit.php' == $hook && isset( $_GET['post_type'] ) && 'shop_order' == $_GET['post_type'] ) ){
@@ -120,7 +122,7 @@ class Woocommerce_Nimble_Payments {
         
         //add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
         add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', $this->slug, array( $this, 'nimble_options' ));
-        //add_submenu_page($this->slug, __('Settings', $this->domain), __('Settings', $this->domain), 'manage_options', $this->slug.'-settings', array( $this, 'menu_settings'));
+        //add_submenu_page($this->slug, __('Settings', self::$domain), __('Settings', self::$domain), 'manage_options', $this->slug.'-settings', array( $this, 'menu_settings'));
         
     }
     
@@ -136,28 +138,48 @@ class Woocommerce_Nimble_Payments {
             //var_dump(get_option($this->options_name));
             $this->getResumen();
             //delete_option($this->options_name);
-        }
-        
-        //Show Authentication URL to AOUTH3
-        if (! $this->oauth3_enabled ){
+        } else{
+            //Show Authentication URL to AOUTH3
             $this->oauth3_url = $this->getOauth3Url();
             include_once( 'templates/nimble-oauth-form.php' );
         }
     }
     
     function admin_notices() {
-        //Show Authentication URL to AOUTH3
-        if ( ! $this->oauth3_enabled && ! isset($_REQUEST['code']) ){
+        $current_section = isset( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
+        if ( 'wc_gateway_nimble' != $current_section ){
+            if ( false == $this->gateway_enabled ){
+                self::activate_notice();
+            } elseif ( ! $this->oauth3_enabled && ! isset($_REQUEST['code']) ){
+                self::authorize_notice();
+            }
+        }
+    }
+    
+    static function activate_notice(){
         ?>
-            <div id="np-authorize-message" class="updated message"><div class="squeezer">
-                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
-                    <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
+            <div class="updated wc-nimble-message">
+                <div class="squeezer">
+                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", self::$domain ); //LANG: TODO ?></h4>
+                    <h4><?php _e("Aún no has activado la pasarela de pagos Nimble Payments.", self::$domain ); //LANG: TODO ?></h4>
                     <p class="submit">
-                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
+                        <a class="button button-primary" href="<?php echo get_admin_url() . "admin.php?page=wc-settings&tab=checkout&section=wc_gateway_nimble" ?>" ><?php _e( 'Activate now', self::$domain ); //LANG: TODO ?></a>
+                    </p>
+                </div>
+            </div>
+        <?php
+    }
+    
+    static function authorize_notice(){
+        ?>
+            <div id="np-authorize-message" class="updated wc-nimble-message"><div class="squeezer">
+                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", self::$domain ); //LANG: TODO ?></h4>
+                    <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", self::$domain ); //LANG: TODO ?></h4>
+                    <p class="submit">
+                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', self::$domain ); //LANG: TODO ?></a>
                     </p>
             </div></div>
         <?php
-        }
     }
     
     function ajax_oauth3(){
@@ -350,6 +372,19 @@ class Woocommerce_Nimble_Payments {
     
     function isOauth3Enabled(){
         return $this->oauth3_enabled;
+    }
+    
+    function isGatewayEnabled(){
+        $gateway_options = get_option( 'woocommerce_nimble_payments_gateway_settings', null );
+        if (!$gateway_options
+                || (!isset($gateway_options['enabled']))
+                || (!isset($gateway_options['status_nimble']))
+                || "yes" != $gateway_options['enabled']
+                || ! $gateway_options['status_nimble']
+                ){
+            return FALSE;
+        }
+        return TRUE;
     }
     
     /**

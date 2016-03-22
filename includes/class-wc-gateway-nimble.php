@@ -215,30 +215,43 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
      * - Options for bits like 'title' and availability on a country-by-country basis
      */
     public function admin_options() {
-            ?>
-            <h3><?php echo $this->title; ?></h3>
-
-            <?php if ( ! $this->get_option('seller_id') ) : ?>
-                    <div class="updated woocommerce-message"><div class="squeezer">
-                            <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' );//LANG: MESSAGE REGISTRATION TEXT ?></h4>
-                            <p class="submit">
-                                    <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); //LANG: MESSAGE REGISTRATION BUTTOM ?></a>
-                            </p>
-                    </div></div>
-            <?php
-            elseif ( ("yes" == $this->get_option('enabled')) && !($this->get_option($this->status_field_name) ) ) :
-            ?>
-                <div class="error message"><div class="squeezer">
-                        <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); //LANG: MESSAGE ERROR TEXT ?></h4>
-                </div></div>
-            <?php endif;
-            ?>
+        $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
             
+        if ( ! $this->get_option('seller_id') ) {
+            $this->gateway_register_notice();
+        } elseif ( ("yes" == $this->get_option('enabled')) && !($this->get_option($this->status_field_name) ) ){
+            $this->gateway_error_notice();
+        }
 
+        if ( ( "yes" == $this->get_option('enabled')) && $this->get_option($this->status_field_name) && ! $oWoocommerceNimblePayments->isOauth3Enabled() ){
+            Woocommerce_Nimble_Payments::authorize_notice();
+        }
+        
+        ?>
+            <h3><?php echo $this->title; ?></h3>
             <table class="form-table">
                     <?php $this->generate_settings_html(); ?>
             </table><!--/.form-table-->
-            <?php
+        <?php
+    }
+    
+    function gateway_register_notice(){
+        ?>
+                <div class="updated woocommerce-message"><div class="squeezer">
+                        <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' );//LANG: MESSAGE REGISTRATION TEXT ?></h4>
+                        <p class="submit">
+                                <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); //LANG: MESSAGE REGISTRATION BUTTOM ?></a>
+                        </p>
+                </div></div>
+        <?php
+    }
+    
+    function gateway_error_notice(){
+        ?>
+                <div class="error message"><div class="squeezer">
+                        <h4><?php _e("Data invalid gateway to accept payments.", "woocommerce-nimble-payments"); //LANG: MESSAGE ERROR TEXT ?></h4>
+                </div></div>
+        <?php
     }
     
     function order_total_payment_method_replace($total_rows, $order){
