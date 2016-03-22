@@ -321,7 +321,11 @@ class Woocommerce_Nimble_Payments {
                         'token' => $nimble_api->authorization->getAccessToken(),
                         'refreshToken' => $nimble_api->authorization->getRefreshToken()
                     );
-                    update_option($this->options_name, $options);
+                    if ( empty($options['token']) || empty($options['refreshToken']) ){
+                        delete_option($this->options_name);
+                    } else {
+                        update_option($this->options_name, $options);
+                    }
                     $this->oauth3_enabled = true;
                 }
             } catch (Exception $e) {
@@ -361,12 +365,24 @@ class Woocommerce_Nimble_Payments {
                         include_once( 'templates/nimble-summary.php' );
                     }
                 } else {
-                    $this->oauth3_enabled = false;
+                    $this->manageApiError($commerces);
                 }
                 
             } catch (Exception $e) {
                 $this->oauth3_enabled = false;
             }
+        }
+    }
+    
+    function manageApiError($response){
+        $this->oauth3_enabled = false;
+        $error_codes = array(
+            'Not Authorized Exception',
+            'invalid_token'
+        );
+        
+        if ( isset($response['error_code']) && in_array($response['error_code'], $error_codes) ){
+            delete_option($this->options_name);
         }
     }
     
