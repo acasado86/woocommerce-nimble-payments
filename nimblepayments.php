@@ -149,11 +149,12 @@ class Woocommerce_Nimble_Payments {
         //Show Authentication URL to AOUTH3
         if ( ! $this->oauth3_enabled && ! isset($_REQUEST['code']) ){
         ?>
-            <div class="updated message"><div class="squeezer">
-                <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
-                <p class="submit">
-                    <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
-                </p>
+            <div id="np-authorize-message" class="updated message"><div class="squeezer">
+                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
+                    <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", "woocommerce-nimble-payments"); //LANG: TODO ?></h4>
+                    <p class="submit">
+                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
+                    </p>
             </div></div>
         <?php
         }

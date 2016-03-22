@@ -39,3 +39,10 @@
 #toplevel_page_wc-settings-tab-checkout-section-wc_gateway_nimble .dashicons-admin-generic:before {
     content: "\e900";
 }
+
+#np-authorize-message .info{
+    display: none;
+}
+#np-authorize-message.error .info{
+    display: block;
+}
