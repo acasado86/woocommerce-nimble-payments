@@ -77,6 +77,8 @@ class Woocommerce_Nimble_Payments {
             
             add_action( 'wp_ajax_nimble_payments_oauth3', array( $this, 'ajax_oauth3' ) );
             
+            add_action( 'wp_ajax_nimble_payments_gateway', array( $this, 'ajax_gateway' ) );
+            
             add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ), 0 );
             
             //Custom template checkout/payment-method.php
@@ -178,6 +180,22 @@ class Woocommerce_Nimble_Payments {
     function ajax_oauth3(){
         $data = array();
         $data['url_oauth3'] = $this->getOauth3Url();
+        echo json_encode($data);
+        die();
+    }
+    
+    static function get_gateway_url(){
+        $platform = 'woocommerce';
+        $storeName = get_bloginfo( 'name' );
+        $storeURL = home_url();
+        $redirectURL = admin_url('admin.php?page=nimble-payments');
+        
+        return NimbleAPI::getGatewayUrl($platform, $storeName, $storeURL, $redirectURL);
+    }
+    
+    function ajax_gateway(){
+        $data = array();
+        $data['url_gateway'] = self::get_gateway_url();
         echo json_encode($data);
         die();
     }

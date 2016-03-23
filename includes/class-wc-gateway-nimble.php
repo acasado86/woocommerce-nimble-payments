@@ -241,6 +241,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                         <h4><?php _e( 'Need an Nimble Payments account?', 'woocommerce-nimble-payments' );//LANG: MESSAGE REGISTRATION TEXT ?></h4>
                         <p class="submit">
                                 <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); //LANG: MESSAGE REGISTRATION BUTTOM ?></a>
+                                &nbsp;&nbsp;
+                                <a id="np-gateway" class="button" href="#" target="_blank" ><?php _e( 'Already registered', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
                         </p>
                 </div></div>
         <?php

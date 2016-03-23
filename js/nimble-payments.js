@@ -26,6 +26,26 @@ jQuery(document).ready(function () {
         });
     });
     
+    //Button link Already registered
+    jQuery("#np-gateway.button").click(function(event) {
+        event.preventDefault();
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajaxurl,
+            data: {
+                'action': 'nimble_payments_gateway'
+            },
+            success: function (data) {
+                window.open(data['url_gateway'], "", "width=800, height=578");
+                //jQuery( location ).attr("href", data['url_gateway']);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+    
     //Button refund
     if (jQuery(".wc-nimble-message").length > 0 && jQuery(".refund-actions button.do-api-refund").length > 0 ){
         jQuery(".refund-actions button.do-api-refund").addClass('authorize-refund')
