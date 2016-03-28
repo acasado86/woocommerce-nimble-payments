@@ -51,3 +51,95 @@
     float: none;
     padding: 0;
 }
+/*SUMMARY INFO*/
+.nimble-payments-summary{
+    margin: 0;
+    padding: 0;
+}
+.nimble-payments-summary .col{
+    min-height: 368px;
+    background-color: #fff;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #fff;
+}
+.nimble-payments-summary .col-1{
+    margin-right: 10px;
+}
+.nimble-payments-summary .col h2{
+    line-height: 12px;
+    border-left: 6px solid #65be00;
+    color: #383839;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 24px 0 24px 24px;
+}
+.nimble-payments-summary .col .padding{
+    padding: 0;
+    display: inline-block;
+    width: 347px;
+}
+.nimble-payments-summary .resume-info{
+    text-align: center;
+    padding-top: 12px;
+}
+.nimble-payments-summary .resume-info .link{
+    background-color: transparent;
+    border: 1px solid #65be00;
+    border-radius: 50%;
+    height: 210px;
+    width: 210px;
+    display: inline-block;
+}
+.nimble-payments-summary .resume-info .item .link .padding-item {
+    margin-top: 65px;
+    display: block;
+}
+.nimble-payments-summary .resume-info .item .link .padding-item .title {
+    display: block;
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+.nimble-payments-summary .resume-info .item .link .padding-item .result {
+    color: #65be00;
+    display: block;
+    font-size: 36px;
+    text-align: center;
+}
+.nimble-payments-summary .resume-info .item .link .padding-item .tooltip {
+    position: relative;
+    display: inline-block;
+    left: 65px;
+    top: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    font-size: 18px;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+.nimble-payments-summary .resume-info .tooltip-link {
+    background-color: #65be00;
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+}
+/*PRIMARY*/
+.nimble-payments-summary .resume-info.primary .link{
+    background-color: #65be00;
+}
+.nimble-payments-summary .resume-info.primary .item .link .padding-item, .nimble-payments-summary .resume-info.primary .item .link .padding-item .result {
+    color: #fff;
+}
+/*BASHBOARD*/
+#nimble_payments_dashboard .nimble-payments-summary .col, #nimble_payments_dashboard .nimble-payments-summary .col .padding{
+    width: 100%;
+}
+#nimble_payments_dashboard .wrap h1{
+    display: none;
+}
