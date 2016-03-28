@@ -242,7 +242,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                         <p class="submit">
                                 <a class="button button-primary" href="https://www.nimblepayments.com/private/registration?utm_source=Woocommerce_Settings&utm_medium=Referral%20Partners&utm_campaign=Creacion-Cuenta&partner=woocommerce" target="_blank"><?php _e( 'Signup now', 'woocommerce-nimble-payments' ); //LANG: MESSAGE REGISTRATION BUTTOM ?></a>
                                 &nbsp;&nbsp;
-                                <a id="np-gateway" class="button" href="#" target="_blank" ><?php _e( 'Already registered', 'woocommerce-nimble-payments' ); //LANG: TODO ?></a>
+                                <a id="np-gateway" class="button" href="#" target="_blank" ><?php _e( 'Already registered', 'woocommerce-nimble-payments' ); //LANG: GATEWAY_LINK_BUTTON ?></a>
                         </p>
                 </div></div>
         <?php
@@ -298,11 +298,11 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
         
         if (!isset($response['data']) || !isset($response['data']['idRefund'])){
-            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' );
+            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: TODO
             if ( isset($response['result']) && isset($response['result']['info']) ){
                 $message .= $response['result']['info'];
             }
-            return new WP_Error( 'error', $message ); //LANG: TODO
+            return new WP_Error( 'error', $message );
         }
         
         return true;

@@ -155,10 +155,10 @@ class Woocommerce_Nimble_Payments {
         ?>
             <div class="updated wc-nimble-message">
                 <div class="squeezer">
-                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", self::$domain ); //LANG: TODO ?></h4>
-                    <h4><?php _e("Aún no has activado la pasarela de pagos Nimble Payments.", self::$domain ); //LANG: TODO ?></h4>
+                    <h4 class="info"><?php _e("Operation rejected.", self::$domain ); //LANG: OPERATION_REJECTED ?></h4>
+                    <h4><?php _e("You have not activated your payment gateway Nimble Payments.", self::$domain ); //LANG: ACTIVATE_MESSAGE ?></h4>
                     <p class="submit">
-                        <a class="button button-primary" href="<?php echo get_admin_url() . "admin.php?page=wc-settings&tab=checkout&section=wc_gateway_nimble" ?>" ><?php _e( 'Activate now', self::$domain ); //LANG: TODO ?></a>
+                        <a class="button button-primary" href="<?php echo get_admin_url() . "admin.php?page=wc-settings&tab=checkout&section=wc_gateway_nimble" ?>" ><?php _e( 'Activate', self::$domain ); //LANG: ACTIVATE_BUTTON ?></a>
                     </p>
                 </div>
             </div>
@@ -168,10 +168,10 @@ class Woocommerce_Nimble_Payments {
     static function authorize_notice(){
         ?>
             <div id="np-authorize-message" class="updated wc-nimble-message"><div class="squeezer">
-                    <h4 class="info"><?php _e("No se ha podido realizar la operación.", self::$domain ); //LANG: TODO ?></h4>
-                    <h4><?php _e("Todavía no has autorizado a WooCommerce para realizar operaciones en Nimble Payments.", self::$domain ); //LANG: TODO ?></h4>
+                    <h4 class="info"><?php _e("Operation rejected.", self::$domain ); //LANG: OPERATION_REJECTED ?></h4>
+                    <h4><?php _e("You have not yet WooCommerce authorized to perform operations on Nimble Payments.", self::$domain ); //LANG: AUTHORIZE_MESSAGE ?></h4>
                     <p class="submit">
-                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', self::$domain ); //LANG: TODO ?></a>
+                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', self::$domain ); //LANG: AUTHORIZE_BUTTON ?></a>
                     </p>
             </div></div>
         <?php
