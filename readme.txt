@@ -38,7 +38,7 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 2. Subir los ficheros del plugin **WooCommerce Nimble Payments** a la ruta `/wp-content/plugins/woocommerce-nimble-payments`, o realizar la instalación utilizando el directorio de plugins de WordPress.
 3. Activar el plugin en la ventana de 'Plugins' dentro de WordPress.
 4. Habilita la pasarela de pago Nimble Payments en la ruta WooCommerce > Ajustes > Finalizar compra > Nimble Payments.
-5. Introduce el *API Client ID* y *Client Secret* que podrás obtener al registrarte en (https://www.nimblepayments.com).
+5. Introduce las credenciales *API Client ID* y *Client Secret* que podrás obtener al registrarte en [https://www.nimblepayments.com](https://www.nimblepayments.com).
 
 == Screenshots ==
 
