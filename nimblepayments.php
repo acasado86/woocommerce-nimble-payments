@@ -451,7 +451,7 @@ class Woocommerce_Nimble_Payments {
     
     function add_dashboard_widgets() {
         if ( is_blog_admin() && current_user_can('manage_options') )
-            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Summary', 'woocommerce-nimble-payments'), array( $this, 'summary_info' ) ); //LANG: TODO
+            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Summary', 'woocommerce-nimble-payments'), array( $this, 'summary_info' ) ); //LANG: SUMMARY_TITLE_DASHBOARD
     }
     
     function summary_info(){

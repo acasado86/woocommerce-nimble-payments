@@ -298,7 +298,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
         
         if (!isset($response['data']) || !isset($response['data']['idRefund'])){
-            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: TODO
+            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: TODO --- Reembolso fallido
             if ( isset($response['result']) && isset($response['result']['info']) ){
                 $message .= $response['result']['info'];
             }
