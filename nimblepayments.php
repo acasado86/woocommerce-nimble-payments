@@ -109,7 +109,7 @@ class Woocommerce_Nimble_Payments {
     }
             
     function admin_enqueue_scripts($hook) {
-        wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '20160322');
+        wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '20160329');
         
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160322');
         wp_enqueue_style('wp_nimble_backend_css');
