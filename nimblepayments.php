@@ -185,7 +185,7 @@ class Woocommerce_Nimble_Payments {
     }
     
     static function get_gateway_url(){
-        $platform = 'woocommerce';
+        $platform = 'WooCommerce';
         $storeName = get_bloginfo( 'name' );
         $storeURL = home_url();
         $redirectURL = admin_url('admin.php?page=nimble-payments');
