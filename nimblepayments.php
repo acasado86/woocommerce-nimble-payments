@@ -368,7 +368,7 @@ class Woocommerce_Nimble_Payments {
                 unset($options['refreshToken']);
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                $commerces = NimbleAPIReport::getCommerces($nimble_api);
                 if (!isset($commerces['error'])){
                     foreach ($commerces as $IdCommerce => $data){
                         $title = $data['name'];
@@ -395,7 +395,7 @@ class Woocommerce_Nimble_Payments {
                 unset($options['refreshToken']);
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                $commerces = NimbleAPIReport::getCommerces($nimble_api);
                 if (!isset($commerces['error'])){
                     foreach ($commerces as $IdCommerce => $data){
                         $title = $data['name'];
@@ -455,7 +455,7 @@ class Woocommerce_Nimble_Payments {
                 unset($options['refreshToken']);
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                $commerces = NimbleAPIReport::getCommerces($nimble_api);
                 foreach ($commerces as $IdCommerce => $data){
                     $payments = NimbleAPIPayments::getPaymentList($nimble_api, $IdCommerce, array('referenceId' => $order->id));
                     foreach ($payments as $payment){
