@@ -385,6 +385,33 @@ class Woocommerce_Nimble_Payments {
         }
     }
     
+    /*
+     * Get Dashboard Info
+     */
+    function getDashboardInfo(){
+        if ( self::$gateway ){
+            try {
+                $options = get_option($this->options_name);
+                unset($options['refreshToken']);
+                $params = wp_parse_args($options, self::$params);
+                $nimble_api = new WP_NimbleAPI($params);
+                $commerces = NimbleAPIReport::getCommerces($nimble_api, 'enabled');
+                if (!isset($commerces['error'])){
+                    foreach ($commerces as $IdCommerce => $data){
+                        $title = $data['name'];
+                        $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
+                        include_once( 'templates/nimble-dashboard-widget.php' );
+                    }
+                } else {
+                    $this->manageApiError($commerces);
+                }
+                
+            } catch (Exception $e) {
+                $this->oauth3_enabled = false;
+            }
+        }
+    }
+    
     function manageApiError($response){
         $this->oauth3_enabled = false;
         $error_codes = array(
@@ -451,7 +478,7 @@ class Woocommerce_Nimble_Payments {
     
     function add_dashboard_widgets() {
         if ( is_blog_admin() && current_user_can('manage_options') )
-            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Summary', 'woocommerce-nimble-payments'), array( $this, 'summary_info' ) ); //LANG: SUMMARY_TITLE_DASHBOARD
+            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Account', 'woocommerce-nimble-payments'), array( $this, 'dashboard_widget' ) ); //LANG: SUMMARY_TITLE_DASHBOARD
     }
     
     function summary_info(){
@@ -460,6 +487,18 @@ class Woocommerce_Nimble_Payments {
             //var_dump(get_option($this->options_name));
             $this->getResumen();
             //delete_option($this->options_name);
+        }
+        //Show Authentication URL to AOUTH3
+        if ( ! $this->oauth3_enabled ){
+            $this->oauth3_url = $this->getOauth3Url();
+            include_once( 'templates/nimble-oauth-form.php' );
+        }
+    }
+    
+    function dashboard_widget(){
+        //Show resumen
+        if ( $this->oauth3_enabled ){
+            $this->getDashboardInfo();
         }
         //Show Authentication URL to AOUTH3
         if ( ! $this->oauth3_enabled ){

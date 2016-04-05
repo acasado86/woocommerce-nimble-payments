@@ -136,10 +136,27 @@
 .nimble-payments-summary .resume-info.primary .item .link .padding-item, .nimble-payments-summary .resume-info.primary .item .link .padding-item .result {
     color: #fff;
 }
-/*BASHBOARD*/
-#nimble_payments_dashboard .nimble-payments-summary .col, #nimble_payments_dashboard .nimble-payments-summary .col .padding{
-    width: 100%;
+/*DASHBOARD*/
+.nimble-payments-dashboard{
+    text-align: center;
 }
-#nimble_payments_dashboard .wrap h1{
-    display: none;
+.nimble-payments-dashboard .col-1 {
+    border-right: solid 1px #eeeeee;
+}
+.nimble-payments-dashboard .col {
+    display: inline-block;
+    text-align: center;
+    padding: 0 14px;
+}
+.nimble-payments-dashboard .col span{
+    display: block;
+    padding-right: 2px;
+}
+.nimble-payments-dashboard .col span.title{
+    color: #64b506;
+    font-size: 1.1em;
+}
+.nimble-payments-dashboard .col span.result{
+    margin-top: 10px;
+    font-size: 1.8em;
 }
