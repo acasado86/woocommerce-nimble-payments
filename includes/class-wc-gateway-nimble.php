@@ -192,6 +192,16 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $order_id = $wp->query_vars['order-received'];
             $order = wc_get_order( $order_id );
             $order->payment_complete();
+            
+            //Email sending
+            WC_Emails::instance();
+            $email_actions = apply_filters( 'woocommerce_email_actions', array(
+                'woocommerce_order_status_pending_to_processing',
+                ) );
+            if (in_array('woocommerce_order_status_pending_to_processing', $email_actions)){
+                do_action('woocommerce_order_status_pending_to_processing_notification', $order_id);
+            }
+
             return $order->order_key;
         }
         
