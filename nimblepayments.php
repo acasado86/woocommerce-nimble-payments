@@ -167,6 +167,6 @@ class Woocommerce_Nimble_Payments {
 
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+    register_activation_hook(__FILE__, array($oWoocommerceNimblePayments, 'activar_plugin'));
+    register_deactivation_hook(__FILE__, array( $oWoocommerceNimblePayments, 'desactivar_plugin'));
 }
-register_activation_hook(__FILE__, array($oWoocommerceNimblePayments, 'activar_plugin'));
-register_deactivation_hook(__FILE__, array( $oWoocommerceNimblePayments, 'desactivar_plugin'));
