@@ -204,10 +204,10 @@ class Woocommerce_Nimble_Payments {
         //to do
     }
     
-    function activar_plugin() {
+    static function activar_plugin() {
     }
     
-    function desactivar_plugin() {
+    static function desactivar_plugin() {
         delete_option( 'woocommerce_nimble_payments_gateway_settings' );
         delete_option( $this->options_name );
     }
@@ -513,5 +513,5 @@ class Woocommerce_Nimble_Payments {
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
 }
-register_activation_hook(__FILE__, array($oWoocommerceNimblePayments, 'activar_plugin'));
-register_deactivation_hook(__FILE__, array( $oWoocommerceNimblePayments, 'desactivar_plugin'));
+register_activation_hook(__FILE__, array('Woocommerce_Nimble_Payments', 'activar_plugin'));
+register_deactivation_hook(__FILE__, array( 'Woocommerce_Nimble_Payments', 'desactivar_plugin'));
