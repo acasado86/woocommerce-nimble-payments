@@ -30,7 +30,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $this->description = __('Pay safely with your credit card through the BBVA.', 'woocommerce-nimble-payments'); //LANG: GATEWAY DESCRIPTION
         $this->supports = array(
             'products',
-            'refunds'
+            'refunds',
+            'default_credit_card_form'
         );
         $this->mode = NimbleAPIConfig::MODE;
 
@@ -88,6 +89,13 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         // Mark as nimble-pending (we're awaiting the payment)
         $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
         
+        //Stored Cards Payments
+        $storedcard = filter_input(INPUT_POST, $this->id . '_storedcard');
+        if (!empty($storedcard)){
+            return $this->process_stored_card_payment($order);
+        }
+        
+        //Basic Payments
         try{
             $nimbleApi = $this->inicialize_nimble_api();
 
@@ -117,6 +125,38 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         );
     }
     
+    function process_stored_card_payment($order){
+        try{
+            $nimbleApi = $this->inicialize_nimble_api();
+            $storedCardPaymentInfo = $this->set_stored_card_payment_info($order);
+            $response = NimbleAPIStoredCards::payment($nimbleApi, $storedCardPaymentInfo);
+            //Save transaction_id to this order
+            if ( isset($response["data"]) && isset($response["data"]["id"])){
+                update_post_meta( $order->id, '_transaction_id', $response["data"]["id"] );
+                return array(
+                    'result' => 'success',
+                    'redirect' => $this->get_return_url($order)
+                );
+            } else{
+                //error_log(print_r($response, true));
+            }
+        }
+        catch (Exception $e) {
+            //Error
+            //error_log(print_r($e, true));
+        }
+        
+        //TO DO: IF TIMEOUT GET PAYMENT STATUS
+        
+        $error_url = $order->get_checkout_payment_url();
+        $error_url = add_query_arg( 'payment_status', 'error', $error_url );
+        return array(
+            'result' => 'success',
+            'redirect' => $error_url
+        );
+        
+    }
+    
     function get_params(){
         $params = array(
             'clientId' => trim(html_entity_decode($this->get_option('seller_id'))),
@@ -142,6 +182,26 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             'paymentSuccessUrl' => $this->get_return_url( $order ),
             'paymentErrorUrl' => $error_url
         );
+        
+        if (is_user_logged_in()){
+            $user = wp_get_current_user();
+            $payment['userId'] = $user->ID; //TO DO: Change cardHolderId
+        }
+        
+        return $payment;
+    }
+    
+    function set_stored_card_payment_info($order) {
+        $payment = array(
+            'amount' => $order->get_total() * 100,
+            'currency' => $order->get_order_currency(),
+            'customerData' => $order->get_order_number(),
+        );
+        
+        if (is_user_logged_in()){
+            $user = wp_get_current_user();
+            $payment['cardHolderId'] = $user->ID;
+        }
         
         return $payment;
     }
@@ -315,6 +375,53 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             return new WP_Error( 'error', $message );
         }
         
+        return true;
+    }
+    
+    public function credit_card_form( $args = array(), $fields = array() ) {
+        if (is_user_logged_in()){
+            $user = wp_get_current_user();
+            $cards = array();
+            try{
+                $nimbleApi = $this->inicialize_nimble_api();
+                $response = NimbleAPIStoredCards::getStoredCards($nimbleApi, $user->ID);
+                if ( isset($response['data']) && isset($response['data']['storedCards']) ){
+                    $cards = $response['data']['storedCards'];
+                }
+            }
+            catch (Exception $e) {
+                //Empty cards
+            }
+            if (!empty($cards)){
+                include_once( plugin_dir_path(__FILE__). '../templates/nimble-stored-cards.php' );
+            }
+        }
+    }
+    
+    public function validate_fields() {
+        $storedcard = filter_input(INPUT_POST, $this->id . '_storedcard');
+        if (!empty($storedcard)){
+            $card_selected = json_decode(base64_decode($storedcard));
+            if ( ! $card_selected->default ){
+                $user = wp_get_current_user();
+                $cardInfo = array(
+                    "cardBrand" => $card_selected->cardBrand,
+                    "maskedPan" => $card_selected->maskedPan,
+                    "cardHolderId" => $user->ID
+                );
+                try{
+                    $nimbleApi = $this->inicialize_nimble_api();
+                    $response = NimbleAPIStoredCards::selectDefault($nimbleApi, $cardInfo);
+                    if ( ! isset($response['result']) || ! isset($response['result']['code']) || $response['result']['code'] != 200 ){
+                        throw new Exception();
+                    }
+                }
+                catch (Exception $e) {
+                    $message = __( 'Could not pay with the selected card.', 'woocommerce-nimble-payments' ); //LANG: TODO
+                    throw new Exception($message);
+                }
+            }
+        }
         return true;
     }
 

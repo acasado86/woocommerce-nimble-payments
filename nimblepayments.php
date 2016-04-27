@@ -221,6 +221,7 @@ class Woocommerce_Nimble_Payments {
         require_once 'lib/Nimble/extensions/wordpress/WP_NimbleAPI.php';
         require_once 'lib/Nimble/api/NimbleAPIPayments.php';
         require_once 'lib/Nimble/api/NimbleAPIReport.php';
+        require_once 'lib/Nimble/api/NimbleAPIStoredCards.php';
     } // End init_form_fields()
     
     function add_your_gateway_class( $methods ) {
