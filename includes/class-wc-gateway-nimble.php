@@ -212,6 +212,10 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 $payment = $this->set_payment_info($order);
 
                 $response = Payments::SendPaymentClient($nimbleApi, $payment);
+                //Save transaction_id to this order
+                if ( isset($response["data"]) && isset($response["data"]["id"])){
+                    update_post_meta( $order_id, '_transaction_id', $response["data"]["id"] );
+                }
 
                 if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
                     $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_CONEX.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE 404
