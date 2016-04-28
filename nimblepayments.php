@@ -262,6 +262,7 @@ class Woocommerce_Nimble_Payments {
     
     function valid_order_statuses_for_payment($order_statuses){
         $order_statuses[]='nimble-pending';
+        $order_statuses[]='nimble-failed';
         return $order_statuses;
     }
     

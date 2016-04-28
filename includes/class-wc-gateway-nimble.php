@@ -52,6 +52,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         
         add_action('before_woocommerce_pay', array($this, 'payment_error'));
         
+        add_action('before_woocommerce_pay', array($this, 'payment_redirect'));
+        
         add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
         
         add_filter('woocommerce_get_order_item_totals', array($this, 'order_total_payment_method_replace'), 10, 2);
@@ -83,49 +85,28 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     }
 
     function process_payment($order_id) {
-        global $woocommerce;
         $order = new WC_Order($order_id);
-        
-        // Mark as nimble-pending (we're awaiting the payment)
-        $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
-        
-        //Stored Cards Payments
+
+	//Stored Cards Payments
         $storedcard = filter_input(INPUT_POST, $this->id . '_storedcard');
         if (!empty($storedcard)){
             return $this->process_stored_card_payment($order);
         }
         
         //Basic Payments
-        try{
-            $nimbleApi = $this->inicialize_nimble_api();
-
-            $payment = $this->set_payment_info($order);
-            
-            $response = NimbleAPIPayments::SendPaymentClient($nimbleApi, $payment);
-        }
-        catch (Exception $e) {
-            $order->update_status('nimble-failed', __('An error has occurred. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE ERROR
-            throw new Exception(__('Unable to process payment. An error has occurred. ERR_PAG code. Please try later.', 'woocommerce-nimble-payments')); //LANG: SDK ERROR MESSAGE
-        }
+        //Intermediate reload URL Checkout to prevent invalid nonce generation
+        $payment_url = $order->get_checkout_payment_url();
+        $checkout_redirect_url = add_query_arg( 'payment_redirect', $this->id, $payment_url );
         
-        if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
-            $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE 404
-            throw new Exception(__('Unable to process payment. An error has occurred. ERR_CONEX code. Please try later.', 'woocommerce-nimble-payments')); //LANG: SDK RETURN 404
-        }
-        
-        //Save transaction_id to this order
-        if ( isset($response["data"]) && isset($response["data"]["id"])){
-            update_post_meta( $order_id, '_transaction_id', $response["data"]["id"] );
-        }
-
-        // Return thankyou redirect
         return array(
             'result' => 'success',
-            'redirect' => $response["data"]["paymentUrl"]
+            'redirect' => $checkout_redirect_url
         );
     }
     
     function process_stored_card_payment($order){
+	// Mark as nimble-pending (we're awaiting the payment)
+        $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
         try{
             $nimbleApi = $this->inicialize_nimble_api();
             $storedCardPaymentInfo = $this->set_stored_card_payment_info($order);
@@ -269,7 +250,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     }
     
     function payment_error(){
-        
         if ( isset($_GET['payment_status']) ){
             switch ($_GET['payment_status']){
                 case 'error':
@@ -277,6 +257,45 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                     echo '<div class="woocommerce-error">' . $message . '</div>';
                     break;
             }
+        }
+    }
+    
+    function payment_redirect(){
+        global $wp;
+        
+        $redirect_input = filter_input(INPUT_GET, 'payment_redirect');
+        if ( $this->id == $redirect_input ){
+            
+            $order_id = $wp->query_vars['order-pay'];
+            $order = wc_get_order( $order_id );
+            // Mark as nimble-pending (we're awaiting the payment)
+            $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
+            
+            try{
+                $nimbleApi = $this->inicialize_nimble_api();
+
+                $payment = $this->set_payment_info($order);
+
+                $response = NimbleAPIPayments::SendPaymentClient($nimbleApi, $payment);
+                //Save transaction_id to this order
+                if ( isset($response["data"]) && isset($response["data"]["id"])){
+                    update_post_meta( $order_id, '_transaction_id', $response["data"]["id"] );
+                }
+
+                if (!isset($response["data"]) || !isset($response["data"]["paymentUrl"])){
+                    $order->update_status('nimble-failed', __('Could not connect to the bank. Code ERR_CONEX.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE 404
+                    $message = __('Unable to process payment. An error has occurred. ERR_CONEX code. Please try later.', 'woocommerce-nimble-payments'); //LANG: SDK RETURN 404
+                } else{
+                    wp_redirect( $response["data"]["paymentUrl"] );
+                    exit();
+                }
+
+            }
+            catch (Exception $e) {
+                $order->update_status('nimble-failed', __('An error has occurred. Code ERR_PAG.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE ERROR
+                $message = __('Unable to process payment. An error has occurred. ERR_PAG code. Please try later.', 'woocommerce-nimble-payments'); //LANG: SDK ERROR MESSAGE
+            }
+            echo '<div class="woocommerce-error">' . $message . '</div>';
         }
     }
     
