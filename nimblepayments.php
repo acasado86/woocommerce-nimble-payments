@@ -4,7 +4,7 @@
 Plugin Name: Nimble Payments
 Plugin URI: https://www.nimblepayments.com
 Description: Nimble Payments is an online payment gateway supported by BBVA that enables you to accept online payments flexibly and safely.
-Version: 1.0.5
+Version: 1.0.6
 Author: BBVA
 Author URI: 
 License: GPLv2
@@ -93,6 +93,16 @@ class Woocommerce_Nimble_Payments {
         $options = get_option($this->options_name);
         $this->oauth3_enabled = ( $options && isset($options['token']) ) ? true : false;
         $this->gateway_enabled = $this->isGatewayEnabled();
+	
+	//Plugin version
+	$this->options = get_file_data(__FILE__, array('Version' => 'Version'), 'plugin' );
+    }
+
+    function get_plugin_version(){
+        if ( isset($this->options['Version']) ){
+            return $this->options['Version'];
+        }
+        return '';
     }
     
     function gateway_loaded(){

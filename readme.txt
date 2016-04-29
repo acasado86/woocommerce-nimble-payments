@@ -45,3 +45,15 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 1. Ajustes del plugin.
 2. Método de pago que verán los clientes.
 3. Ventana del TPV.
+
+== Changelog ==
+
+= 1.0.6 =
+* Corregido el error que impedía la actualización del estado del pedido para clientes registrados durante el proceso de compra.
+* Añadida funcionalidad para enviar notificación por email.
+* Otras correcciones menores.
+
+== Upgrade Notice ==
+
+= 1.0.6 =
+Actualización importante. La versión 1.0.6 contiene nuevas funcionalidades y corrige errores que afectan a la visualización de datos.
