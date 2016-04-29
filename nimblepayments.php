@@ -67,7 +67,23 @@ class Woocommerce_Nimble_Payments {
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
+            $this->load_options();
         }
+    }
+    
+    function load_options(){
+        $this->options = get_file_data(__FILE__, array('Version' => 'Version'), 'plugin' );
+    }
+    
+    function get_options(){
+        return $this->options;
+    }
+    
+    function get_plugin_version(){
+        if ( isset($this->options['Version']) ){
+            return $this->options['Version'];
+        }
+        return '';
     }
     
     function load_nimble_style($hook) {

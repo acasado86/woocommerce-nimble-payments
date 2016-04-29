@@ -208,9 +208,13 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             
             try{
                 $nimbleApi = $this->inicialize_nimble_api();
-
+                //ADD HEADER SOURCE CALLER
+                $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+                $version = $oWoocommerceNimblePayments->get_plugin_version();
+                $nimbleApi->authorization->addHeader('source-caller', 'WOOCOMMERCE_'.$version);
+                
                 $payment = $this->set_payment_info($order);
-
+                
                 $response = Payments::SendPaymentClient($nimbleApi, $payment);
                 //Save transaction_id to this order
                 if ( isset($response["data"]) && isset($response["data"]["id"])){
