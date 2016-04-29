@@ -1,6 +1,6 @@
 === NimblePayments ===
 Contributors: nimblepayments
-Tags: ecommerce, e-commerce, store, sales, sell, shop, cart, checkout, payment, gateway, tienda, pagos
+Tags: ecommerce, e-commerce, store, sales, sell, shop, cart, checkout, payment, gateway, tienda, pagos, woo, woocommerce
 Requires at least: 4.0
 Tested up to: 4.4.2
 Stable tag: 4.4.2
@@ -38,10 +38,22 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 2. Subir los ficheros del plugin **WooCommerce Nimble Payments** a la ruta `/wp-content/plugins/woocommerce-nimble-payments`, o realizar la instalación utilizando el directorio de plugins de WordPress.
 3. Activar el plugin en la ventana de 'Plugins' dentro de WordPress.
 4. Habilita la pasarela de pago Nimble Payments en la ruta WooCommerce > Ajustes > Finalizar compra > Nimble Payments.
-5. Introduce el *API Client ID* y *Client Secret* que podrás obtener al registrarte en (https://www.nimblepayments.com).
+5. Introduce las credenciales *API Client ID* y *Client Secret* que podrás obtener al registrarte en [https://www.nimblepayments.com](https://www.nimblepayments.com).
 
 == Screenshots ==
 
 1. Ajustes del plugin.
 2. Método de pago que verán los clientes.
 3. Ventana del TPV.
+
+== Changelog ==
+
+= 1.0.6 =
+* Corregido el error que impedía la actualización del estado del pedido para clientes registrados durante el proceso de compra.
+* Añadida funcionalidad para enviar notificación por email.
+* Otras correcciones menores.
+
+== Upgrade Notice ==
+
+= 1.0.6 =
+Actualización importante. La versión 1.0.6 contiene nuevas funcionalidades y corrige errores que afectan a la visualización de datos.
