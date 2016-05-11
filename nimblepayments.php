@@ -403,15 +403,11 @@ class Woocommerce_Nimble_Payments {
                 unset($options['refreshToken']);
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api);
-                if (!isset($commerces['error'])){
-                    foreach ($commerces as $IdCommerce => $data){
-                        $title = $data['name'];
-                        $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
-                        include_once( 'templates/nimble-dashboard-widget.php' );
-                    }
-                } else {
-                    $this->manageApiError($commerces);
+                $summary = NimbleAPIAccount::balanceSummary($nimble_api);
+                if ( !isset($summary['result']) || ! isset($summary['result']['code']) || 200 != $summary['result']['code'] || !isset($summary['data'])){
+                    $this->manageApiError($summary);
+                } else{
+                    include_once( 'templates/nimble-dashboard-widget.php' );
                 }
                 
             } catch (Exception $e) {

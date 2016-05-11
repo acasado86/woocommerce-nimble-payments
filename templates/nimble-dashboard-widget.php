@@ -1,9 +1,9 @@
 <?php
 
-$totalavailable = $summary['totalAvailable']['amount'] / 100;
+$totalavailable = $summary['data']['avalaible'] / 100;
 $total_str = number_format($totalavailable, 2, ',', '.');
 
-$balance = $summary['balance']['amount'] / 100;
+$balance = $summary['data']['accountBalance'] / 100;
 $balance_str = number_format($balance, 2, ',', '.');
 
 ?>
