@@ -164,14 +164,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $payment = array(
             'amount' => $order->get_total() * 100,
             'currency' => $order->get_order_currency(),
-            'customerData' => $order->get_order_number(),
+            'merchantOrderId' => $order->get_order_number(),
             'paymentSuccessUrl' => $this->get_return_url( $order ),
             'paymentErrorUrl' => $error_url
         );
         
         if (is_user_logged_in()){
             $user = wp_get_current_user();
-            $payment['userId'] = $user->ID; //TO DO: Change cardHolderId
+            $payment['cardHolderId'] = $user->ID;
         }
         
         return $payment;
@@ -181,7 +181,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $payment = array(
             'amount' => $order->get_total() * 100,
             'currency' => $order->get_order_currency(),
-            'customerData' => $order->get_order_number(),
+            'merchantOrderId' => $order->get_order_number(),
         );
         
         if (is_user_logged_in()){
