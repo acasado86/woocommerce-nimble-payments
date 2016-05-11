@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 //$url = $this->getOauth3Url();
-$totalavailable = $summary['totalAvailable']['amount'] / 100;
+$totalavailable = $summary['data']['avalaible'] / 100;
 $total_str = number_format($totalavailable, 2, ',', '.');
 
-$balance = $summary['balance']['amount'] / 100;
+$balance = $summary['data']['accountBalance'] / 100;
 $balance_str = number_format($balance, 2, ',', '.');
 
-$holdback = $summary['holdBack']['amount'] / 100;
+$holdback = $summary['data']['hold'] / 100;
 $holdback_str = number_format($holdback, 2, ',', '.');
 ?>
 <div class="wrap">
@@ -21,7 +21,7 @@ $holdback_str = number_format($holdback, 2, ',', '.');
 
 <div class="nimble-payments-summary">
     <div class="col-1 col">
-        <h2><?php echo $title; ?></h2>
+        <h2><?php bloginfo( 'name' ); ?></h2>
         <div class="padding">
             <p class="resume-info">
                 <span class="item">

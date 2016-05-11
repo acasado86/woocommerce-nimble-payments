@@ -71,7 +71,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         try {
             $nimbleApi = new WP_NimbleAPI($params);
             //Validamos el par credenciales y modo.
-            $response = $nimbleApi->checkMode();
+            $response = NimbleAPICredentials::check($nimbleApi);
             if ( isset($response) && isset($response['result']) && isset($response['result']['code']) && 200 == $response['result']['code'] ){
                 $array[$this->status_field_name] = true;
             } else{

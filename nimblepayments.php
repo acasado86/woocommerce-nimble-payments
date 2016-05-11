@@ -229,8 +229,9 @@ class Woocommerce_Nimble_Payments {
         include_once( 'includes/class-wc-gateway-nimble.php' );
         require_once 'lib/Nimble/base/NimbleAPI.php';
         require_once 'lib/Nimble/extensions/wordpress/WP_NimbleAPI.php';
+        require_once 'lib/Nimble/api/NimbleAPIAccount.php';
+        require_once 'lib/Nimble/api/NimbleAPICredentials.php';
         require_once 'lib/Nimble/api/NimbleAPIPayments.php';
-        require_once 'lib/Nimble/api/NimbleAPIReport.php';
         require_once 'lib/Nimble/api/NimbleAPIStoredCards.php';
     } // End init_form_fields()
     
@@ -313,7 +314,6 @@ class Woocommerce_Nimble_Payments {
         if ( self::$gateway ){
             try {
                 $params = array(
-                    'authType' => '3legged',
                     'oauth_code' => $code
                 );
                 $params = wp_parse_args($params, self::$params);
@@ -380,15 +380,11 @@ class Woocommerce_Nimble_Payments {
                 unset($options['refreshToken']);
                 $params = wp_parse_args($options, self::$params);
                 $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api);
-                if (!isset($commerces['error'])){
-                    foreach ($commerces as $IdCommerce => $data){
-                        $title = $data['name'];
-                        $summary = NimbleAPIReport::getSummary($nimble_api, $IdCommerce);
-                        include_once( 'templates/nimble-summary.php' );
-                    }
-                } else {
-                    $this->manageApiError($commerces);
+                $summary = NimbleAPIAccount::balanceSummary($nimble_api);
+                if ( !isset($summary['result']) || ! isset($summary['result']['code']) || 200 != $summary['result']['code'] || !isset($summary['data'])){
+                    $this->manageApiError($summary);
+                } else{
+                    include_once( 'templates/nimble-summary.php' );
                 }
                 
             } catch (Exception $e) {
