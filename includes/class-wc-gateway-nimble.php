@@ -109,6 +109,11 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order->update_status('nimble-pending', __('Awaiting payment via Nimble Payments.', 'woocommerce-nimble-payments')); //LANG: ORDER NOTE PENDING
         try{
             $nimbleApi = $this->inicialize_nimble_api();
+            //ADD HEADER SOURCE CALLER
+            $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+            $version = $oWoocommerceNimblePayments->get_plugin_version();
+            $nimbleApi->authorization->addHeader('source-caller', 'WOOCOMMERCE_'.$version);
+            
             $storedCardPaymentInfo = $this->set_stored_card_payment_info($order);
             $response = NimbleAPIStoredCards::payment($nimbleApi, $storedCardPaymentInfo);
             //Save transaction_id to this order
