@@ -19,6 +19,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     var $status_field_name = 'status_nimble';
     var $payment_nonce_field = 'payment_nonce';
     var $mode;
+    var $state_max_attemps = 5;
 
     //put your code here
     function __construct() {
@@ -57,6 +58,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
         
         add_filter('woocommerce_get_order_item_totals', array($this, 'order_total_payment_method_replace'), 10, 2);
+        
+        add_action('nimblepayments_change_order_status', array($this, 'change_order_status'), 10, 1);
   
     }
     
@@ -131,8 +134,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             //Error
             //error_log(print_r($e, true));
         }
-        
-        //TO DO: IF TIMEOUT GET PAYMENT STATUS
         
         $error_url = $order->get_checkout_payment_url();
         $error_url = add_query_arg( 'payment_status', 'error', $error_url );
@@ -237,6 +238,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         if ( isset($wp->query_vars['order-received']) && isset($_GET[$this->payment_nonce_field]) && wp_verify_nonce($_GET[$this->payment_nonce_field])) {
             $order_id = $wp->query_vars['order-received'];
             $order = wc_get_order( $order_id );
+            
+            //STORED CARD PAYMENT
+            /*if ($order->needs_payment()){
+                do_action('nimblepayments_change_order_status', $order);
+            }*/
+            //END STORED CARD PAYMENT
+            
+            //BASIC PAYMENT
             $order->payment_complete();
             
             //Email sending
@@ -247,6 +256,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             if (in_array('woocommerce_order_status_pending_to_processing', $email_actions)){
                 do_action('woocommerce_order_status_pending_to_processing_notification', $order_id);
             }
+            //END BASIC PAYMENT
 
             return $order->order_key;
         }
@@ -451,6 +461,57 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             }
         }
         return true;
+    }
+    
+    public function get_trasaction_id($order){
+        $oWoocommerceNimblePayments = Woocommerce_Nimble_Payments::getInstance();
+        return $oWoocommerceNimblePayments->get_transaction_id($order);
+    }
+    
+    public function change_order_status($order_id){
+        $order = wc_get_order( $order_id );
+        $transaction_id = $this->get_trasaction_id($order);
+        $state = 'PENDING';
+        $attemps = 0;
+        
+        try{
+            while( ('PENDING' == $state) && ($this->state_max_attemps >= $attemps++) ){
+                //NIMBLE PAYMENTS STATE CHANGE WAIT
+                sleep(max(array(1, $attemps)));
+                $nimbleApi = $this->inicialize_nimble_api();
+                $response = NimbleAPIPayments::getPaymentStatus($nimbleApi, $transaction_id);
+                if ( isset($response['data']) && isset($response['data']['details']) && count($response['data']['details']) ){
+                    $state = $response['data']['details'][0]['state'];
+                    //error_log($state);
+                }
+            }
+        }
+        catch (Exception $e) {
+            //Do nothing
+        }
+        switch ($state){
+            case 'ON_HOLD':
+                //PAYMENT COMPLETE
+                $order->payment_complete();
+
+                //Email sending
+                WC_Emails::instance();
+                $email_actions = apply_filters( 'woocommerce_email_actions', array(
+                    'woocommerce_order_status_pending_to_processing',
+                    ) );
+                if (in_array('woocommerce_order_status_pending_to_processing', $email_actions)){
+                    do_action('woocommerce_order_status_pending_to_processing_notification', $order_id);
+                }
+                break;
+            case 'ABANDONED':
+            case 'DENIED':
+            case 'ERROR':
+                //PAYMENT COMPLETE
+                $order->cancel_order($state);
+                break;
+            default:
+                break;
+        }
     }
 
 }
