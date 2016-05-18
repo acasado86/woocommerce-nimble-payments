@@ -18,6 +18,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     var $status_field_name = 'status_nimble';
     var $payment_nonce_field = 'payment_nonce';
+    var $storedcard_field = 'storedcard';
     var $mode;
     var $state_max_attemps = 5;
 
@@ -124,7 +125,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 update_post_meta( $order->id, '_transaction_id', $response["data"]["id"] );
                 return array(
                     'result' => 'success',
-                    'redirect' => $this->get_return_url($order)
+                    'redirect' => add_query_arg( $this->storedcard_field, 'true', $this->get_return_url($order) )
                 );
             } else{
                 //error_log(print_r($response, true));
@@ -239,24 +240,27 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $order_id = $wp->query_vars['order-received'];
             $order = wc_get_order( $order_id );
             
-            //STORED CARD PAYMENT
-            /*if ($order->needs_payment()){
-                do_action('nimblepayments_change_order_status', $order);
-            }*/
-            //END STORED CARD PAYMENT
             
-            //BASIC PAYMENT
-            $order->payment_complete();
-            
-            //Email sending
-            WC_Emails::instance();
-            $email_actions = apply_filters( 'woocommerce_email_actions', array(
-                'woocommerce_order_status_pending_to_processing',
-                ) );
-            if (in_array('woocommerce_order_status_pending_to_processing', $email_actions)){
-                do_action('woocommerce_order_status_pending_to_processing_notification', $order_id);
+            if ($order->needs_payment()){
+                if ( isset($_GET[$this->storedcard_field]) ){
+                    //STORED CARD PAYMENT
+                    do_action('nimblepayments_change_order_status', $order);
+                    //END STORED CARD PAYMENT
+                } else {
+                    //BASIC PAYMENT
+                    $order->payment_complete();
+
+                    //Email sending
+                    WC_Emails::instance();
+                    $email_actions = apply_filters( 'woocommerce_email_actions', array(
+                        'woocommerce_order_status_pending_to_processing',
+                        ) );
+                    if (in_array('woocommerce_order_status_pending_to_processing', $email_actions)){
+                        do_action('woocommerce_order_status_pending_to_processing_notification', $order_id);
+                    }
+                    //END BASIC PAYMENT
+                }
             }
-            //END BASIC PAYMENT
 
             return $order->order_key;
         }
