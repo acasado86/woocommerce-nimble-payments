@@ -88,22 +88,21 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = new WC_Order($order_id);
         if (is_user_logged_in()){
             $user = wp_get_current_user();
-
-            try{
-                $nimbleApi = $this->inicialize_nimble_api();
-                $response = NimbleAPIStoredCards::deleteAllCards($nimbleApi, $user->ID);
-                if(true == $response){
-                    error_log("borradas las tarjetas");
-                    if(get_user_meta($user->ID, 'np_shipping_hash')){
-                        $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
-                    }
-                    $hash = $this->get_location_hash_Customer();
-                    if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] !=  $hash){
-                        update_user_meta($user->ID, 'np_shipping_hash', $hash);
-                    }
-                }    
-            } catch (Exception $ex) {
-                //to do
+            
+            if(get_user_meta($user->ID, 'np_shipping_hash')){
+                $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
+            }
+            $hash = $this->get_location_hash_Customer();
+            
+            if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] !=  $hash){
+                update_user_meta($user->ID, 'np_shipping_hash', $hash);
+                    //all cards delete 
+                try{
+                    $nimbleApi = $this->inicialize_nimble_api();
+                    $response = NimbleAPIStoredCards::deleteAllCards($nimbleApi, $user->ID);  
+                } catch (Exception $ex) {
+                    //to do
+                }
             }
         }  
 	//Stored Cards Payments
