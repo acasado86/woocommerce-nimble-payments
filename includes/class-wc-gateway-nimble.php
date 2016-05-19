@@ -90,13 +90,31 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
 
     function process_payment($order_id) {
         $order = new WC_Order($order_id);
-
+        if (is_user_logged_in()){
+            $user = wp_get_current_user();
+            
+            if(get_user_meta($user->ID, 'np_shipping_hash')){
+                $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
+            }
+            $hash = $this->get_location_hash_Customer();
+            
+            if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] !=  $hash){
+                update_user_meta($user->ID, 'np_shipping_hash', $hash);
+                    //all cards delete 
+                try{
+                    $nimbleApi = $this->inicialize_nimble_api();
+                    $response = NimbleAPIStoredCards::deleteAllCards($nimbleApi, $user->ID);  
+                } catch (Exception $ex) {
+                    //to do
+                }
+            }
+        }  
 	//Stored Cards Payments
         $storedcard = filter_input(INPUT_POST, $this->id . '_storedcard');
         if (!empty($storedcard)){
             return $this->process_stored_card_payment($order);
         }
-        
+
         //Basic Payments
         //Intermediate reload URL Checkout to prevent invalid nonce generation
         $payment_url = $order->get_checkout_payment_url();
@@ -422,20 +440,27 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     
     public function credit_card_form( $args = array(), $fields = array() ) {
         if (is_user_logged_in()){
-            $user = wp_get_current_user();
-            $cards = array();
-            try{
-                $nimbleApi = $this->inicialize_nimble_api();
-                $response = NimbleAPIStoredCards::getStoredCards($nimbleApi, $user->ID);
-                if ( isset($response['data']) && isset($response['data']['storedCards']) ){
-                    $cards = $response['data']['storedCards'];
+            $user = wp_get_current_user();            
+            
+            if(get_user_meta($user->ID, 'np_shipping_hash')){
+                $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
+            }
+            $hash = $this->get_location_hash_Customer();
+            if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] ==  $hash){
+                $cards = array();
+                try{
+                    $nimbleApi = $this->inicialize_nimble_api();
+                    $response = NimbleAPIStoredCards::getStoredCards($nimbleApi, $user->ID);
+                    if ( isset($response['data']) && isset($response['data']['storedCards']) ){
+                        $cards = $response['data']['storedCards'];
+                    }
                 }
-            }
-            catch (Exception $e) {
-                //Empty cards
-            }
-            if (!empty($cards)){
-                include_once( plugin_dir_path(__FILE__). '../templates/nimble-stored-cards.php' );
+                catch (Exception $e) {
+                    //Empty cards
+                }
+                if (!empty($cards)){
+                    include_once( plugin_dir_path(__FILE__). '../templates/nimble-stored-cards.php' );
+                }
             }
         }
     }
@@ -518,4 +543,18 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
     }
 
+    /* 
+     * Get hash location customer
+     */
+    public static function get_location_hash_Customer() {      
+        $location             = array();
+        $location['country']  = WC()->customer->get_country();
+        $location['state']    = WC()->customer->get_state();
+        $location['postcode'] = WC()->customer->get_postcode();
+        $location['city']     = WC()->customer->get_city();
+        $location['address']  = WC()->customer->get_address();
+        $location['address2'] = WC()->customer->get_address_2();
+        
+        return substr( md5( implode( '', $location ) ), 0, 12 );
+    }
 }
