@@ -181,7 +181,7 @@ class Woocommerce_Nimble_Payments {
                     <h4 class="info"><?php _e("Operation rejected.", self::$domain ); //LANG: OPERATION_REJECTED ?></h4>
                     <h4><?php _e("You have not yet WooCommerce authorized to perform operations on Nimble Payments.", self::$domain ); //LANG: AUTHORIZE_MESSAGE ?></h4>
                     <p class="submit">
-                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize', self::$domain ); //LANG: AUTHORIZE_BUTTON ?></a>
+                        <a id="np-oauth3" class="button button-primary" href="#" target="_blank"><?php _e( 'Authorize Woocommerce', self::$domain ); //LANG: AUTHORIZE_BUTTON ?></a>
                     </p>
             </div></div>
         <?php
@@ -482,7 +482,7 @@ class Woocommerce_Nimble_Payments {
     
     function add_dashboard_widgets() {
         if ( is_blog_admin() && current_user_can('manage_options') )
-            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Account', 'woocommerce-nimble-payments'), array( $this, 'dashboard_widget' ) ); //LANG: SUMMARY_TITLE_DASHBOARD
+            wp_add_dashboard_widget( 'nimble_payments_dashboard', __('Nimble Payments Summary', 'woocommerce-nimble-payments'), array( $this, 'dashboard_widget' ) ); //LANG: SUMMARY_TITLE_DASHBOARD
     }
     
     function summary_info(){

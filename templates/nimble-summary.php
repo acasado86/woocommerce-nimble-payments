@@ -27,10 +27,10 @@ $holdback_str = number_format($holdback, 2, ',', '.');
                 <span class="item">
                     <span class="link">
                         <span class="padding-item">
-                            <span class="title"><?php _e('Balance', 'woocommerce-nimble-payments'); //LANG: BALANCE_TITLE ?></span>
+                            <span class="title"><?php _e('Balance account', 'woocommerce-nimble-payments'); //LANG: BALANCE_TITLE ?></span>
                             <span class="result"><?php echo $balance_str; ?> €</span>
                             <span class="tooltip">
-                                <span class="tooltip-link" title="<?php _e('Balance', 'woocommerce-nimble-payments'); //LANG: BALANCE_TOOLTIP ?>">?</span>
+                                <span class="tooltip-link" title="<?php _e('Balance account includes total amount available plus hold back.', 'woocommerce-nimble-payments'); //LANG: BALANCE_TOOLTIP ?>">?</span>
                             </span>
                         </span>
                     </span>
@@ -45,7 +45,7 @@ $holdback_str = number_format($holdback, 2, ',', '.');
                             <span class="title"><?php _e('Hold back', 'woocommerce-nimble-payments'); //LANG: HOLD_BACK_TITLE ?></span>
                             <span class="result"><?php echo $holdback_str; ?> €</span>
                             <span class="tooltip">
-                                <span class="tooltip-link" title="<?php _e('Hold back', 'woocommerce-nimble-payments'); //LANG: HOLD_BACK_TOOLTIP ?>">?</span>
+                                <span class="tooltip-link" title="<?php _e('Total hold back due to refunds or disputes.', 'woocommerce-nimble-payments'); //LANG: HOLD_BACK_TOOLTIP ?>">?</span>
                             </span>
                         </span>
                     </span>
@@ -63,7 +63,7 @@ $holdback_str = number_format($holdback, 2, ',', '.');
                             <span class="title"><?php _e('Total available', 'woocommerce-nimble-payments'); //LANG: TOTAL_AVAILABLE_TITLE ?></span>
                             <span class="result"><?php echo $total_str; ?> €</span>
                             <span class="tooltip">
-                                <span class="tooltip-link" title="<?php _e('Total available', 'woocommerce-nimble-payments'); //LANG: TOTAL_AVAILABLE_TOOLTIP ?>">?</span>
+                                <span class="tooltip-link" title="<?php _e('Total available is the amount available for you to operate.', 'woocommerce-nimble-payments'); //LANG: TOTAL_AVAILABLE_TOOLTIP ?>">?</span>
                             </span>
                         </span>
                     </span>
