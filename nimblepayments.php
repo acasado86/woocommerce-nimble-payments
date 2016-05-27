@@ -219,7 +219,7 @@ class Woocommerce_Nimble_Payments {
     
     static function desactivar_plugin() {
         delete_option( 'woocommerce_nimble_payments_gateway_settings' );
-        delete_option( $this->options_name );
+        delete_option( 'nimble_payments_options' );
     }
     
     /**
