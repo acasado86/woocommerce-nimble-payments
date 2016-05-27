@@ -4,7 +4,7 @@
 Plugin Name: Nimble Payments
 Plugin URI: https://www.nimblepayments.com
 Description: Nimble Payments is an online payment gateway supported by BBVA that enables you to accept online payments flexibly and safely.
-Version: 1.0.6
+Version: 1.0.7
 Author: BBVA
 Author URI: 
 License: GPLv2
@@ -134,8 +134,8 @@ class Woocommerce_Nimble_Payments {
         if ( !defined('WP_CONTENT_URL') )
             define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
         
-        //add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
-        add_object_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', $this->slug, array( $this, 'nimble_options' ));
+        //add_menu_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ), null, '54.555');
+        add_menu_page( 'Nimble Payments', 'Nimble Payments', 'manage_options', $this->slug, array( $this, 'nimble_options' ), null, '54.555');
         //add_submenu_page($this->slug, __('Settings', self::$domain), __('Settings', self::$domain), 'manage_options', $this->slug.'-settings', array( $this, 'menu_settings'));
         
     }
