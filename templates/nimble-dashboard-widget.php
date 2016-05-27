@@ -1,6 +1,6 @@
 <?php
 
-$totalavailable = $summary['data']['avalaible'] / 100;
+$totalavailable = $summary['data']['available'] / 100;
 $total_str = number_format($totalavailable, 2, ',', '.');
 
 $balance = $summary['data']['accountBalance'] / 100;
