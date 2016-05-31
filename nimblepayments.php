@@ -454,24 +454,11 @@ class Woocommerce_Nimble_Payments {
         $transaction_id = $order->get_transaction_id();
         if ( !$transaction_id && self::$gateway ){
             try {
-                $order_total = $order->get_total() * 100;
-                $options = get_option($this->options_name);
-                unset($options['refreshToken']);
-                $params = wp_parse_args($options, self::$params);
-                $nimble_api = new WP_NimbleAPI($params);
-                $commerces = NimbleAPIReport::getCommerces($nimble_api);
-                foreach ($commerces as $IdCommerce => $data){
-                    $payments = NimbleAPIPayments::getPaymentList($nimble_api, $IdCommerce, array('referenceId' => $order->id));
-                    foreach ($payments as $payment){
-                        if ($payment['customerData'] == $order->id
-                                && $payment['amount']['amount'] == $order_total
-                                && $payment['amount']['currency'] == $order->get_order_currency()
-                                ){
-                            $transaction_id = $payment['idTransaction'];
-                            update_post_meta( $order->id, '_transaction_id', $transaction_id );
-                            break;
-                        }
-                    }
+                $nimble_api = new WP_NimbleAPI(self::$params);
+                $result = NimbleAPIPayments::getPaymentStatus($nimble_api, null, $order->id);
+                if ( isset($result['data']) && isset($result['data']['details']) && isset($result['data']['details'][0]) && isset($result['data']['details'][0]['transactionId']) ){
+                    $transaction_id = $result['data']['details'][0]['transactionId'];
+                    update_post_meta( $order->id, '_transaction_id', $transaction_id );
                 }
                 
             } catch (Exception $e) {
