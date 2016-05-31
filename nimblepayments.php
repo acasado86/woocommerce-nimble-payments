@@ -147,7 +147,12 @@ class Woocommerce_Nimble_Payments {
             $this->validateOauthCode($code);
         }
         
-        $this->summary_info();
+        //$this->summary_info();
+        
+        //Redirect to gateway config page
+        add_submenu_page( $this->slug, 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
+        $config_gateway_url = menu_page_url('wc-settings&tab=checkout&section=wc_gateway_nimble', false);
+        include_once( 'templates/nimble-redirect-config-gateway.php' );
     }
     
     function admin_notices() {
