@@ -1,6 +1,17 @@
 # Nimble Payments Plugin for WordPress/WooCommerce
 The NimblePayments Plugin for WooCommerce is an addons that makes it easy to add payment services to your e-commerce.
 ##Release notes
+
+###1.0.8
+- Add WordPress Multisite compatibility
+
+###1.0.7
+- Add WordPress 4.5 compatibility
+
+###1.0.6
+- Fixes a bug that did not allow update order state for new customers
+- Fixes a bug that did not allow send emails
+
 ###1.0.5
 - First live release
 - Added the single payment service
