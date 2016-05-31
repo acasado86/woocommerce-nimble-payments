@@ -174,7 +174,12 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     
     function inicialize_nimble_api() {
         /* High Level call */
-        return new WP_NimbleAPI($this->get_params());
+        $nimbleApi = new WP_NimbleAPI($this->get_params());
+        //Obtain language from wordpress
+        $language = substr(get_bloginfo('language'), 0, 2);
+        //Change Nimble Payments Default Language
+        $nimbleApi->changeDefaultLanguage($language);
+        return $nimbleApi;
     }
     
     function set_payment_info($order) {
