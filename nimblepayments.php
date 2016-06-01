@@ -84,20 +84,23 @@ class Woocommerce_Nimble_Payments {
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
-            add_filter( 'post_row_actions', array( $this, 'filter_order_row_actions' ), 10, 2);
+            add_action( 'manage_shop_order_posts_custom_column', array( $this, 'render_shop_order_columns' ), 1, 2 );
             
             $this->load_settings();
         }
     }
     
-    function filter_order_row_actions($actions, $post){
-        if ( 'shop_order' == $post->post_type ){
-            $pending_statuses = array ('wc-nimble-pending', 'wc-nimble-failed');
-            if ( in_array($post->post_status, $pending_statuses) ){
-                self::$gateway->change_order_status($post->ID);
-            }
+    function render_shop_order_columns($column_name, $post_id){
+        global $post;
+        
+        switch ( $column_name ) {
+            case 'order_status' :
+                $pending_statuses = array ('wc-nimble-pending', 'wc-nimble-failed');
+                if ( self::$gateway && in_array($post->post_status, $pending_statuses) ){
+                    self::$gateway->change_order_status($post_id);
+                }
+                break;
         }
-        return $actions;
     }
     
     function load_settings(){
