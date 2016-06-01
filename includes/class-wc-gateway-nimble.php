@@ -20,7 +20,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     var $payment_nonce_field = 'payment_nonce';
     var $storedcard_field = 'storedcard';
     var $mode;
-    var $state_max_attemps = 5;
 
     //put your code here
     function __construct() {
@@ -59,8 +58,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
         
         add_filter('woocommerce_get_order_item_totals', array($this, 'order_total_payment_method_replace'), 10, 2);
-        
-        add_action('nimblepayments_change_order_status', array($this, 'change_order_status'), 10, 1);
   
     }
     
@@ -267,7 +264,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             if ($order->needs_payment()){
                 if ( isset($_GET[$this->storedcard_field]) ){
                     //STORED CARD PAYMENT
-                    do_action('nimblepayments_change_order_status', $order);
+                    $this->change_order_status($order);
                     //END STORED CARD PAYMENT
                 } else {
                     //BASIC PAYMENT
@@ -506,18 +503,14 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = wc_get_order( $order_id );
         $transaction_id = $this->get_trasaction_id($order);
         $state = 'PENDING';
-        $attemps = 0;
         
         try{
-            while( ('PENDING' == $state) && ($this->state_max_attemps >= $attemps++) ){
-                //NIMBLE PAYMENTS STATE CHANGE WAIT
-                sleep(max(array(1, $attemps)));
-                $nimbleApi = $this->inicialize_nimble_api();
-                $response = NimbleAPIPayments::getPaymentStatus($nimbleApi, $transaction_id);
-                if ( isset($response['data']) && isset($response['data']['details']) && count($response['data']['details']) ){
-                    $state = $response['data']['details'][0]['state'];
-                    //error_log($state);
-                }
+            $nimbleApi = $this->inicialize_nimble_api();
+            $response = NimbleAPIPayments::getPaymentStatus($nimbleApi, $transaction_id);
+            if ( isset($response['data']) && isset($response['data']['details']) && count($response['data']['details']) ){
+                $state = $response['data']['details'][0]['state'];
+            } elseif ( isset($response['result']) && isset($response['result']['code']) && 404 == $response['result']['code'] ) {
+                $state = 'NOT_FOUND';
             }
         }
         catch (Exception $e) {
@@ -540,8 +533,12 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             case 'ABANDONED':
             case 'DENIED':
             case 'ERROR':
-                //PAYMENT COMPLETE
-                $order->cancel_order($state);
+                //PAYMENT ERROR
+                $order->update_status( 'cancelled' );
+                break;
+            case 'NOT_FOUND':
+                //PAYMENT ERROR
+                $order->update_status( 'failed' );
                 break;
             default:
                 break;

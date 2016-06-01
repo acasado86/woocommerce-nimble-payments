@@ -84,8 +84,20 @@ class Woocommerce_Nimble_Payments {
             //Custom template checkout/payment-method.php
             add_filter( 'wc_get_template', array( $this, 'filter_templates_checkout' ), 10, 3);
             
+            add_filter( 'post_row_actions', array( $this, 'filter_order_row_actions' ), 10, 2);
+            
             $this->load_settings();
         }
+    }
+    
+    function filter_order_row_actions($actions, $post){
+        if ( 'shop_order' == $post->post_type ){
+            $pending_statuses = array ('wc-nimble-pending', 'wc-nimble-failed');
+            if ( in_array($post->post_status, $pending_statuses) ){
+                self::$gateway->change_order_status($post->ID);
+            }
+        }
+        return $actions;
     }
     
     function load_settings(){
@@ -423,14 +435,7 @@ class Woocommerce_Nimble_Payments {
     
     function manageApiError($response){
         $this->oauth3_enabled = false;
-        $error_codes = array(
-            'Not Authorized Exception',
-            'invalid_token'
-        );
-        
-        if ( isset($response['error_code']) && in_array($response['error_code'], $error_codes) ){
-            delete_option($this->options_name);
-        }
+        delete_option($this->options_name);
     }
     
     function isOauth3Enabled(){
