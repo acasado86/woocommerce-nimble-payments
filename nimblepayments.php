@@ -134,7 +134,16 @@ class Woocommerce_Nimble_Payments {
     }
             
     function admin_enqueue_scripts($hook) {
+        global $post;
         wp_enqueue_script('nimble-payments-js', plugins_url("js/nimble-payments.js", __FILE__), array('jquery'), '20160329');
+        
+        //Custom JS for refunds
+        if ('post.php' == $hook && 'edit' == filter_input(INPUT_GET, 'action') && 'shop_order' == $post->post_type ){
+            $order = wc_get_order( $post->ID );
+            if ($order->payment_method == self::$gateway->id){
+                wp_enqueue_script('nimble-payments-refunds-js', plugins_url("js/nimble-payments-refunds.js", __FILE__), array('jquery'), '20160603');
+            }
+        }
         
         wp_register_style('wp_nimble_backend_css', plugins_url('css/wp-nimble-backend.css', __FILE__), false, '20160322');
         wp_enqueue_style('wp_nimble_backend_css');

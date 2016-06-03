@@ -58,6 +58,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         add_filter('woocommerce_thankyou_order_key', array($this, 'success_url_nonce'));
         
         add_filter('woocommerce_get_order_item_totals', array($this, 'order_total_payment_method_replace'), 10, 2);
+        
+        add_action('wp_ajax_woocommerce_refund_line_items_nimble_payments', array(&$this, 'woocommerce_refund_line_items_nimble_payments') );
   
     }
     
@@ -402,6 +404,72 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         return $order && $oWoocommerceNimblePayments->get_transaction_id($order) && $oWoocommerceNimblePayments->isOauth3Enabled();
     }
 
+    public function woocommerce_refund_line_items_nimble_payments(){
+        //Refunds parameters
+        $order_id               = absint( $_POST['order_id'] );
+        $refund_amount          = wc_format_decimal( sanitize_text_field( $_POST['refund_amount'] ), wc_get_price_decimals() );
+        $refund_reason          = sanitize_text_field( $_POST['refund_reason'] );
+        $line_item_qtys         = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_qtys'] ) ), true );
+        $line_item_totals       = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_totals'] ) ), true );
+        $line_item_tax_totals   = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_tax_totals'] ) ), true );
+        $api_refund             = true;
+        $restock_refunded_items = $_POST['restock_refunded_items'] === 'true' ? true : false;
+        $security               = $_POST['security'];
+        $response_data          = array();
+        
+        //REFUND STEP 1
+        $order = wc_get_order( $order_id );
+
+        if ( ! $this->can_refund_order( $order ) ) {
+            wp_send_json_error( array( 'error' => __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ) ); //LANG: TODO
+        }
+        
+        $transaction_id = $order->get_transaction_id();
+        try {
+            $options = get_option('nimble_payments_options');
+            unset($options['refreshToken']);
+            $params = wp_parse_args($options, $this->get_params());
+            $nimble_api = new WP_NimbleAPI($params);
+            $total_refund = ($refund_amount) ? $refund_amount : $order->get_total();
+            
+            $refund = array(
+                'amount' => $total_refund * 100,
+                'concept' => $refund_reason,
+                'reason' => 'REQUEST_BY_CUSTOMER'
+            );
+            
+            $response = NimbleAPIPayments::sendPaymentRefund($nimble_api, $transaction_id, $refund);
+        } catch (Exception $e) {
+            wp_send_json_error( array( 'error' => $e->getMessage() ) );
+        }
+        
+        //OPEN OPT
+        if (isset($response['result']) && isset($response['result']['code']) && 428 == $response['result']['code']
+                && isset($response['data']) && isset($response['data']['ticket']) && isset($response['data']['token']) ){
+            $ticket = $response['data']['ticket'];
+            $nimble_ticket = array(
+                'action'    =>  'refund',
+                'token'     =>  $response['data']['token'],
+                'order_id'  =>  $order_id,
+                'refund_amount'    =>  $refund_amount,
+                'refund_reason' => $refund_reason,
+                'line_item_qtys' => $line_item_qtys,
+                'line_item_totals' => $line_item_totals,
+                'line_item_tax_totals' => $line_item_tax_totals,
+                'api_refund' => $api_refund,
+                'restock_refunded_items' => $restock_refunded_items,
+                'security' => $security
+            );
+            //TODO: SAVE TICKET + DATA
+            
+            $back_url = admin_url('admin.php?page=nimble-payments');
+            $url_otp = WP_NimbleAPI::getOTPUrl($ticket, $back_url);
+            $response_data['otp_url'] = $url_otp;
+            wp_send_json_success( $response_data );
+        }
+        $e = new Exception();
+        wp_send_json_error( array( 'error' => $e->getMessage() ) );
+    }
     
     public function process_refund( $order_id, $amount = null, $reason = '' ) {
         $order = wc_get_order( $order_id );
@@ -427,6 +495,25 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $response = NimbleAPIPayments::sendPaymentRefund($nimble_api, $transaction_id, $refund);
         } catch (Exception $e) {
             return false;
+        }
+        
+        //OPEN OPT
+        if (isset($response['result']) && isset($response['result']['code']) && 428 == $response['result']['code']
+                && isset($response['data']) && isset($response['data']['ticket']) && isset($response['data']['token']) ){
+            $ticket = $response['data']['ticket'];
+            $nimble_ticket = array(
+                'action'    =>  'refund',
+                'token'     =>  $response['data']['token'],
+                'order_id'  =>  $order_id,
+                'refund'    =>  $refund,
+            );
+            
+            $back_url = admin_url('admin.php?page=nimble-payments');
+            $url_otp = WP_NimbleAPI::getOTPUrl($ticket, $back_url);
+
+            return new WP_Error( 'error', $url_otp );
+            //header("Location: ".$url_otp);
+            //die();
         }
         
         if (!isset($response['data']) || !isset($response['data']['idRefund'])){
