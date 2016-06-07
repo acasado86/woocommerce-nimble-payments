@@ -238,7 +238,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             ),
             'secret_key' => array(
                 'title' => __('Client Secret', 'woocommerce-nimble-payments'),//LANG: FIELD SELLER_KEY TITLE
-                'type' => 'text',
+                'type' => 'password',
                 'description' => __('Obtained from https://www.nimblepayments.com', 'woocommerce-nimble-payments'),//LANG: FIELD SELLER_KEY DESCRIPTION
                 'default' => '',
                 'desc_tip' => true
