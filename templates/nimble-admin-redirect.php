@@ -6,4 +6,4 @@
  * and open the template in the editor.
  */
 ?>
-<script>window.location.href="<?php echo html_entity_decode($config_gateway_url); ?>"</script>
+<script>window.location.href="<?php echo html_entity_decode($redirect_url); ?>"</script>

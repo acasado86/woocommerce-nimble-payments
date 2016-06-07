@@ -64,4 +64,40 @@ jQuery( function ( $ ) {
                 }
         });
     });
+    
+    if ( typeof np_refund_info !== 'undefined') {
+        if (np_refund_info.result !== 'OK'){
+            alert(np_refund_info.error);
+        } else {
+                //wc_meta_boxes_order_items.block();
+
+                var data = {
+                        action:                 'woocommerce_refund_line_items',
+                        order_id:               np_refund_info.data.order_id,
+                        refund_amount:          np_refund_info.data.refund_amount,
+                        refund_reason:          np_refund_info.data.refund_reason,
+                        line_item_qtys:         np_refund_info.data.line_item_qtys,
+                        line_item_totals:       np_refund_info.data.line_item_totals,
+                        line_item_tax_totals:   np_refund_info.data.line_item_tax_totals,
+                        api_refund:             np_refund_info.data.api_refund,
+                        restock_refunded_items: np_refund_info.data.restock_refunded_items,
+                        security:               np_refund_info.data.security,
+                        otp_token:              np_refund_info.data.token
+                };
+
+                $.post( woocommerce_admin_meta_boxes.ajax_url, data, function( response ) {
+                        if ( true === response.success ) {
+                                //wc_meta_boxes_order_items.reload_items();
+                                window.location.href = window.location.href;
+                                if ( 'fully_refunded' === response.data.status ) {
+                                        // Redirect to same page for show the refunded status
+                                        //window.location.href = window.location.href;
+                                }
+                        } else {
+                                window.alert( response.data.error );
+                                //wc_meta_boxes_order_items.unblock();
+                        }
+                });
+        }
+    }
 });

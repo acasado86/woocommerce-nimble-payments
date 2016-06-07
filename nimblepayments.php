@@ -141,7 +141,28 @@ class Woocommerce_Nimble_Payments {
         if ('post.php' == $hook && 'edit' == filter_input(INPUT_GET, 'action') && 'shop_order' == $post->post_type ){
             $order = wc_get_order( $post->ID );
             if ($order->payment_method == self::$gateway->id){
-                wp_enqueue_script('nimble-payments-refunds-js', plugins_url("js/nimble-payments-refunds.js", __FILE__), array('jquery'), '20160603');
+                wp_enqueue_script('nimble-payments-refunds-js', plugins_url("js/nimble-payments-refunds.js", __FILE__), array('jquery'), '20160607');
+                
+                //Refund Data for STEP 3 (ajax)
+                if ( $this->oauth3_enabled && isset($_REQUEST['ticket']) && isset($_REQUEST['result']) ){
+                    $user_id = get_current_user_id();
+                    $ticket = filter_input(INPUT_GET, 'ticket');
+                    $result = filter_input(INPUT_GET, 'result');
+                    $otp_info = get_user_meta($user_id, 'nimblepayments_ticket', true);
+                    //Validate ticket
+                    if ( isset($otp_info) && isset($otp_info['ticket']) && $otp_info['ticket'] == $ticket ){
+                        $current_refund = array(
+                            'result' => $result,
+                            'ticket' => $ticket,
+                            'user_id' => $user_id,
+                            'data' => $otp_info,
+                            'error' => __( 'Refund Failed', 'woocommerce-nimble-payments' ) //LANG: TODO
+                        );
+                        delete_user_meta($user_id, 'nimblepayments_ticket');
+                        wp_localize_script( 'nimble-payments-refunds-js', 'np_refund_info', $current_refund );
+                    }
+                }
+                
             }
         }
         
@@ -165,18 +186,30 @@ class Woocommerce_Nimble_Payments {
     }
     
     function nimble_options() {
+        //Redirect to gateway config page
+        add_submenu_page( $this->slug, 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
+        $redirect_url = menu_page_url('wc-settings&tab=checkout&section=wc_gateway_nimble', false);
+        
         //Obtain token & reflesh token with code
         if ( ! $this->oauth3_enabled && isset($_REQUEST['code']) ){
             $code = filter_input(INPUT_GET, 'code');
             $this->validateOauthCode($code);
         }
         
-        //$this->summary_info();
+        //REFUND OTP RESULT
+        if ( $this->oauth3_enabled && isset($_REQUEST['ticket']) && isset($_REQUEST['result']) ){
+            $ticket = filter_input(INPUT_GET, 'ticket');
+            $result = filter_input(INPUT_GET, 'result');
+            $user_id = get_current_user_id();
+            $nimble_ticket = get_user_meta($user_id, 'nimblepayments_ticket', true);
+            if (isset($nimble_ticket['order_id'])){
+                $redirect_url = get_edit_post_link($nimble_ticket['order_id']);
+                $redirect_url .= "&ticket={$ticket}&result={$result}";
+            }
+        }
         
-        //Redirect to gateway config page
-        add_submenu_page( $this->slug, 'Nimble Payments', 'Nimble Payments', 'manage_options', 'wc-settings&tab=checkout&section=wc_gateway_nimble', array( $this, 'nimble_options' ));
-        $config_gateway_url = menu_page_url('wc-settings&tab=checkout&section=wc_gateway_nimble', false);
-        include_once( 'templates/nimble-redirect-config-gateway.php' );
+        //$this->summary_info();
+        include_once( 'templates/nimble-admin-redirect.php' );
     }
     
     function admin_notices() {

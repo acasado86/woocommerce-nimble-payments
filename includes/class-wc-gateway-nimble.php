@@ -405,20 +405,27 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     }
 
     public function woocommerce_refund_line_items_nimble_payments(){
+        $user_id = get_current_user_id();
         //Refunds parameters
         $order_id               = absint( $_POST['order_id'] );
         $refund_amount          = wc_format_decimal( sanitize_text_field( $_POST['refund_amount'] ), wc_get_price_decimals() );
         $refund_reason          = sanitize_text_field( $_POST['refund_reason'] );
-        $line_item_qtys         = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_qtys'] ) ), true );
-        $line_item_totals       = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_totals'] ) ), true );
-        $line_item_tax_totals   = json_decode( sanitize_text_field( stripslashes( $_POST['line_item_tax_totals'] ) ), true );
+        $line_item_qtys         = $_POST['line_item_qtys'];
+        $line_item_totals       = $_POST['line_item_totals'];
+        $line_item_tax_totals   = $_POST['line_item_tax_totals'];
         $api_refund             = true;
         $restock_refunded_items = $_POST['restock_refunded_items'] === 'true' ? true : false;
         $security               = $_POST['security'];
         $response_data          = array();
         
         //REFUND STEP 1
+        // Validate that the refund can occur
         $order = wc_get_order( $order_id );
+        $max_refund  = wc_format_decimal( $order->get_total() - $order->get_total_refunded(), wc_get_price_decimals() );
+        
+        if ( ! $refund_amount || $max_refund < $refund_amount || 0 >= $refund_amount ) {
+            wp_send_json_error( array( 'error' => __( 'Invalid refund amount', 'woocommerce' ) ) );
+        }
 
         if ( ! $this->can_refund_order( $order ) ) {
             wp_send_json_error( array( 'error' => __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ) ); //LANG: TODO
@@ -447,8 +454,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         if (isset($response['result']) && isset($response['result']['code']) && 428 == $response['result']['code']
                 && isset($response['data']) && isset($response['data']['ticket']) && isset($response['data']['token']) ){
             $ticket = $response['data']['ticket'];
-            $nimble_ticket = array(
+            $otp_info = array(
                 'action'    =>  'refund',
+                'ticket'    =>  $ticket,
                 'token'     =>  $response['data']['token'],
                 'order_id'  =>  $order_id,
                 'refund_amount'    =>  $refund_amount,
@@ -460,6 +468,8 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                 'restock_refunded_items' => $restock_refunded_items,
                 'security' => $security
             );
+            //update_post_meta($order_id, $ticket, 
+            update_user_meta($user_id, 'nimblepayments_ticket', $otp_info);
             //TODO: SAVE TICKET + DATA
             
             $back_url = admin_url('admin.php?page=nimble-payments');
@@ -480,9 +490,9 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         
         $transaction_id = $order->get_transaction_id();
         try {
-            $options = get_option('nimble_payments_options');
-            unset($options['refreshToken']);
-            $params = wp_parse_args($options, $this->get_params());
+            $otp_token = filter_input(INPUT_POST, 'otp_token');
+            $params = $this->get_params();
+            $params['token'] = $otp_token;
             $nimble_api = new WP_NimbleAPI($params);
             $total_refund = ($amount) ? $amount : $order->get_total();
             
@@ -497,26 +507,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             return false;
         }
         
-        //OPEN OPT
-        if (isset($response['result']) && isset($response['result']['code']) && 428 == $response['result']['code']
-                && isset($response['data']) && isset($response['data']['ticket']) && isset($response['data']['token']) ){
-            $ticket = $response['data']['ticket'];
-            $nimble_ticket = array(
-                'action'    =>  'refund',
-                'token'     =>  $response['data']['token'],
-                'order_id'  =>  $order_id,
-                'refund'    =>  $refund,
-            );
-            
-            $back_url = admin_url('admin.php?page=nimble-payments');
-            $url_otp = WP_NimbleAPI::getOTPUrl($ticket, $back_url);
-
-            return new WP_Error( 'error', $url_otp );
-            //header("Location: ".$url_otp);
-            //die();
-        }
-        
-        if (!isset($response['data']) || !isset($response['data']['idRefund'])){
+        if (!isset($response['data']) || !isset($response['data']['refundId'])){
             $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: TODO --- Reembolso fallido
             if ( isset($response['result']) && isset($response['result']['info']) ){
                 $message .= $response['result']['info'];
