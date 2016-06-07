@@ -69,35 +69,31 @@ jQuery( function ( $ ) {
         if (np_refund_info.result !== 'OK'){
             alert(np_refund_info.error);
         } else {
-                //wc_meta_boxes_order_items.block();
+            var messageDiv = '<div id="nimble-refund-message" class="updated woocommerce-message"><h4>' + np_refund_info.process_message + '<span class="spinner is-active"></span></h4></div>';
+            $(messageDiv).insertAfter(jQuery("div[class='wrap'] > h1"));
+            //CALL WOOCOMMERCE REFUND AJAX
+            var data = {
+                    action:                 'woocommerce_refund_line_items',
+                    order_id:               np_refund_info.data.order_id,
+                    refund_amount:          np_refund_info.data.refund_amount,
+                    refund_reason:          np_refund_info.data.refund_reason,
+                    line_item_qtys:         np_refund_info.data.line_item_qtys,
+                    line_item_totals:       np_refund_info.data.line_item_totals,
+                    line_item_tax_totals:   np_refund_info.data.line_item_tax_totals,
+                    api_refund:             np_refund_info.data.api_refund,
+                    restock_refunded_items: np_refund_info.data.restock_refunded_items,
+                    security:               np_refund_info.data.security,
+                    otp_token:              np_refund_info.data.token
+            };
 
-                var data = {
-                        action:                 'woocommerce_refund_line_items',
-                        order_id:               np_refund_info.data.order_id,
-                        refund_amount:          np_refund_info.data.refund_amount,
-                        refund_reason:          np_refund_info.data.refund_reason,
-                        line_item_qtys:         np_refund_info.data.line_item_qtys,
-                        line_item_totals:       np_refund_info.data.line_item_totals,
-                        line_item_tax_totals:   np_refund_info.data.line_item_tax_totals,
-                        api_refund:             np_refund_info.data.api_refund,
-                        restock_refunded_items: np_refund_info.data.restock_refunded_items,
-                        security:               np_refund_info.data.security,
-                        otp_token:              np_refund_info.data.token
-                };
-
-                $.post( woocommerce_admin_meta_boxes.ajax_url, data, function( response ) {
-                        if ( true === response.success ) {
-                                //wc_meta_boxes_order_items.reload_items();
-                                window.location.href = window.location.href;
-                                if ( 'fully_refunded' === response.data.status ) {
-                                        // Redirect to same page for show the refunded status
-                                        //window.location.href = window.location.href;
-                                }
-                        } else {
-                                window.alert( response.data.error );
-                                //wc_meta_boxes_order_items.unblock();
-                        }
-                });
+            $.post( woocommerce_admin_meta_boxes.ajax_url, data, function( response ) {
+                    if ( true === response.success ) {
+                            window.location.href = window.location.href;
+                    } else {
+                            window.alert( response.data.error );
+                            $('#nimble-refund-message').hide();
+                    }
+            });
         }
     }
 });

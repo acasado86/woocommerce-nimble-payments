@@ -140,8 +140,8 @@ class Woocommerce_Nimble_Payments {
         //Custom JS for refunds
         if ('post.php' == $hook && 'edit' == filter_input(INPUT_GET, 'action') && 'shop_order' == $post->post_type ){
             $order = wc_get_order( $post->ID );
-            if ($order->payment_method == self::$gateway->id){
-                wp_enqueue_script('nimble-payments-refunds-js', plugins_url("js/nimble-payments-refunds.js", __FILE__), array('jquery'), '20160607');
+            if (self::$gateway && $order->payment_method == self::$gateway->id){
+                wp_enqueue_script('nimble-payments-refunds-js', plugins_url("js/nimble-payments-refunds.js", __FILE__), array('jquery'), '20160607v2');
                 
                 //Refund Data for STEP 3 (ajax)
                 if ( $this->oauth3_enabled && isset($_REQUEST['ticket']) && isset($_REQUEST['result']) ){
@@ -156,6 +156,7 @@ class Woocommerce_Nimble_Payments {
                             'ticket' => $ticket,
                             'user_id' => $user_id,
                             'data' => $otp_info,
+                            'process_message' => __( 'Refund in progress', 'woocommerce-nimble-payments' ), //LANG: TODO
                             'error' => __( 'Refund Failed', 'woocommerce-nimble-payments' ) //LANG: TODO
                         );
                         delete_user_meta($user_id, 'nimblepayments_ticket');
