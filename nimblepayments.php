@@ -71,6 +71,8 @@ class Woocommerce_Nimble_Payments {
             
             add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
             
+            add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts') );
+            
             add_action('wp_login', array($this, 'login_actions'), 10, 2);
             
             add_action( 'admin_notices', array( $this, 'admin_notices' ), 0 );
@@ -174,6 +176,11 @@ class Woocommerce_Nimble_Payments {
             wp_register_style('nimble_setting_css', plugins_url('css/nimble_setting.css', __FILE__), false, '20160217');
             wp_enqueue_style('nimble_setting_css');
         }
+    }
+    
+    function wp_enqueue_scripts() {
+        wp_register_style('nimblepayments_gateway_css', plugins_url('css/nimblepayments-gateway.css', __FILE__), false, '20160608');
+        wp_enqueue_style('nimblepayments_gateway_css');
     }
     
     function nimble_menu(){

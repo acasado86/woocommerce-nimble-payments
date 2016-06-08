@@ -1,0 +1,16 @@
+.payment_box.payment_method_nimble_payments_gateway ul li {
+    list-style: outside none none;
+    padding-right: 42px;
+}
+.payment_box.payment_method_nimble_payments_gateway label.stored_card {
+    background: url("../assets/images/credit-card.png") no-repeat scroll center right #fff;
+    background-color: transparent;
+    display: inline-block;
+    min-width: 210px;
+}
+.payment_box.payment_method_nimble_payments_gateway label.stored_card.visa {
+    background-image: url("../assets/images/visa-logo.png");
+}
+.payment_box.payment_method_nimble_payments_gateway label.stored_card.mastercard {
+    background-image: url("../assets/images/mastercard-logo.png");
+}

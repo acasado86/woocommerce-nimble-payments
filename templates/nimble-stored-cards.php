@@ -1,12 +1,12 @@
-<span>Identificador: <?php echo $user->ID;?></span><br>
+<ul>
     <?php foreach ($cards as $card) : ?>
-    <input  type="radio" name="<?php echo $this->id; ?>_storedcard" <?php if ($card['default']) echo "checked";  ?> value="<?php echo base64_encode(json_encode($card)); ?>">
-        <?php echo $card['maskedPan']; 
-            if( $card['cardBrand'] == 'VISA') { ?><img src="<?php echo plugins_url('assets/images/visa-logo.png', plugin_dir_path(__FILE__));?>"/>&nbsp;&nbsp;&nbsp;&nbsp;<img style="cursor: pointer;" class="delete-card" src="<?php echo plugins_url('assets/images/delete-button.png', plugin_dir_path(__FILE__));?>"/>
-            <?php } else if( $card['cardBrand'] == 'MASTERCARD') { ?><img src="<?php echo plugins_url('assets/images/mastercard-logo.png', plugin_dir_path(__FILE__));?>"/>&nbsp;&nbsp;&nbsp;&nbsp;<img  style="cursor: pointer;" class="delete-card" src="<?php echo plugins_url('assets/images/delete-button.png', plugin_dir_path(__FILE__));?>"/>
-            <?php } else { ?><img src="<?php echo plugins_url('assets/images/credit-card.png', plugin_dir_path(__FILE__));?>"/> 
-            <?php } ?>
-    </input><br>
-                
+    <li>
+        <input class="input-radio" type="radio" id="<?php echo $this->id; ?>_storedcard_1" name="<?php echo $this->id; ?>_storedcard" <?php if ($card['default']): echo "checked"; endif; ?> value="<?php echo base64_encode(json_encode($card)); ?>" />
+        <label for="<?php echo $this->id; ?>_storedcard_1" class="stored_card <?php echo strtolower($card['cardBrand']);?>"><?php echo $card['maskedPan'];?></label>
+    </li>
     <?php endforeach;?>
-    <input type="radio" name="<?php echo $this->id; ?>_storedcard" value="">Nueva tarjeta <img src="<?php echo plugins_url('assets/images/credit-card.png', plugin_dir_path(__FILE__));?>"/></input>
+    <li>
+        <input class="input-radio" type="radio" id="<?php echo $this->id; ?>_storedcard_new" name="<?php echo $this->id; ?>_storedcard" value="" />
+        <label for="<?php echo $this->id; ?>_storedcard_new" class="stored_card"><?php _e('New card', 'woocommerce-nimble-payments');?></label>
+    </li>
+</ul>
