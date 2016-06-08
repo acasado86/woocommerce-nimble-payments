@@ -134,16 +134,15 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             $nimbleApi->authorization->addHeader('source-caller', 'WOOCOMMERCE_'.$version);
             
             $storedCardPaymentInfo = $this->set_stored_card_payment_info($order);
-            $response = NimbleAPIStoredCards::payment($nimbleApi, $storedCardPaymentInfo);
+            $preorder = NimbleAPIStoredCards::preorderPayment($nimbleApi, $storedCardPaymentInfo);
             //Save transaction_id to this order
-            if ( isset($response["data"]) && isset($response["data"]["id"])){
-                update_post_meta( $order->id, '_transaction_id', $response["data"]["id"] );
+            if ( isset($preorder["data"]) && isset($preorder["data"]["id"])){
+                update_post_meta( $order->id, '_transaction_id', $preorder["data"]["id"] );
+                $response = NimbleAPIStoredCards::confirmPayment($nimbleApi, $preorder["data"]);
                 return array(
                     'result' => 'success',
                     'redirect' => add_query_arg( $this->storedcard_field, 'true', $this->get_return_url($order) )
                 );
-            } else{
-                //error_log(print_r($response, true));
             }
         }
         catch (Exception $e) {
