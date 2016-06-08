@@ -92,17 +92,15 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         if (is_user_logged_in()){
             $user = wp_get_current_user();
             
-            if(get_user_meta($user->ID, 'np_shipping_hash')){
-                $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
-            }
+            $bd_hash = get_user_meta($user->ID, 'np_shipping_hash', true);
             $hash = $this->get_location_hash_Customer();
             
-            if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] !=  $hash){
+            if( $bd_hash !=  $hash ){
                 update_user_meta($user->ID, 'np_shipping_hash', $hash);
-                    //all cards delete 
+                //all cards delete 
                 try{
                     $nimbleApi = $this->inicialize_nimble_api();
-                    $response = NimbleAPIStoredCards::deleteAllCards($nimbleApi, $user->ID);  
+                    NimbleAPIStoredCards::deleteAllCards($nimbleApi, $user->ID);  
                 } catch (Exception $ex) {
                     //to do
                 }
@@ -520,13 +518,12 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
     
     public function credit_card_form( $args = array(), $fields = array() ) {
         if (is_user_logged_in()){
-            $user = wp_get_current_user();            
+            $user = wp_get_current_user();
             
-            if(get_user_meta($user->ID, 'np_shipping_hash')){
-                $bd_hash = get_user_meta($user->ID, 'np_shipping_hash');
-            }
+            $bd_hash = get_user_meta($user->ID, 'np_shipping_hash', true);
             $hash = $this->get_location_hash_Customer();
-            if(isset($bd_hash)  && isset($bd_hash[0]) && isset($hash) && $bd_hash[0] ==  $hash){
+            
+            if( $bd_hash ==  $hash ){
                 $cards = array();
                 try{
                     $nimbleApi = $this->inicialize_nimble_api();
