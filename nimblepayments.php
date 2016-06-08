@@ -158,8 +158,8 @@ class Woocommerce_Nimble_Payments {
                             'ticket' => $ticket,
                             'user_id' => $user_id,
                             'data' => $otp_info,
-                            'process_message' => __( 'Refund in progress', 'woocommerce-nimble-payments' ), //LANG: TODO
-                            'error' => __( 'Refund Failed', 'woocommerce-nimble-payments' ) //LANG: TODO
+                            'process_message' => __( 'Refund in progress', 'woocommerce-nimble-payments' ), //LANG: REFUND_PROGRESS
+                            'error' => __( 'Refund Failed', 'woocommerce-nimble-payments' ) //LANG: ERROR_REFUND_2
                         );
                         delete_user_meta($user_id, 'nimblepayments_ticket');
                         wp_localize_script( 'nimble-payments-refunds-js', 'np_refund_info', $current_refund );

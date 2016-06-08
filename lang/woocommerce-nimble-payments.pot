@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Nimble Payments package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nimble Payments 1.0.6\n"
+"Project-Id-Version: Nimble Payments 1.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "nimble-payments\n"
-"POT-Creation-Date: 2016-05-19 13:24:34+00:00\n"
+"POT-Creation-Date: 2016-06-08 13:04:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,151 +13,164 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-wc-gateway-nimble.php:30
+#: includes/class-wc-gateway-nimble.php:29
 msgid "Nimble Payments by BBVA"
 msgstr ""
 
-#. #-#-#-#-#  woocommerce-nimble-payments.pot (Nimble Payments 1.0.6)  #-#-#-#-#
+#. #-#-#-#-#  woocommerce-nimble-payments.pot (Nimble Payments 1.0.8)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: includes/class-wc-gateway-nimble.php:31
+#: includes/class-wc-gateway-nimble.php:30
 msgid "Nimble Payments"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:32
+#: includes/class-wc-gateway-nimble.php:31
 msgid "Pay safely with your credit card through the BBVA."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:113
-#: includes/class-wc-gateway-nimble.php:291
+#: includes/class-wc-gateway-nimble.php:128
+#: includes/class-wc-gateway-nimble.php:310
 msgid "Awaiting payment via Nimble Payments."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:204
+#: includes/class-wc-gateway-nimble.php:223
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:205
+#: includes/class-wc-gateway-nimble.php:224
 msgid "Enable Nimble Payments"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:211
+#: includes/class-wc-gateway-nimble.php:230
 msgid "API Client ID"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:213
-#: includes/class-wc-gateway-nimble.php:220
+#: includes/class-wc-gateway-nimble.php:232
+#: includes/class-wc-gateway-nimble.php:239
 msgid "Obtained from https://www.nimblepayments.com"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:218
+#: includes/class-wc-gateway-nimble.php:237
 msgid "Client Secret"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:275
+#: includes/class-wc-gateway-nimble.php:294
 msgid "Card payment was rejected. Please try again."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:309
+#: includes/class-wc-gateway-nimble.php:328
 msgid "Could not connect to the bank. Code ERR_CONEX."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:310
+#: includes/class-wc-gateway-nimble.php:329
 msgid ""
 "Unable to process payment. An error has occurred. ERR_CONEX code. Please try "
 "later."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:318
+#: includes/class-wc-gateway-nimble.php:337
 msgid "An error has occurred. Code ERR_PAG."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:319
+#: includes/class-wc-gateway-nimble.php:338
 msgid ""
 "Unable to process payment. An error has occurred. ERR_PAG code. Please try "
 "later."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:353
+#: includes/class-wc-gateway-nimble.php:372
 msgid "Need an Nimble Payments account?"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:355
+#: includes/class-wc-gateway-nimble.php:374
 msgid "Signup now"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:357
+#: includes/class-wc-gateway-nimble.php:376
 msgid "Already registered"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:366
+#: includes/class-wc-gateway-nimble.php:385
 msgid "Data invalid gateway to accept payments."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:374
+#: includes/class-wc-gateway-nimble.php:393
 #: templates/nimble-checkout-payment-method.php:26
 #: templates/nimble-checkout-thankyou.php:55
 msgid "Card payment"
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:390
+#: includes/class-wc-gateway-nimble.php:424
+msgid "Invalid refund amount"
+msgstr ""
+
+#: includes/class-wc-gateway-nimble.php:428
+#: includes/class-wc-gateway-nimble.php:485
 msgid "Refund Failed: You must authorize the advanced options Nimble Payments."
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:413
+#: includes/class-wc-gateway-nimble.php:508
 msgid "Refund Failed: "
 msgstr ""
 
-#: includes/class-wc-gateway-nimble.php:462
+#: includes/class-wc-gateway-nimble.php:563
 msgid "Could not pay with the selected card."
 msgstr ""
 
-#: nimblepayments.php:170 nimblepayments.php:183
+#: nimblepayments.php:161
+msgid "Refund in progress"
+msgstr ""
+
+#: nimblepayments.php:162
+msgid "Refund Failed"
+msgstr ""
+
+#: nimblepayments.php:238 nimblepayments.php:251
 msgid "Operation rejected."
 msgstr ""
 
-#: nimblepayments.php:171
+#: nimblepayments.php:239
 msgid "You have not activated your payment gateway Nimble Payments."
 msgstr ""
 
-#: nimblepayments.php:173
+#: nimblepayments.php:241
 msgid "Activate"
 msgstr ""
 
-#: nimblepayments.php:184
+#: nimblepayments.php:252
 msgid ""
 "You have not yet WooCommerce authorized to perform operations on Nimble "
 "Payments."
 msgstr ""
 
-#: nimblepayments.php:186 templates/nimble-oauth-form.php:17
+#: nimblepayments.php:254 templates/nimble-oauth-form.php:17
 #: templates/nimble-oauth-form.php:19
 msgid "Authorize Woocommerce"
 msgstr ""
 
-#: nimblepayments.php:251 nimblepayments.php:259
+#: nimblepayments.php:319 nimblepayments.php:327
 msgctxt "Order status"
 msgid "Pending Payment (Nimble Payments)"
 msgstr ""
 
-#: nimblepayments.php:252 nimblepayments.php:267
+#: nimblepayments.php:320 nimblepayments.php:335
 msgctxt "Order status"
 msgid "Failed (Nimble Payments)"
 msgstr ""
 
-#: nimblepayments.php:264
+#: nimblepayments.php:332
 msgid "Pending Payment (Nimble Payments) <span class=\"count\">(%s)</span>"
 msgid_plural ""
 "Pending Payment (Nimble Payments) <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: nimblepayments.php:272
+#: nimblepayments.php:340
 msgid "Failed (Nimble Payments) <span class=\"count\">(%s)</span>"
 msgid_plural "Failed (Nimble Payments) <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: nimblepayments.php:487 templates/nimble-oauth-form.php:12
+#: nimblepayments.php:535 templates/nimble-oauth-form.php:12
 #: templates/nimble-summary.php:19
 msgid "Nimble Payments Summary"
 msgstr ""
@@ -217,6 +230,10 @@ msgid ""
 "To release all features of Nimble Payments from WooCommerce, you need to "
 "login in Nimble Payments and grant access to WooCommerce in order to access "
 "to this operative."
+msgstr ""
+
+#: templates/nimble-stored-cards.php:10
+msgid "New card"
 msgstr ""
 
 #: templates/nimble-summary.php:33

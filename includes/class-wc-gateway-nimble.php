@@ -425,7 +425,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
 
         if ( ! $this->can_refund_order( $order ) ) {
-            wp_send_json_error( array( 'error' => __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ) ); //LANG: TODO
+            wp_send_json_error( array( 'error' => __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ) ); //LANG: UNAUTHORIZED_REFUND
         }
         
         $transaction_id = $order->get_transaction_id();
@@ -467,7 +467,6 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
             );
             //update_post_meta($order_id, $ticket, 
             update_user_meta($user_id, 'nimblepayments_ticket', $otp_info);
-            //TODO: SAVE TICKET + DATA
             
             $back_url = admin_url('admin.php?page=nimble-payments');
             $url_otp = WP_NimbleAPI::getOTPUrl($ticket, $back_url);
@@ -482,7 +481,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         $order = wc_get_order( $order_id );
 
         if ( ! $this->can_refund_order( $order ) ) {
-            return new WP_Error( 'error', __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ); //LANG: TODO
+            return new WP_Error( 'error', __( 'Refund Failed: You must authorize the advanced options Nimble Payments.', 'woocommerce-nimble-payments' ) ); //LANG: UNAUTHORIZED_REFUND
         }
         
         $transaction_id = $order->get_transaction_id();
@@ -505,7 +504,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
         }
         
         if (!isset($response['data']) || !isset($response['data']['refundId'])){
-            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: TODO --- Reembolso fallido
+            $message = __( 'Refund Failed: ', 'woocommerce-nimble-payments' ); //LANG: ERROR_REFUND_1
             if ( isset($response['result']) && isset($response['result']['info']) ){
                 $message .= $response['result']['info'];
             }
@@ -560,7 +559,7 @@ class WC_Gateway_Nimble extends WC_Payment_Gateway {
                     }
                 }
                 catch (Exception $e) {
-                    $message = __( 'Could not pay with the selected card.', 'woocommerce-nimble-payments' ); //LANG: TODO
+                    $message = __( 'Could not pay with the selected card.', 'woocommerce-nimble-payments' ); //LANG: STOREDCARD_PAYMENT_ERROR
                     throw new Exception($message);
                 }
             }
