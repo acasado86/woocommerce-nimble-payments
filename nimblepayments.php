@@ -4,7 +4,7 @@
 Plugin Name: Nimble Payments
 Plugin URI: https://www.nimblepayments.com
 Description: Nimble Payments is an online payment gateway supported by BBVA that enables you to accept online payments flexibly and safely.
-Version: 1.0.8
+Version: 2.0.0
 Author: BBVA
 Author URI: 
 License: GPLv2

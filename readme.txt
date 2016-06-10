@@ -48,6 +48,11 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 
 == Changelog ==
 
+= 2.0.0 =
+* Actualización de la API de Nimble Payments
+* Nuevo: Opereaciones avanzadas en Nimble Payments (Oauth2, Devoluciones)
+* Nuevo: Compras más rápidas con **Stored Card Payments** (Contacta con ayuda@nimblepayments.com para más información)
+
 = 1.0.8 =
 * Corrección: Compatibilidad con WordPress Multisite
 
@@ -61,6 +66,9 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 * Otras correcciones menores.
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+Descubre las nuevas funcionalidades de la versión 2.0.0.
 
 = 1.0.8 =
 La versión 1.0.8 corrige un error de compatibilidad con WordPress Multisite.
