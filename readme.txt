@@ -48,7 +48,7 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 
 == Changelog ==
 
-= 2.0.1 =
+= 2.0.2 =
 * Importante corrección de seguridad
 
 = 2.0.0 =
@@ -69,7 +69,7 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 
 == Upgrade Notice ==
 
-= 2.0.1 =
+= 2.0.2 =
 Descubre las nuevas funcionalidades de la nueva versión.
 
 = 2.0.0 =
