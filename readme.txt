@@ -49,7 +49,8 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 == Changelog ==
 
 = 2.0.3 =
-* Actualización de la API de Nimble Payments* Nuevo: Operaciones avanzadas en Nimble Payments (Oauth2, Devoluciones)
+* Actualización de la API de Nimble Payments
+* Nuevo: Operaciones avanzadas en Nimble Payments (Oauth2, Devoluciones)
 * Nuevo: Compras más rápidas con **Stored Card Payments** (Contacta con oficina.es@nimblepayments.com para activar el servicio)
 
 = 1.0.8 =
