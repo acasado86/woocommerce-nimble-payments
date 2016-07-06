@@ -25,7 +25,7 @@ Este módulo está actualizado con el nuevo sistema de firma de Redsys (HMAC SHA
 *   Métodos de pago: podrás aceptar los principales métodos de pago: tarjeta de crédito, débito, prepago o virtual.
 *   Pago adaptado a móvil, web y tablet: nuestro proceso de pago está diseñado para adaptarse a la pantalla del dispositivo que utilicen tus clientes para comprar en tu tienda: móvil, web y tablet.
 *   Panel de control personal: podrás consultar y gestionar tus ventas y acceder a estadísticas sobre tu negocio.
-*   Cuenta remunerada, para hacer crecer el dinero de tus ventas con Nimble Payments. Y, próximamente, otras soluciones financieras a tu medida.
+*   Cuenta bancaria sin comisiones de administración o mantenimiento donde recibirás el dinero de tus ventas con Nimble Payments.
 *   Máxima seguridad:
     *   Podrás adaptar la funcionalidad 3DSecure a tu negocio y venderás sin preocupaciones.
     *   Contarás con personal especializado y sistemas de gestión antifraude que vigilarán las transacciones que realices con Nimble Payments para detectar aquellas que resulten sospechosas.
